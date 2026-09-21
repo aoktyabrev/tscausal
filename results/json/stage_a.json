@@ -1,0 +1,92 @@
+{
+ "stage": "A",
+ "timestamp": "2026-09-21T12:58:37",
+ "A1": {
+  "script_stdout": "вершин: 112\nравенств (нормировка): 4  нетривиальных фасет: 36\nGYNI  причинный максимум: 1/2 (ожидание 1/2) OK\nLGYNI причинный максимум: 3/4 (ожидание 3/4) OK\n\nВНИМАНИЕ: сырые фасеты из cdd НЕ классифицированы. Из-за равенств\nнормировки одно и то же неравенство имеет много представлений —\nбез канонизации по модулю аффинной оболочки счёт «классов» является\nартефактом представления, а не результатом (см. Stage B в спеке).\n",
+  "vertices": 112,
+  "equalities": 4,
+  "raw_nontrivial": 36,
+  "gyni": "1/2",
+  "lgyni": "3/4",
+  "note_backend": "causal_polytope_calib.py использует `import cdd`, в pycddlib 3.x это float-бэкенд (Fraction -> float). Ниже те же числа воспроизведены в точной арифметике через cdd.gmp.",
+  "exact": {
+   "vertices": 112,
+   "equalities": 4,
+   "inequalities_total": 48,
+   "raw_nontrivial_script_filter": 48,
+   "gyni_max": "1/2",
+   "lgyni_max": "3/4",
+   "distinct_after_projection": 48
+  },
+  "pass": true,
+  "float_raw36_decomposition": {
+   "raw_rows": 36,
+   "positivity_in_disguise": 4,
+   "nontrivial": 32,
+   "all_rows_among_exact_facets": true,
+   "literal_positivity_rows_dropped_by_script": 12
+  }
+ },
+ "A3": {
+  "cdd_count": 48,
+  "lrs_count": 48,
+  "cdd_equalities": 4,
+  "lrs_equalities": 4,
+  "lrs_equalities_span_same_hull": true,
+  "raw_sets_equal_before_projection": true,
+  "sets_equal_after_projection": true,
+  "negative_control_spoiled_set_detected": true,
+  "lrs_seconds": 1.393,
+  "pass": true
+ },
+ "A2": {
+  "branciard_reported": {
+   "facets": 48,
+   "trivial": 16,
+   "nontrivial": 32,
+   "families": 3,
+   "gyni_type": 16,
+   "lgyni_type": 16,
+   "source": "arXiv:1508.01704, Sec. III A and App. A (цитаты в SOURCES.md)"
+  },
+  "ours": {
+   "facets_total": 48,
+   "trivial_after_projection": 16,
+   "nontrivial_after_projection": 32,
+   "raw_nontrivial_by_script_filter": 48,
+   "disguised_positivity_in_raw_36": 16,
+   "polytope_dim": 12,
+   "every_row_is_facet": true,
+   "every_row_tight_on_vertices": true
+  },
+  "pass": true
+ },
+ "A4": {
+  "group_order": 128,
+  "generators_are_automorphisms": {
+   "flip_in_A": true,
+   "flip_in_B": true,
+   "flip_out_A": true,
+   "flip_out_B": true,
+   "cflip_out_A": true,
+   "cflip_out_B": true,
+   "swap": true
+  },
+  "classes": 3,
+  "class_sizes": [
+   16,
+   16,
+   16
+  ],
+  "gyni_class_size": 16,
+  "lgyni_class_size": 16,
+  "positivity_class_size": 16,
+  "control_no_projection_classes": 8,
+  "control_trivial_group_classes": 48,
+  "control_group_without_conditional_flips_classes": 5,
+  "pass": true
+ },
+ "gate_pass": true,
+ "gate_A2": "подтверждено цитатой",
+ "seconds": 2.06
+}
