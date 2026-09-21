@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Воспроизведение Stage A и Stage B целиком. Окружение: .env (micromamba, conda-forge:
 # python 3.12, cddlib, gmp, lrslib) + pycddlib 3.0.2, собранный против .env.
-# Stage C дополнительно: pip install cvxpy clarabel scs mpmath (в .env).
+# Stage C, D дополнительно: pip install cvxpy clarabel scs mpmath sympy (в .env).
 # Создание окружения (если .env нет):
 #   micromamba create -p .env -c conda-forge python=3.12 cddlib gmp lrslib pip pypdf cython setuptools compilers
 #   CFLAGS="-I$PWD/.env/include" LDFLAGS="-L$PWD/.env/lib -Wl,-rpath,$PWD/.env/lib" \
@@ -18,4 +18,5 @@ $PY -c "import json,sys; d=json.load(open('results/json/stage_b.json')); sys.exi
 $PY scripts/stage_b_explore.py > /dev/null
 $PY scripts/stage_b2.py > /dev/null
 $PY scripts/stage_c.py > /dev/null 2>&1   # ~30–40 мин (see-saw, кутриты)
+$PY scripts/stage_d.py > /dev/null 2>&1   # ~55 мин (основное — see-saw прямого сценария)
 $PY scripts/make_results.py

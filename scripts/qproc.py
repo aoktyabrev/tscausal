@@ -282,6 +282,10 @@ def instrument_step(W, Mother, weights, d, party, kind="TS"):
             cons.append(cp.partial_trace(V[(a, 0)] + V[(a, 1)], [d, d], axis=1) == np.eye(d))
         for x in (0, 1):
             cons.append(cp.partial_trace(V[(0, x)] + V[(1, x)], [d, d], axis=0) == np.eye(d))
+    elif kind == "FWD":
+        # только прямая нормировка (MH-1, первое условие): Tr_out Σ_x M_{a,x} = 1 для каждого дохода a
+        for a in (0, 1):
+            cons.append(cp.partial_trace(V[(a, 0)] + V[(a, 1)], [d, d], axis=1) == np.eye(d))
     elif kind == "OCB":
         for x in (0, 1):
             cons.append(cp.partial_trace(V[(0, x)] + V[(1, x)], [d, d], axis=1) == np.eye(d))
@@ -315,8 +319,9 @@ def seesaw(fam, weights, d, rng, iters=60, tol=1e-9, kind="TS", fixed_W=None):
 
 
 def _seesaw(fam, weights, d, rng, iters, tol, kind, fixed_W):
-    MA = random_ts_instrument(d, rng) if kind == "TS" else random_ocb_instrument(d, rng)
-    MB = random_ts_instrument(d, rng) if kind == "TS" else random_ocb_instrument(d, rng)
+    init = {"TS": random_ts_instrument, "OCB": random_ocb_instrument, "FWD": random_fwd_instrument}[kind]
+    MA = init(d, rng)
+    MB = init(d, rng)
     W = fixed_W
     last = -np.inf
     for _ in range(iters):
@@ -324,11 +329,23 @@ def _seesaw(fam, weights, d, rng, iters, tol, kind, fixed_W):
             W = w_step(fam, MA, MB, weights, d)
         MA = instrument_step(W, MB, weights, d, "A", kind)
         MB = instrument_step(W, MA, weights, d, "B", kind)
-        val = value(probs_ts(W, MA, MB, d), weights) if kind == "TS" else value(probs_ocb(W, MA, MB), weights)
+        val = value(probs_ocb(W, MA, MB), weights) if kind == "OCB" else value(probs_ts(W, MA, MB, d), weights)
         if val - last < tol:
             break
         last = val
     return val, W, MA, MB
+
+
+def random_fwd_instrument(d, rng):
+    """Случайная операция только с прямой нормировкой: для каждого дохода a — инструмент по исходам x."""
+    M = {}
+    for a in (0, 1):
+        P = [rand_psd(d * d, rng) for _ in (0, 1)]
+        S = ptrace_AB(P[0] + P[1], d, 1)
+        L = np.linalg.inv(sqrtm_psd(S))
+        for x in (0, 1):
+            M[(a, x)] = np.kron(L, np.eye(d)) @ P[x] @ np.kron(L, np.eye(d)).conj().T
+    return M
 
 
 def random_ocb_instrument(d, rng):

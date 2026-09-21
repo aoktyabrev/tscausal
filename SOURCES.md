@@ -274,3 +274,41 @@ LGYNI» в сценарии без настроек мы берём в форм�
 обнуляются σ^TS, σ^TF и σ^TB и остаётся `(1/(d_A d_B))(1 + σ^ISO)`. σ^ISO содержит только
 двухчастичные члены типов `A_I B_O` и `A_O B_I`, и такая матрица — выпуклая смесь одностороннего
 канала A→B и одностороннего канала B→A.
+
+---
+
+## Stage D: литчек и калибровочные источники (выгрузки — `sources/litcheck_D/<id>/`)
+
+**MH-31 (MH24, пример ISO-процесса), `main.tex` стр. 393:**
+> For example, a process like the example in the ISO category in Fig.~\ref{hier} can be obtained by choosing some of the $t_{ij}$ in Eqn.~(\ref{sigmaops}) to be non-zero. The interpretation of this process is a single quantum channel from Alice to Bob with no pre-selection or post-selection.
+
+Утверждения «каждый ISO-процесс причинно разделим» в MH24 нет (литчек D, п. 1). Лемма D6 — наш вывод.
+
+**AB26 (arXiv:2602.00856, Apadula, Bisio, Chiribella, Perinotti, Simonov), `main.tex` стр. 521–533 — однослотовый аналог D6:**
+> Let $R \in\mathsf{T}_1((\hat{A} \rightarrow \hat{B}) \rightarrow I)$. Then there exist $p \in [0,1]$ and density operators $\rho_A$ on $A$ and $\sigma_B$ on $B$ such that
+> R = p \rho_A \otimes \mathds{1}_B + (1-p) \mathds{1}_A \otimes \sigma_B.
+>
+> This result shows that any deterministic functional on a bistochastic channel yields probabilities by classically selecting whether the device is used in the $A\rightarrow B$ or $B\rightarrow A$ direction \cite{Guo2024}.
+
+**FR10 (arXiv:1005.3421, Fritz), аннотация:**
+> One result is that a set of correlators can appear in the temporal CHSH scenario if and only if it can appear in the usual spatial CHSH scenario. In particular, we derive the validity of the Tsirelson bound and the impossibility of PR-box behavior.
+
+**BTCV04 (quant-ph/0402127, Brukner, Taylor, Cheung, Vedral), `Entanglementintime.tex` стр. 219–253:**
+> [...] and is equal to $2\sqrt{2}$. This can be called the temporal Cirel'son bound
+>
+> It should be noted that the temporal correlation as given by Eq. (\ref{eqm}) (with a minus sign in front) can also be obtained for results of the consecutive measurements of two qubits that are in the maximally entangled state (singlet).
+
+**NPA08 (arXiv:0803.4290, Navascués, Pironio, Acín), `covariance_stuff_21.tex` (Sec. «Examples», текст после Table 1):**
+> Note first, that in the case $d=2$ (CHSH) the first certificate already provides the actual quantum value, which is equal to the Tsirelson bound. For $d$ larger than $2$, the quantum value is recovered at the successive step corresponding to the certificate $\Gamma^{1+AB}$.
+
+и определение уровня 1+AB:
+> $\mathcal{S}_{1+AB}=\mathcal{S}_1\cup \{E_aE_b ,:\,a\in \tilde A, b\in \tilde B\}$ consisting of $\mathcal{S}_1$ together with all products of one operator of Alice and one for Bob
+
+### D9. Опечатка в примере MH24 (вывод, не цитата; проверено в Stage C, C.1.1)
+В (bobop, MH-29) слагаемое при β = 1 записано как `½ β [1+(−1)^y σ_z]^{B_I} ⊗ 1^{B_O}`. Сумма по y
+этого слагаемого равна `1^{B_I} ⊗ 1^{B_O}`, её след по B_O равен `2·1^{B_I}`, что нарушает прямую
+причинность MH-1 (`Tr_{B_O} Σ_y M = 1`). Численная невязка — 1.0 (results/json/stage_c.json,
+`C1.mh_example.literal_bobop`). Текст статьи говорит, что Боб «prepares the maximally mixed state»;
+этому соответствует множитель ¼: `|y⟩⟨y| ⊗ 1/2`, невязка 0. Значения игры от этого множителя не
+зависят (условная форма делит на p(a,b)), так что опечатка не влияет на числа статьи. Их числа
+воспроизводятся только при прочтении игры, отличном от напечатанных ур. (9) и (11) (Stage C, C.1.1).
