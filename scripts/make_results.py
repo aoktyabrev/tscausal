@@ -26,25 +26,36 @@ def ok(b):
 
 
 def prereg_block():
-    pr = load("prereg.json")
-    cur = sha(os.path.join(ROOT, "PREREGISTRATION.md"))
-    lines = ["## Предрегистрация", ""]
-    if not pr:
+    prs = load("prereg.json")
+    lines = ["## Предрегистрации", ""]
+    if not prs:
         return lines + ["**prereg.json отсутствует — предрегистрация не зафиксирована.**", ""]
-    try:
-        blob = subprocess.run(["git", "-C", ROOT, "show", f"{pr['commit']}:PREREGISTRATION.md"],
-                              capture_output=True, check=True).stdout
-        in_commit = hashlib.sha256(blob).hexdigest()
-    except Exception as e:  # noqa: BLE001
-        in_commit = f"не удалось прочитать коммит: {e}"
-    lines += [
-        f"- SHA-256 `PREREGISTRATION.md`: `{pr['sha256']}`",
-        f"- коммит предрегистрации: `{pr['commit']}` (отдельный коммит, до первого прогона Stage B)",
-        f"- хеш текущего файла совпадает: **{ok(cur == pr['sha256'])}**; "
-        f"хеш версии в коммите совпадает: **{ok(in_commit == pr['sha256'])}**",
-        "",
-    ]
+    lines += ["| стадия | файл | SHA-256 | коммит | файл совпадает | версия в коммите совпадает |",
+              "|---|---|---|---|---|---|"]
+    for pr in prs:
+        cur = sha(os.path.join(ROOT, pr["file"]))
+        try:
+            blob = subprocess.run(["git", "-C", ROOT, "show", f"{pr['commit']}:{pr['file']}"],
+                                  capture_output=True, check=True).stdout
+            in_commit = hashlib.sha256(blob).hexdigest()
+        except Exception as e:  # noqa: BLE001
+            in_commit = f"ошибка: {e}"
+        lines.append(f"| {pr['stage']} | `{pr['file']}` | `{pr['sha256']}` | `{pr['commit']}` | "
+                     f"**{ok(cur == pr['sha256'])}** | **{ok(in_commit == pr['sha256'])}** |")
+    lines += ["", "Каждая предрегистрация — отдельный коммит до первого прогона своей стадии.", ""]
     return lines
+
+
+def architect_defects():
+    return ["## Дефекты калибровки архитектора (зафиксированы по его указанию, PROMPT stage B.2)", "",
+            "1. `causal_polytope_calib.py` заявлял точную рациональную арифметику, но использует "
+            "`import cdd`, а в pycddlib 3.x это float-бэкенд: Fraction молча превращается во float. "
+            "Точный режим — `cdd.gmp`; все перечисления проекта идут через `cdd.gmp` или `lrs`. "
+            "Антивакуумный тест точности — в разделе Stage B.2. Сам скрипт архитектора не менялся.",
+            "2. Критерий кандидата в `SPEC_TSCAUSAL_stage0.md` («класс, не переходящий в себя при "
+            "обращении времени») отменён поправкой архитектора (отдельный коммит `c45a096`, старый "
+            "текст зачёркнут, не удалён). Действующий критерий — приписываемость (Stage B.2). "
+            "Исход Stage B «новый, но ненаправленный» сформулирован по отменённому критерию.", ""]
 
 
 def stage_a(a):
@@ -103,7 +114,8 @@ def stage_b(b, prereg):
     v, cr, g, fa, gr, cl = (b["vertices"], b["vertex_crosscheck"], b["gates"], b["facets"],
                             b["group"], b["classes"])
     L = ["## Stage B — временно-симметричный многогранник (Def-II, без настроек)", "",
-         f"**Исход: {b['outcome']}**", "",
+         f"**Исход: {b['outcome']}** _(по критерию, отменённому поправкой архитектора; действующая "
+         "классификация — Stage B.2)_", "",
          "Определения — PREREGISTRATION.md §1 (ур. (3)–(7) MH24 + D1: `p(a,b) = p(x,y) = 1/4`), "
          "координаты `p(a,b,x,y)`, порядок строк `abxy`.", "",
          "### B.2 Вершины и ворота", "",
@@ -226,17 +238,166 @@ def explore(e):
     return L
 
 
+def stage_b2(d, pt):
+    i1, i2, i3, i4 = d["item1"], d["item2"], d["item3"], d["item4"]
+    c = i1["calibration"]
+    L = ["## Stage B.2 — приписываемость, происхождение вершин, чувствительность, замыкание", "",
+         f"**Исход: {d['outcome']['text']}**", "",
+         "| класс | смешанный (U2) | пережил U1 | класс фасет классического замыкания |", "|---|---|---|---|"]
+    for r in d["outcome"]["table"]:
+        L.append(f"| {r['class']} | {ok(r['mixed'])} | {ok(r['survives_U1'])} | {ok(r['in_closure'])} |")
+    L += ["", "По промпту дальше идут литчек и письмо авторам MH24, до любых заявлений о новизне. "
+          "Stage C запускает архитектор.", ""]
+    if pt:
+        L += ["### Точность", "",
+              f"Треугольник с вершиной (1/3, 1), путь V→H→V: cdd.gmp — {ok(pt['cdd_gmp']['pass'])}, "
+              f"lrs — {ok(pt['lrs']['pass'])} (ровно `1/3`). Контроль через float `cdd`: вернул "
+              f"`{pt['float_cdd_control']['vertices'][2][0]}`, тест провален, как и требуется "
+              f"({ok(not pt['float_cdd_control']['pass'])}). Ворота точности: **{ok(pt['gate_pass'])}**.", ""]
+    L += ["### П. 1 Приписываемость (U2)", "",
+          "Приписывание (SOURCES.md, D4): F ← ур. (3), (5) (прямая причинность), B ← ур. (4), (6) "
+          "(обратная). Ловушка терминологии: ур. (3) запрещает сигнал **назад** во времени, но выводится "
+          "из **прямой** причинности.", "",
+          f"- F: {i1['F_vertices']} вершин, {i1['F_facets']} фасет; B: {i1['B_vertices']} вершин, {i1['B_facets']} фасет; "
+          f"размерности {i1['F_B_affine_dim']}. Обмен и перевороты сохраняют F и B: "
+          f"{ok(all(v['F'] and v['B'] for k, v in i1['symmetries_preserve_F_B'].items() if k != 'TR'))}; "
+          f"TR переводит F в B: {ok(i1['TR_maps_F_to_B'])}",
+          f"- F∩B: {i1['F_cap_B_vertices']} вершин (cdd = lrs: {ok(i1['F_cap_B_vertices_lrs_equal'])}), "
+          f"TS ⊆ F∩B: {ok(i1['TS_inside_F_cap_B'])}, TS = F∩B: {ok(i1['TS_equals_F_cap_B'])}; "
+          f"вершин F∩B вне TS: {i1['F_cap_B_vertices_outside_TS']}",
+          f"- точка z (`x = a, y = a⊕b`): в F — {ok(i1['z']['in_F'])} (через F_AB: {ok(i1['z']['in_F_AB'])}), "
+          f"в B — {ok(i1['z']['in_B'])} (через B_BA: {ok(i1['z']['in_B_BA'])}), вершина F∩B — "
+          f"{ok(i1['z']['vertex_of_F_cap_B'])}, в TS — {ok(i1['z']['in_TS'])}. Её отсекают "
+          f"{i1['witness_z_first'][0]['cut_by_n_TS_facets']} фасет TS; одна из них: "
+          f"веса {{t: w}} = {{{', '.join(t + ':' + str(w) for t, w in i1['witness_z_first'][0]['one_cutting_facet_nicest']['weights'].items() if w)}}}, "
+          f"правая часть {i1['witness_z_first'][0]['one_cutting_facet_nicest']['rhs']}.",
+          "- смысл: z причинна вперёд в порядке A≼B и причинна назад в порядке B≼A. TS требует, чтобы "
+          "один и тот же порядок был причинен в обе стороны, поэтому z отсекается.", "",
+          "**Калибровка теста** (может провалиться):", "",
+          f"- все 48 фасет K_fwd выполняются на F: {ok(c['K_fwd_all_hold_on_F'])}; их типы: {c['K_fwd_kinds']}",
+          f"- «направленные вперёд» среди K_fwd есть: {ok(c['K_fwd_forward_directional_exists'])}; их образы "
+          f"при TR — «направленные назад»: {ok(c['TR_images_backward'])}",
+          f"- LGYNI_fwd: {c['LGYNI_fwd']['kind']} (max на F {c['LGYNI_fwd']['max_F']}, на B "
+          f"{c['LGYNI_fwd']['max_B']} в целочисленной записи, где граница 3)",
+          f"- положительность: {c['positivity']}",
+          f"- контроль из промпта (GYNI): **{c['GYNI_prompt_control']['kind']}**, как и предсказано: при U2 "
+          "GYNI ≡ обратное GYNI (D3), поэтому на B оно нарушаться не может. Контроль промпта не способен "
+          "показать направленность и заменён калибровкой через K_fwd (отклонение из предрегистрации).",
+          f"- ворота калибровки: **{ok(c['pass'])}**", "",
+          "| # | размер | тип класса | типы членов | max на F | max на B | граница |", "|---|---|---|---|---|---|---|"]
+    for k, cl in enumerate(i1["classes"], 1):
+        L.append(f"| {k} | {cl['size']} | {cl['class_kind']}{' (положительность)' if cl['positivity'] else ''} | "
+                 f"{cl['member_kinds']} | {'–'.join(dict.fromkeys(cl['max_F_range']))} | "
+                 f"{'–'.join(dict.fromkeys(cl['max_B_range']))} | {cl['rhs']} |")
+    L += ["", "(максимумы в примитивной целочисленной записи проекции; нумерация классов как в Stage B: "
+          "1 = N1 [32], 3 = N2 [16].)", "",
+          "### П. 2 Происхождение вершин", "",
+          f"- Stage B: {i2['stage_B_method']}.",
+          f"- Независимый пересчёт через lrs (H→V): A≼B {i2['lrs_AB']}, B≼A {i2['lrs_BA']}; совпадает с cdd.gmp: "
+          f"{ok(i2['cdd_equals_lrs'])}; объединение = вершины Stage B: {ok(i2['union_equals_stage_B_vertices'])}. "
+          "Основной многогранник Stage B подтверждён.",
+          f"- Дробные вершины в Stage B были с самого начала (знаменатели 1, 4, 8 указаны в RESULTS Stage B). "
+          f"По максимальному знаменателю: {i2['AB_vertex_max_denominator_histogram']}, носители размера "
+          f"{i2['AB_vertex_support_sizes']}; максимальная координата {i2['max_coordinate_any_vertex']}. "
+          "При U2 любая точка имеет p(a,b) = 1/4, так что координат больше 1/4 и вершин 0/1 быть не может. "
+          "4 вершины равномерны на 4 точках (`x=a⊕c1, y=b⊕c2`), 14 — равномерны на 8 точках.", "",
+          "### П. 3 Чувствительность к равномерности", "",
+          "| вариант | вершин A≼B | вершин TS | размерность | фасет | группа | классов | смешанных классов | z ∈ TS |",
+          "|---|---|---|---|---|---|---|---|---|"]
+    L.append(f"| U2 | 18 | 32 | 9 | {i1['TS_facets']} | 64 | {len(i1['classes'])} | "
+             f"{sum(1 for x in i1['classes'] if x['class_kind'] == 'смешанное')} | НЕТ |")
+    for u in ("U1", "U0"):
+        x = i3[u]
+        L.append(f"| {u} | {x['V_AB']} | {x['V_TS']} | {x['affine_dim']} | {x['facets']} | {x['group_order']} | "
+                 f"{x['classes']} | {x['mixed_classes']} | {ok(x['z_in_TS'])} |")
+    L += ["", "Выживание новых классов U2:", ""]
+    for u in ("U1", "U0"):
+        for name, v in i3[u]["survival_of_U2_new_classes"].items():
+            L.append(f"- {u}: {name} — пережил: **{ok(v['survives'])}** ({v['n_facets']} фасет), "
+                     f"приписываемость в {u}: {v.get('attribution_in_' + u)}")
+    L += ["", "Ни один новый класс не помечается как «следствие допущения U2».",
+          f"- U1: TR — автоморфизм: {ok(i3['U1']['generators_automorphisms']['TR'])} (группа порядка "
+          f"{i3['U1']['group_order']}). Линейная форма (8) при U1: max {i3['U1']['eq8_linear_max']}. "
+          f"Условная форма (10) на 4000 случайных смесях: max {i3['U1']['eq10_conditional_max_found']}, "
+          f"нарушение не найдено (это не доказательство справедливости). Прогноз «нарушается» не подтвердился.",
+          f"- U0: условная форма (8) воспроизводит {i3['U0']['eq8_conditional_max_found']} > 1/2.", "",
+          "### П. 4 Замыкание классических схем", "",
+          f"- Все {i4['closure_TS_vertices']} вершин замыкания лежат в TS (Def-II): **{ok(i4['all_closure_vertices_inside_TS'])}** "
+          f"(вне: {i4['n_outside']}). Вершинами TS из них являются {i4['closure_vertices_that_are_TS_vertices']}; "
+          f"остальные — дробные точки внутри TS (знаменатели {i4['closure_vertex_denominators']}).",
+          f"- Проверка построения: для каждой из {i4['explicit_circuits']['n']} вершин многогранника μ собрана явная "
+          f"схема с биекциями размерности N ∈ {i4['explicit_circuits']['N_values']}. Прямой прогон совпал с образом μ: "
+          f"{ok(i4['explicit_circuits']['all_equal_image'])}; ур. (3), (4) и U2 выполняются: "
+          f"{ok(i4['explicit_circuits']['all_satisfy_eq3_eq4_U2'])}. Значит, замыкание построено верно, "
+          "а (3)–(6) на классических схемах действительно необходимы.",
+          f"- Откуда рост числа вершин (48 против 32): замыкание — строго меньший многогранник внутри TS. "
+          f"Оно отрезает 16 классически нереализуемых вершин TS (по 8 на порядок) и получает на их месте "
+          f"новые дробные вершины. Фасет {i4['closure_facets']} (cdd = lrs: {ok(i4['cdd_equals_lrs'])}), "
+          f"аффинная оболочка та же, что у TS: {ok(i4['same_affine_hull_as_TS'])}.",
+          f"- Приписываемость классов замыкания (те же F, B; по B15-7 временно-прямые корреляции "
+          f"детерминированны, так что H-вариант F_AB совпадает с классически реализуемым временно-прямым множеством, на которое наложено U2): смешанных "
+          f"{i4['mixed_classes']} из {len(i4['classes']) - 1} непозитивных; типы: "
+          + ", ".join(f"{x['size']}:{'/'.join(x['kinds'])}" for x in i4["classes"]) + ".",
+          f"- Классы N1 и N2 являются также классами фасет замыкания: {i4['TS_new_classes_also_closure_classes']}.", ""]
+    cls = i1["classes"]
+    mixed_new = [c["class_kind"] == "смешанное" for c in cls if not c["positivity"]]
+    surv = [v["survives"] for v in i3["U1"]["survival_of_U2_new_classes"].values()]
+    rows = [
+        ("точность: exact = 1/3, float-контроль проваливается", "0.99", ok(pt and pt["gate_pass"])),
+        ("z ∈ F, z ∈ B, TS ⊊ F∩B", "0.95", ok(i1["z"]["in_F"] and i1["z"]["in_B"] and not i1["TS_equals_F_cap_B"])),
+        ("оба новых класса смешанные", "0.9", ok(all(mixed_new))),
+        ("положительность и GYNI — общие", "0.95", ok(i1["calibration"]["positivity"] == "общее"
+                                                     and i1["calibration"]["GYNI_prompt_control"]["kind"] == "общее")),
+        ("есть K_fwd, нарушаемый на B", "0.8", ok(i1["calibration"]["K_fwd_forward_directional_exists"])),
+        ("z — вершина F∩B", "0.7", ok(i1["z"]["vertex_of_F_cap_B"])),
+        ("вершин F∩B: 40 (33–300)", "—", f"{i1['F_cap_B_vertices']} ({ok(33 <= i1['F_cap_B_vertices'] <= 300)})"),
+        ("п.2: lrs = Stage B; 14 вершин с 1/8, 4 с 1/4", "0.97", ok(i2["pass"] and i2["AB_vertex_max_denominator_histogram"] == {"4": 4, "8": 14})),
+        ("U1: TR не автоморфизм, группа 32", "0.85", ok(not i3["U1"]["generators_automorphisms"]["TR"] and i3["U1"]["group_order"] == 32)),
+        ("хотя бы один новый класс переживает U1", "0.6", ok(any(surv))),
+        ("условная (10) нарушается в U1", "0.6", ok(i3["U1"]["eq10_violated"])),
+        ("U0 воспроизводит 227/390", "0.97", ok(i3["U0"]["eq8_conditional_max_found"] == "227/390")),
+        ("все 48 вершин замыкания внутри TS", "0.95", ok(i4["all_closure_vertices_inside_TS"])),
+        ("новые вершины замыкания дробные, знаменатели кратны 3", "0.8", ok(12 in i4["closure_vertex_denominators"])),
+        ("≥1 класс замыкания смешанный / все 6", "0.95 / 0.5", f"{ok(i4['mixed_classes'] >= 1)} / {ok(i4['mixed_classes'] == 6)}"),
+        ("N1 или N2 — класс замыкания", "0.5", ok(any(i4["TS_new_classes_also_closure_classes"].values()))),
+        ("исход «кандидат»", "0.35", ok(d["outcome"]["text"].startswith("КАНДИДАТ"))),
+    ]
+    L += ["### Прогнозы B.2 и результат", "", "| прогноз исполнителя | уверенность | сбылся |", "|---|---|---|"]
+    L += [f"| {a} | {b_} | {c_} |" for a, b_, c_ in rows]
+    L += ["", "Прогнозы архитектора: TS ⊊ F∩B — "
+          f"**{ok(not i1['TS_equals_F_cap_B'] and i1['z']['in_F'] and i1['z']['in_B'])}**; хотя бы один новый "
+          f"класс смешанный — **{ok(any(mixed_new))}**; хотя бы один переживает U2 → U1 — **{ok(any(surv))}**.", "",
+          "### Отклонения от промпта", "",
+          "- Калибровка через GYNI заменена калибровкой через K_fwd: при U2 GYNI совпадает с обратным GYNI, "
+          "поэтому нарушиться на B не может (предрегистрировано).",
+          "- «Подтверждён в обоих построениях» понимается так: канонический вид класса совпадает с классом "
+          "фасет классического замыкания (определение из предрегистрации). Для замыкания U1 ≡ U2: "
+          "у классических схем p(x,y) = 1/4 выполняется автоматически, поэтому «пережил U1» проверяется "
+          "только для H-построения.",
+          "- Найден и исправлен дефект парсера lrs. При переполнении lrs перезапускается в 128-битной "
+          "арифметике и печатает вывод заново. Парсер теперь берёт последний полный блок, а на "
+          "нечисловую строку падает, а не пропускает её. В Stage A и B перезапусков не было: счёты "
+          "lrs совпадали с cdd. Всё пересчитано заново через `run_all.sh`.",
+          "- Условная форма (10) в U1 проверялась только случайным поиском; вывод о её справедливости не делается.",
+          "- `SOURCES.md` (цитаты D4) закоммичен вместе с предрегистрацией B.2 — тоже до прогона.", ""]
+    return L
+
+
 def main():
     a, b, e = load("stage_a.json"), load("stage_b.json"), load("stage_b_explore.json")
     L = ["# RESULTS — TSCAUSAL stage 0.1", "",
          "_Файл порождён `scripts/make_results.py` из `results/json/`. Руками не редактируется._", ""]
     L += prereg_block()
+    L += architect_defects()
     if a:
         L += stage_a(a)
     if b:
         L += stage_b(b, load("prereg.json"))
     if e:
         L += explore(e)
+    b2, pt = load("stage_b2.json"), load("precision.json")
+    if b2:
+        L += stage_b2(b2, pt)
     L += ["## Литчек", "",
           "`sources/litcheck/REPORT.md`: среди 8 работ, проверенных в полном тексте (все цитирующие MH24 по "
           "Semantic Scholar, 2508.02463, 2603.12283, 2403.02749 и др.), перечисления фасет временно-симметричного "

@@ -2,7 +2,7 @@
  "stage": "B-explore",
  "preregistered": false,
  "status": "РАЗВЕДКА: оболочка схем усечена по размерностям; классы ниже не являются результатом, если cumulative_extreme_points_AB не стабилизировалось",
- "timestamp": "2026-09-21T13:15:12",
+ "timestamp": "2026-09-21T13:50:44",
  "reduction_calibration": {
   "dA2_k1_dB2": {
    "direct": 16,
@@ -786,5 +786,5 @@
    }
   ]
  },
- "seconds_total": 100.1
+ "seconds_total": 100.7
 }

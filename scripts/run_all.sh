@@ -8,9 +8,12 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 PY=${PY:-.env/bin/python}
+$PY scripts/precision_test.py > /dev/null
+$PY -c "import json,sys; d=json.load(open('results/json/precision.json')); sys.exit(0 if d['gate_pass'] else 'точность: ворота не пройдены')"
 $PY scripts/stage_a.py > /dev/null
 $PY -c "import json,sys; d=json.load(open('results/json/stage_a.json')); sys.exit(0 if d['gate_pass'] else 'Stage A: ворота не пройдены')"
 $PY scripts/stage_b.py > /dev/null
 $PY -c "import json,sys; d=json.load(open('results/json/stage_b.json')); sys.exit('Stage B: '+d['STOP'] if 'STOP' in d else 0)"
 $PY scripts/stage_b_explore.py > /dev/null
+$PY scripts/stage_b2.py > /dev/null
 $PY scripts/make_results.py

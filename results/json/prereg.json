@@ -1,1 +1,4 @@
-{"sha256": "582087467b4e771c37a5b4a009c412afb042ef7540b8776969ed424a4737ee40", "commit": "66a521f"}
+[
+ {"stage": "B", "file": "PREREGISTRATION.md", "sha256": "582087467b4e771c37a5b4a009c412afb042ef7540b8776969ed424a4737ee40", "commit": "66a521f"},
+ {"stage": "B2", "file": "PREREGISTRATION_B2.md", "sha256": "8dc8816e9c771698ffd637c12fff463c9f0221482cf490b05124d66065f08cb0", "commit": "5c35492"}
+]

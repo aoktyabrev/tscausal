@@ -183,19 +183,67 @@ def facets_lrs(points, workdir=None):
                 fh.write("1 " + " ".join(_fmt(x) for x in p) + "\n")
             fh.write("end\n")
         out = subprocess.run([lrs, f], capture_output=True, text=True, check=True).stdout
-    lin, rows, inside = set(), [], False
-    for line in out.splitlines():
-        s = line.strip()
+    lin, rows = set(), []
+    for s in _last_block(out):
         if s.startswith("linearity"):
             parts = s.split()
             lin = {int(t) - 1 for t in parts[2:2 + int(parts[1])]}
-        elif s == "begin":
-            inside = True
-        elif s == "end":
-            inside = False
-        elif inside and s and not s.startswith("*****"):
+        else:
             rows.append([Fraction(t) for t in s.split()])
     return _parse_hrows(rows, lin)
+
+
+def vertices_lrs(eqs, ineqs, workdir=None):
+    """Точная вершинная энумерация H-многогранника {c.p <= c0} ∩ {e.p = e0} через lrs."""
+    lrs = find_lrs()
+    rows, lin = [], []
+    for e, e0 in eqs:
+        lin.append(len(rows) + 1)
+        rows.append([Fraction(e0)] + [-Fraction(x) for x in e])
+    for c, c0 in ineqs:
+        rows.append([Fraction(c0)] + [-Fraction(x) for x in c])
+    with tempfile.TemporaryDirectory(dir=workdir) as td:
+        f = os.path.join(td, "in.ine")
+        with open(f, "w") as fh:
+            fh.write("tscausal\nH-representation\n")
+            if lin:
+                fh.write(f"linearity {len(lin)} " + " ".join(map(str, lin)) + "\n")
+            fh.write(f"begin\n{len(rows)} {len(rows[0])} rational\n")
+            for r in rows:
+                fh.write(" ".join(_fmt(x) for x in r) + "\n")
+            fh.write("end\n")
+        out = subprocess.run([lrs, f], capture_output=True, text=True, check=True).stdout
+    verts = []
+    for s in _last_block(out):
+        if s.startswith("linearity"):
+            raise AssertionError("у многогранника есть прямые — неожиданно")
+        t = [Fraction(x) for x in s.split()]
+        assert t[0] == 1, "луч в выводе lrs — неожиданно"
+        verts.append(tuple(t[1:]))
+    return verts
+
+
+def _last_block(out):
+    """Строки последнего полного блока begin…end вывода lrs. При переполнении lrs (hybrid
+    arithmetic) перезапускается с большей разрядностью и печатает заголовок/блок заново;
+    берём последний блок. Нечисловая строка внутри блока — ошибка, а не пропуск."""
+    blocks, cur, lin = [], None, None
+    for line in out.splitlines():
+        s = line.strip()
+        if s.startswith("linearity"):
+            lin = s
+        elif s == "begin":
+            cur = []
+        elif s == "end" and cur is not None:
+            blocks.append(([lin] if lin else []) + cur)
+            cur, lin = None, None
+        elif cur is not None and s and not s.startswith("*****"):
+            if s.startswith("lrs:") or s.startswith("*"):
+                cur = None          # перезапуск внутри блока — блок недействителен
+                continue
+            cur.append(s)
+    assert blocks, "lrs не выдал ни одного полного блока"
+    return blocks[-1]
 
 
 # ----------------------------------------------------------------- группа и канонизация
@@ -286,3 +334,19 @@ def tight_rank(c, c0, vertices):
 def fr(x):
     """Fraction -> строка для JSON."""
     return _fmt(x)
+
+
+def extreme_points(pts):
+    """Крайние точки конечного множества (удаление избыточных образующих, cdd.gmp)."""
+    mat = cddg.matrix_from_array([[Fraction(1)] + list(p) for p in pts],
+                                 rep_type=cddg.RepType.GENERATOR)
+    cddg.matrix_canonicalize(mat)
+    return sorted(tuple(Fraction(x) for x in row[1:]) for row in mat.array)
+
+
+def dot(c, p):
+    return sum(Fraction(a) * Fraction(b) for a, b in zip(c, p))
+
+
+def in_H(p, eqs, ineqs):
+    return all(dot(e, p) == e0 for e, e0 in eqs) and all(dot(c, p) <= c0 for c, c0 in ineqs)

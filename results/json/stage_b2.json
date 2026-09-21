@@ -1,0 +1,924 @@
+{
+ "stage": "B2",
+ "timestamp": "2026-09-21T13:52:25",
+ "item2": {
+  "stage_B_method": "крайние точки H-описания (ур. (3),(4) | (5),(6) + p>=0 + Σp=1 + U2) через cdd.gmp (P.vertices_cdd в stage_b.py); детерминированные схемы — только перекрёстная проверка",
+  "cdd_AB": 18,
+  "lrs_AB": 18,
+  "cdd_BA": 18,
+  "lrs_BA": 18,
+  "cdd_equals_lrs": true,
+  "union_equals_stage_B_vertices": true,
+  "all_union_points_extreme_in_TS": true,
+  "AB_vertex_max_denominator_histogram": {
+   "4": 4,
+   "8": 14
+  },
+  "AB_vertex_support_sizes": [
+   4,
+   8
+  ],
+  "max_coordinate_any_vertex": "1/4",
+  "pass": true
+ },
+ "item1": {
+  "F_vertices": 48,
+  "B_vertices": 48,
+  "F_facets": 152,
+  "B_facets": 152,
+  "F_B_affine_dim": [
+   9,
+   9
+  ],
+  "symmetries_preserve_F_B": {
+   "swap": {
+    "F": true,
+    "B": true
+   },
+   "TR": {
+    "F": false,
+    "B": false
+   },
+   "flip_a": {
+    "F": true,
+    "B": true
+   },
+   "flip_b": {
+    "F": true,
+    "B": true
+   },
+   "flip_x": {
+    "F": true,
+    "B": true
+   },
+   "flip_y": {
+    "F": true,
+    "B": true
+   }
+  },
+  "TR_maps_F_to_B": true,
+  "TS_facets": 64,
+  "TS_facets_cdd_equals_lrs": true,
+  "F_cap_B_vertices": 96,
+  "F_cap_B_vertices_lrs_equal": true,
+  "TS_inside_F_cap_B": true,
+  "TS_equals_F_cap_B": false,
+  "F_cap_B_vertices_outside_TS": 72,
+  "F_cap_B_vertex_denominators": [
+   1,
+   4,
+   8,
+   14,
+   16,
+   28
+  ],
+  "witness_z_first": [
+   {
+    "vertex": [
+     "1/4",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1/4",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1/4",
+     "0",
+     "0",
+     "1/4",
+     "0"
+    ],
+    "is_z": true,
+    "cut_by_n_TS_facets": 8,
+    "one_cutting_facet_nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 0,
+      "0011": 8,
+      "0100": 0,
+      "0101": 8,
+      "0110": 0,
+      "0111": 0,
+      "1000": 0,
+      "1001": 0,
+      "1010": 0,
+      "1011": 8,
+      "1100": 8,
+      "1101": 0,
+      "1110": 8,
+      "1111": 8
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "vertex": [
+     "0",
+     "0",
+     "0",
+     "1/4",
+     "1/4",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1/4",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1/4",
+     "0"
+    ],
+    "is_z": false,
+    "cut_by_n_TS_facets": 8,
+    "one_cutting_facet_nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 8,
+      "1000": 0,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 8,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "vertex": [
+     "1/28",
+     "3/28",
+     "1/14",
+     "1/28",
+     "3/28",
+     "0",
+     "3/28",
+     "1/28",
+     "1/14",
+     "3/28",
+     "0",
+     "1/14",
+     "1/28",
+     "1/28",
+     "1/14",
+     "3/28"
+    ],
+    "is_z": false,
+    "cut_by_n_TS_facets": 1,
+    "one_cutting_facet_nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 0,
+      "0011": 0,
+      "0100": 8,
+      "0101": 8,
+      "0110": 8,
+      "0111": 0,
+      "1000": 0,
+      "1001": 8,
+      "1010": 0,
+      "1011": 0,
+      "1100": 0,
+      "1101": 0,
+      "1110": 0,
+      "1111": 8
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   }
+  ],
+  "z": {
+   "in_F": true,
+   "in_B": true,
+   "in_F_AB": true,
+   "in_F_BA": false,
+   "in_B_AB": false,
+   "in_B_BA": true,
+   "in_TS": false,
+   "vertex_of_F_cap_B": true
+  },
+  "calibration": {
+   "K_fwd_all_hold_on_F": true,
+   "K_fwd_kinds": {
+    "направленное вперёд": 16,
+    "общее": 32
+   },
+   "K_fwd_forward_directional_exists": true,
+   "TR_images_backward": true,
+   "positivity": "общее",
+   "GYNI_prompt_control": {
+    "kind": "общее",
+    "max_F": "1",
+    "max_B": "1"
+   },
+   "LGYNI_fwd": {
+    "kind": "направленное вперёд",
+    "max_F": "3",
+    "max_B": "5"
+   },
+   "pass": true
+  },
+  "classes": [
+   {
+    "size": 32,
+    "canonical": [
+     -5,
+     -1,
+     3,
+     3,
+     7,
+     -5,
+     -1,
+     -1,
+     -1,
+     3,
+     -1,
+     -1,
+     -1,
+     3,
+     -1,
+     -1,
+     1
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 0,
+      "1001": 8,
+      "1010": 0,
+      "1011": 0,
+      "1100": 0,
+      "1101": 8,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "member_kinds": {
+     "смешанное": 32
+    },
+    "class_kind": "смешанное",
+    "max_F_range": [
+     "3",
+     "3"
+    ],
+    "max_B_range": [
+     "3",
+     "3"
+    ],
+    "rhs": 1,
+    "positivity": false
+   },
+   {
+    "size": 16,
+    "canonical": [
+     -9,
+     3,
+     3,
+     3,
+     3,
+     -1,
+     -1,
+     -1,
+     3,
+     -1,
+     -1,
+     -1,
+     3,
+     -1,
+     -1,
+     -1,
+     1
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 8,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "member_kinds": {
+     "общее": 16
+    },
+    "class_kind": "общее",
+    "max_F_range": [
+     "1",
+     "1"
+    ],
+    "max_B_range": [
+     "1",
+     "1"
+    ],
+    "rhs": 1,
+    "positivity": true
+   },
+   {
+    "size": 16,
+    "canonical": [
+     -5,
+     -1,
+     3,
+     3,
+     3,
+     -1,
+     -5,
+     3,
+     -1,
+     3,
+     -1,
+     -1,
+     3,
+     -1,
+     3,
+     -5,
+     1
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 8,
+      "1000": 0,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 8,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "member_kinds": {
+     "смешанное": 16
+    },
+    "class_kind": "смешанное",
+    "max_F_range": [
+     "3",
+     "3"
+    ],
+    "max_B_range": [
+     "3",
+     "3"
+    ],
+    "rhs": 1,
+    "positivity": false
+   }
+  ]
+ },
+ "item3": {
+  "U1": {
+   "V_AB": 28,
+   "V_BA": 28,
+   "V_TS": 52,
+   "affine_dim": 11,
+   "facets": 64,
+   "cdd_equals_lrs": true,
+   "group_order": 32,
+   "generators_automorphisms": {
+    "swap": true,
+    "TR": false,
+    "flip_a": true,
+    "flip_b": true,
+    "flip_x": true,
+    "flip_y": true
+   },
+   "classes": 3,
+   "class_kinds": [
+    {
+     "size": 32,
+     "kinds": [
+      "смешанное"
+     ],
+     "nicest": {
+      "weights": {
+       "0000": 0,
+       "0001": 0,
+       "0010": 8,
+       "0011": 0,
+       "0100": 8,
+       "0101": 0,
+       "0110": 0,
+       "0111": 0,
+       "1000": 8,
+       "1001": 8,
+       "1010": 0,
+       "1011": 8,
+       "1100": 8,
+       "1101": 0,
+       "1110": 0,
+       "1111": 0
+      },
+      "rhs": "4.0",
+      "normalized_rhs(game value, weights/4)": null
+     }
+    },
+    {
+     "size": 16,
+     "kinds": [
+      "направленное назад"
+     ],
+     "nicest": {
+      "weights": {
+       "0000": 0,
+       "0001": 8,
+       "0010": 8,
+       "0011": 8,
+       "0100": 8,
+       "0101": 0,
+       "0110": 0,
+       "0111": 0,
+       "1000": 8,
+       "1001": 0,
+       "1010": 0,
+       "1011": 0,
+       "1100": 8,
+       "1101": 0,
+       "1110": 0,
+       "1111": 0
+      },
+      "rhs": "4.0",
+      "normalized_rhs(game value, weights/4)": null
+     }
+    },
+    {
+     "size": 16,
+     "kinds": [
+      "смешанное"
+     ],
+     "nicest": {
+      "weights": {
+       "0000": 0,
+       "0001": 0,
+       "0010": 8,
+       "0011": 8,
+       "0100": 8,
+       "0101": 0,
+       "0110": 0,
+       "0111": 8,
+       "1000": 0,
+       "1001": 0,
+       "1010": 0,
+       "1011": 0,
+       "1100": 8,
+       "1101": 0,
+       "1110": 8,
+       "1111": 0
+      },
+      "rhs": "4.0",
+      "normalized_rhs(game value, weights/4)": null
+     }
+    }
+   ],
+   "mixed_classes": 2,
+   "survival_of_U2_new_classes": {
+    "class_1_size32": {
+     "survives": true,
+     "n_facets": 32,
+     "attribution_in_U1": [
+      "смешанное"
+     ]
+    },
+    "class_3_size16": {
+     "survives": true,
+     "n_facets": 16,
+     "attribution_in_U1": [
+      "смешанное"
+     ]
+    }
+   },
+   "z_in_TS": false,
+   "eq8_linear_max": "1/2",
+   "eq10_conditional_max_found": "1/2",
+   "eq10_violated": false
+  },
+  "U0": {
+   "V_AB": 24,
+   "V_BA": 24,
+   "V_TS": 44,
+   "affine_dim": 13,
+   "facets": 64,
+   "cdd_equals_lrs": true,
+   "group_order": 64,
+   "generators_automorphisms": {
+    "swap": true,
+    "TR": true,
+    "flip_a": true,
+    "flip_b": true,
+    "flip_x": true,
+    "flip_y": true
+   },
+   "classes": 3,
+   "class_kinds": [
+    {
+     "size": 32,
+     "kinds": [
+      "смешанное"
+     ],
+     "nicest": {
+      "weights": {
+       "0000": 0,
+       "0001": 8,
+       "0010": 8,
+       "0011": 8,
+       "0100": 8,
+       "0101": 0,
+       "0110": 0,
+       "0111": 0,
+       "1000": 0,
+       "1001": 8,
+       "1010": 0,
+       "1011": 0,
+       "1100": 0,
+       "1101": 8,
+       "1110": 0,
+       "1111": 0
+      },
+      "rhs": "4.0",
+      "normalized_rhs(game value, weights/4)": null
+     }
+    },
+    {
+     "size": 16,
+     "kinds": [
+      "смешанное"
+     ],
+     "nicest": {
+      "weights": {
+       "0000": 0,
+       "0001": 8,
+       "0010": 8,
+       "0011": 8,
+       "0100": 8,
+       "0101": 0,
+       "0110": 0,
+       "0111": 0,
+       "1000": 8,
+       "1001": 0,
+       "1010": 0,
+       "1011": 0,
+       "1100": 8,
+       "1101": 0,
+       "1110": 0,
+       "1111": 0
+      },
+      "rhs": "4.0",
+      "normalized_rhs(game value, weights/4)": null
+     }
+    },
+    {
+     "size": 16,
+     "kinds": [
+      "смешанное"
+     ],
+     "nicest": {
+      "weights": {
+       "0000": 0,
+       "0001": 0,
+       "0010": 8,
+       "0011": 8,
+       "0100": 8,
+       "0101": 0,
+       "0110": 0,
+       "0111": 8,
+       "1000": 0,
+       "1001": 0,
+       "1010": 0,
+       "1011": 0,
+       "1100": 8,
+       "1101": 0,
+       "1110": 8,
+       "1111": 0
+      },
+      "rhs": "4.0",
+      "normalized_rhs(game value, weights/4)": null
+     }
+    }
+   ],
+   "mixed_classes": 3,
+   "survival_of_U2_new_classes": {
+    "class_1_size32": {
+     "survives": true,
+     "n_facets": 32,
+     "attribution_in_U0": [
+      "смешанное"
+     ]
+    },
+    "class_3_size16": {
+     "survives": true,
+     "n_facets": 16,
+     "attribution_in_U0": [
+      "смешанное"
+     ]
+    }
+   },
+   "z_in_TS": false,
+   "eq8_conditional_max_found": "227/390"
+  }
+ },
+ "item4": {
+  "M_vertices": 38,
+  "closure_AB_vertices": 26,
+  "closure_TS_vertices": 48,
+  "all_closure_vertices_inside_TS": true,
+  "n_outside": 0,
+  "closure_vertices_that_are_TS_vertices": 16,
+  "closure_vertex_denominators": [
+   1,
+   4,
+   6,
+   8,
+   12
+  ],
+  "explicit_circuits": {
+   "n": 38,
+   "all_equal_image": true,
+   "all_satisfy_eq3_eq4_U2": true,
+   "N_values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "closure_facets": 160,
+  "cdd_equals_lrs": true,
+  "same_affine_hull_as_TS": true,
+  "classes": [
+   {
+    "size": 32,
+    "kinds": [
+     "смешанное"
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 0,
+      "1001": 8,
+      "1010": 0,
+      "1011": 0,
+      "1100": 0,
+      "1101": 8,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "positivity": false
+   },
+   {
+    "size": 32,
+    "kinds": [
+     "смешанное"
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 4,
+      "0011": 8,
+      "0100": 4,
+      "0101": 8,
+      "0110": 0,
+      "0111": 0,
+      "1000": 8,
+      "1001": 0,
+      "1010": 0,
+      "1011": 4,
+      "1100": 0,
+      "1101": 4,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "positivity": false
+   },
+   {
+    "size": 32,
+    "kinds": [
+     "смешанное"
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 4,
+      "0010": 8,
+      "0011": 4,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 4,
+      "1001": 0,
+      "1010": 0,
+      "1011": 4,
+      "1100": 4,
+      "1101": 4,
+      "1110": 0,
+      "1111": 8
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "positivity": false
+   },
+   {
+    "size": 16,
+    "kinds": [
+     "общее"
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 8,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "positivity": true
+   },
+   {
+    "size": 16,
+    "kinds": [
+     "смешанное"
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 8,
+      "1000": 0,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 8,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "positivity": false
+   },
+   {
+    "size": 16,
+    "kinds": [
+     "смешанное"
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 5,
+      "0010": 5,
+      "0011": 7,
+      "0100": 5,
+      "0101": 6,
+      "0110": 2,
+      "0111": 0,
+      "1000": 5,
+      "1001": 2,
+      "1010": 6,
+      "1011": 0,
+      "1100": 7,
+      "1101": 0,
+      "1110": 0,
+      "1111": 6
+     },
+     "rhs": "4.5",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "positivity": false
+   },
+   {
+    "size": 16,
+    "kinds": [
+     "смешанное"
+    ],
+    "nicest": {
+     "weights": {
+      "0000": 0,
+      "0001": 1,
+      "0010": 1,
+      "0011": 6,
+      "0100": 7,
+      "0101": 4,
+      "0110": 0,
+      "0111": 1,
+      "1000": 7,
+      "1001": 0,
+      "1010": 4,
+      "1011": 1,
+      "1100": 2,
+      "1101": 7,
+      "1110": 7,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "positivity": false
+   }
+  ],
+  "mixed_classes": 6,
+  "TS_new_classes_also_closure_classes": {
+   "class_1_size32": true,
+   "class_3_size16": true
+  }
+ },
+ "outcome": {
+  "text": "КАНДИДАТ: смешанный класс вне K, переживший U1 и подтверждённый в обоих построениях: class_1_size32, class_3_size16",
+  "table": [
+   {
+    "class": "class_1_size32",
+    "mixed": true,
+    "survives_U1": true,
+    "in_closure": true
+   },
+   {
+    "class": "class_3_size16",
+    "mixed": true,
+    "survives_U1": true,
+    "in_closure": true
+   }
+  ]
+ },
+ "seconds_total": 56.9
+}

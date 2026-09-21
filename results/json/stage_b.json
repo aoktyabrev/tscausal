@@ -1,6 +1,6 @@
 {
  "stage": "B",
- "timestamp": "2026-09-21T13:14:50",
+ "timestamp": "2026-09-21T13:50:22",
  "definition": "Def-II (PREREGISTRATION.md §1)",
  "vertices": {
   "P_AB": 18,
@@ -139,7 +139,7 @@
   "all_valid": true,
   "all_are_facets": true,
   "seconds_cdd": 0.005,
-  "seconds_lrs": 0.037
+  "seconds_lrs": 0.046
  },
  "classes": {
   "count_G": 3,
@@ -433,10 +433,10 @@
    "1/32"
   ],
   "linear_GYNI_max": "1/2",
-  "seconds": 0.45
+  "seconds": 0.46
  },
  "resources": {
-  "seconds_total": 22.06,
-  "max_rss_MB": 21.1
+  "seconds_total": 22.25,
+  "max_rss_MB": 20.9
  }
 }
