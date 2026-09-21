@@ -134,3 +134,50 @@ LGYNI» в сценарии без настроек мы берём в форм�
 обе равны `Σ_{x=b, y=a} p(a,b,x,y)`. В сценарии без настроек GYNI и обратное GYNI —
 **один и тот же** функционал (условие `x=b, y=a` инвариантно относительно a↔x, b↔y).
 Следствие алгебры, не цитата.
+
+---
+
+## Stage B.2: какие из ур. (3)–(6) MH24 выражают прямую, а какие обратную причинность
+
+**MH-15 (вывод ур. (3): маргинализация постселекции и исхода Боба), текст перед ур. (3):**
+> Marginalizing over the post-selection variable $v$ and Bob's outcome $y$, the circuit reduces to that of Fig.~\ref{marg} (i). This computation goes through by applying the identity of Fig.~\ref{sumread}, followed by the identity Fig.~\ref{readsan}, and finally by applying double causality Fig.~\ref{dubcausbox} twice.
+
+**MH-16 (смысл ур. (3)), после ур. (3):**
+> This equation states that Bob cannot signal to Alice unless there is post-selection---either in the post-selection variable $v$ or in Bob's outcome $y$.
+
+**MH-17 (ур. (4) — обращение (3)), после ур. (4):**
+> Now, we repeat the analysis by marginalizing over the pre-selection variable $u$ and Alice's income $a$. [...]
+> This constraint is the time-reversal of Eqn.~(\ref{ABforward}), stating that Alice cannot signal to Bob unless there is pre-selection---either in the pre-selection variable $u$ or in Alice's income $a$. This inability to signal forward in time seems unfamiliar, [...]
+
+**MH-18 (ур. (5) и (6)), после каждого из них:**
+> stating no-signalling from Alice to Bob without post-selection, and
+>
+> stating no-signalling from Bob to Alice without pre-selection.
+
+**MH-19 (прямые неравенства опираются только на прямую причинность), перед ур. (8):**
+> Following the analysis of Branciard et al. Ref.~\cite{Branciard_2016}, we arrive at a set of causal inequalities that are necessarily satisfied by causally separable correlations. This derivation relies only on forward causality (the first condition in Fig.~\ref{dubcausbox}) and is therefore associated with the time-forward perspective.
+
+**MH-20 (обратные неравенства — только обратная причинность), после ур. (9):**
+> With time-symmetry, there is automatically a time-reversed counterpart for each of the causal inequalities. They are derived using only backwards causality (the second condition in Fig.~\ref{dubcausbox}) and are associated to the time-backward perspective.
+
+**MH-21 (приложение, Fig. `nops`):**
+> With $v$ and $y$ marginalized, Bob cannot signal backward in time to Alice. In either definite causal order, $A\preceq B$ or $B\preceq A$, applying the double causality rules shows that Alice's output must be ignored.
+
+**B15-7 (вершины временно-прямых многогранников детерминированные), arXiv:1508.01704, Sec. II:**
+> in Appendix~\ref{app:characterization} we show that these correspond to deterministic correlations compatible with either causal order (or both, in the case of nonsignaling correlations).
+
+### D4. Приписывание (вывод, не цитата)
+Одной фразой вида «ур. (3) следует из прямой причинности» в статье это не сказано. Приписывание
+выведено из цитат и рисунков:
+- ур. (3) и (5) получаются маргинализацией **будущих** переменных: постселекции `v` и исхода
+  (MH-15, MH-18: «without post-selection»). На Fig. `marg`(i) (`abreduction.png`) это делается
+  правилом, где I-бокс стоит на выходе и R-бокс на исходе. Это левое условие Fig. `dubcausbox`,
+  которое MH-1 называет *forward causality*;
+- ур. (4) и (6) получаются маргинализацией **прошлых** переменных: предселекции `u` и дохода
+  (MH-17, MH-18: «without pre-selection»). На Fig. `marg`(ii) это правое условие, *backward causality*;
+- согласованность: прямые неравенства (8), (9), выводимые по B15 из запрета сигнала в
+  прошлое, «relies only on forward causality» (MH-19).
+
+Итог: **F ← {(3), (5)}**, **B ← {(4), (6)}**. Ловушка терминологии: ур. (3) запрещает сигнал
+**назад** во времени (MH-16, MH-21), но выводится из **прямой** причинности. «F» здесь
+означает условия, следующие из прямой причинности, то есть временно-прямую картину B15/OCB.
