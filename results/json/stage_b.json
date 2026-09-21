@@ -1,0 +1,442 @@
+{
+ "stage": "B",
+ "timestamp": "2026-09-21T13:14:50",
+ "definition": "Def-II (PREREGISTRATION.md §1)",
+ "vertices": {
+  "P_AB": 18,
+  "P_BA": 18,
+  "common": 4,
+  "P_TS_union": 32,
+  "denominators": [
+   1,
+   4,
+   8
+  ]
+ },
+ "vertex_crosscheck": {
+  "anc1": {
+   "distinct_distributions": 16,
+   "all_inside_P_AB": true,
+   "vertices_of_P_AB_realized": 10
+  },
+  "anc2": {
+   "distinct_distributions": 17,
+   "all_inside_P_AB": true,
+   "vertices_of_P_AB_realized": 10
+  },
+  "anc4": {
+   "distinct_distributions": 25,
+   "all_inside_P_AB": true,
+   "vertices_of_P_AB_realized": 10
+  },
+  "P_BA_equals_swap_of_P_AB": true
+ },
+ "affine_dim": 9,
+ "hull_equals_norm_plus_D1": true,
+ "gates": {
+  "values": {
+   "GYNI": "1/2",
+   "GYNI_reversed": "1/2",
+   "LGYNI_fwd": "3/4",
+   "LGYNI_bwd": "3/4"
+  },
+  "expected": {
+   "GYNI": "1/2",
+   "GYNI_reversed": "1/2",
+   "LGYNI_fwd": "3/4",
+   "LGYNI_bwd": "3/4"
+  },
+  "pass": true,
+  "GYNI_equals_GYNI_reversed_as_functional": true,
+  "MH9_literal_alpha1_max": "1/2",
+  "MH9_literal_alpha0_max": "1"
+ },
+ "group": {
+  "order_G": 64,
+  "order_G_without_TR": 32,
+  "generators_nontrivial": {
+   "swap": true,
+   "TR": true,
+   "flip_a": true,
+   "flip_b": true,
+   "flip_x": true,
+   "flip_y": true
+  },
+  "generators_automorphisms": {
+   "swap": true,
+   "TR": true,
+   "flip_a": true,
+   "flip_b": true,
+   "flip_x": true,
+   "flip_y": true
+  },
+  "generator_action_on_known": {
+   "swap": {
+    "moves": [
+     "GYNI_flip_x"
+    ],
+    "image_valid_same_bound": true
+   },
+   "TR": {
+    "moves": [
+     "LGYNI_fwd",
+     "LGYNI_bwd",
+     "GYNI_flip_x"
+    ],
+    "image_valid_same_bound": true
+   },
+   "flip_a": {
+    "moves": [
+     "GYNI",
+     "LGYNI_fwd",
+     "LGYNI_bwd",
+     "GYNI_flip_x"
+    ],
+    "image_valid_same_bound": true
+   },
+   "flip_b": {
+    "moves": [
+     "GYNI",
+     "LGYNI_fwd",
+     "LGYNI_bwd",
+     "GYNI_flip_x"
+    ],
+    "image_valid_same_bound": true
+   },
+   "flip_x": {
+    "moves": [
+     "GYNI",
+     "LGYNI_fwd",
+     "LGYNI_bwd",
+     "GYNI_flip_x"
+    ],
+    "image_valid_same_bound": true
+   },
+   "flip_y": {
+    "moves": [
+     "GYNI",
+     "LGYNI_fwd",
+     "LGYNI_bwd",
+     "GYNI_flip_x"
+    ],
+    "image_valid_same_bound": true
+   }
+  },
+  "negative_controls_rejected": {
+   "cflip_x_by_a": true,
+   "TR_alice_only": true,
+   "random_permutation": true
+  },
+  "full_local_automorphism_group_order": 64,
+  "G_subset_of_local": true,
+  "pass": true
+ },
+ "facets": {
+  "cdd": 64,
+  "lrs": 64,
+  "distinct": 64,
+  "cdd_equals_lrs_after_projection": true,
+  "all_valid": true,
+  "all_are_facets": true,
+  "seconds_cdd": 0.005,
+  "seconds_lrs": 0.037
+ },
+ "classes": {
+  "count_G": 3,
+  "count_full_local_group": 3,
+  "directional_test_control": {
+   "LGYNI_fwd_directional": true,
+   "GYNI_directional": false,
+   "pass": true
+  },
+  "known_face_dim(facet = dim-1)": {
+   "GYNI": 5,
+   "LGYNI_fwd": 6,
+   "LGYNI_bwd": 6
+  },
+  "new_classes": 2,
+  "new_directional_classes": 0,
+  "facets_in_K": 16,
+  "facets_not_in_K": 48,
+  "K_size_distinct": 68,
+  "K_source_facets_each_reading": 48,
+  "K_all_valid_on_P_TS": true,
+  "K_elements_that_are_facets_of_P_TS": 16,
+  "separating_point_z": "x=a, y=a⊕b, (a,b) равномерно",
+  "z_satisfies_all_K": true,
+  "z_in_P_TS": false,
+  "list": [
+   {
+    "size": 32,
+    "members_in_K": 0,
+    "in_K": false,
+    "K_readings": [],
+    "positivity": false,
+    "directional": false,
+    "tight_vertices": 17,
+    "members_violated_by_separating_point": 4,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 0,
+      "1001": 8,
+      "1010": 0,
+      "1011": 0,
+      "1100": 0,
+      "1101": 8,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "display_form": {
+     "support_abxy_weight1": [
+      "0000",
+      "0001",
+      "0011",
+      "0100",
+      "1010",
+      "1100"
+     ],
+     "weights_if_not_01": null,
+     "rhs": "1/2",
+     "invariant_under": [
+      "TR"
+     ]
+    },
+    "representative": {
+     "coeffs": {
+      "ab=00": {
+       "xy=00": -5,
+       "xy=01": -1,
+       "xy=10": 3,
+       "xy=11": 3
+      },
+      "ab=01": {
+       "xy=00": 7,
+       "xy=01": -5,
+       "xy=10": -1,
+       "xy=11": -1
+      },
+      "ab=10": {
+       "xy=00": -1,
+       "xy=01": 3,
+       "xy=10": -1,
+       "xy=11": -1
+      },
+      "ab=11": {
+       "xy=00": -1,
+       "xy=01": 3,
+       "xy=10": -1,
+       "xy=11": -1
+      }
+     },
+     "rhs": 1
+    }
+   },
+   {
+    "size": 16,
+    "members_in_K": 16,
+    "in_K": true,
+    "K_readings": [
+     "bwd",
+     "fwd"
+    ],
+    "positivity": true,
+    "directional": false,
+    "tight_vertices": 17,
+    "members_violated_by_separating_point": 0,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 8,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "display_form": {
+     "support_abxy_weight1": [
+      "0001",
+      "0010",
+      "0011",
+      "0100",
+      "1000",
+      "1100"
+     ],
+     "weights_if_not_01": null,
+     "rhs": "1/2",
+     "invariant_under": [
+      "swap",
+      "TR",
+      "swap_TR"
+     ]
+    },
+    "representative": {
+     "coeffs": {
+      "ab=00": {
+       "xy=00": -9,
+       "xy=01": 3,
+       "xy=10": 3,
+       "xy=11": 3
+      },
+      "ab=01": {
+       "xy=00": 3,
+       "xy=01": -1,
+       "xy=10": -1,
+       "xy=11": -1
+      },
+      "ab=10": {
+       "xy=00": 3,
+       "xy=01": -1,
+       "xy=10": -1,
+       "xy=11": -1
+      },
+      "ab=11": {
+       "xy=00": 3,
+       "xy=01": -1,
+       "xy=10": -1,
+       "xy=11": -1
+      }
+     },
+     "rhs": 1
+    }
+   },
+   {
+    "size": 16,
+    "members_in_K": 0,
+    "in_K": false,
+    "K_readings": [],
+    "positivity": false,
+    "directional": false,
+    "tight_vertices": 17,
+    "members_violated_by_separating_point": 4,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 8,
+      "1000": 0,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 8,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    },
+    "display_form": {
+     "support_abxy_weight1": [
+      "0001",
+      "0010",
+      "0100",
+      "0101",
+      "1000",
+      "1010"
+     ],
+     "weights_if_not_01": null,
+     "rhs": "1/2",
+     "invariant_under": [
+      "swap",
+      "TR",
+      "swap_TR"
+     ]
+    },
+    "representative": {
+     "coeffs": {
+      "ab=00": {
+       "xy=00": -5,
+       "xy=01": -1,
+       "xy=10": 3,
+       "xy=11": 3
+      },
+      "ab=01": {
+       "xy=00": 3,
+       "xy=01": -1,
+       "xy=10": -5,
+       "xy=11": 3
+      },
+      "ab=10": {
+       "xy=00": -1,
+       "xy=01": 3,
+       "xy=10": -1,
+       "xy=11": -1
+      },
+      "ab=11": {
+       "xy=00": 3,
+       "xy=01": -1,
+       "xy=10": 3,
+       "xy=11": -5
+      }
+     },
+     "rhs": 1
+    }
+   }
+  ]
+ },
+ "outcome": "НОВЫЙ, НО НЕНАПРАВЛЕННЫЙ: классы вне K есть, все G'-эквивалентны своему обращению",
+ "def_I": {
+  "P_AB": 24,
+  "P_BA": 24,
+  "P_TS_union": 44,
+  "affine_dim": 13,
+  "facets": 64,
+  "classes_G_restricted_to_automorphisms": 3,
+  "G_automorphisms": 64,
+  "max_conditional_GYNI_eq8_found_on_mixtures": "227/390",
+  "eq8_violated_by_causally_separable_mixture": true,
+  "witness": [
+   "1/4",
+   "1/32",
+   "3/16",
+   "0",
+   "3/16",
+   "1/32",
+   "3/16",
+   "0",
+   "1/32",
+   "1/32",
+   "1/32",
+   "0",
+   "0",
+   "0",
+   "0",
+   "1/32"
+  ],
+  "linear_GYNI_max": "1/2",
+  "seconds": 0.45
+ },
+ "resources": {
+  "seconds_total": 22.06,
+  "max_rss_MB": 21.1
+ }
+}

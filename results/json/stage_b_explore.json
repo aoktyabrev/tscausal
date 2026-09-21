@@ -1,0 +1,790 @@
+{
+ "stage": "B-explore",
+ "preregistered": false,
+ "status": "РАЗВЕДКА: оболочка схем усечена по размерностям; классы ниже не являются результатом, если cumulative_extreme_points_AB не стабилизировалось",
+ "timestamp": "2026-09-21T13:15:12",
+ "reduction_calibration": {
+  "dA2_k1_dB2": {
+   "direct": 16,
+   "reduced": 16,
+   "equal": true
+  },
+  "dA2_k2_dB2": {
+   "direct": 17,
+   "reduced": 17,
+   "equal": true
+  },
+  "dA2_k4_dB2": {
+   "direct": 25,
+   "reduced": 25,
+   "equal": true
+  }
+ },
+ "circuits": {
+  "dA2_k1_dB2": {
+   "distinct": 16,
+   "new_vs_previous": 16,
+   "cumulative_extreme_points_AB": 10,
+   "cumulative_AB_hull_invariant_under_TRswap": true,
+   "all_inside_P_AB": true,
+   "P_AB_vertices_realized": 10,
+   "seconds": 0.0
+  },
+  "dA2_k2_dB2": {
+   "distinct": 17,
+   "new_vs_previous": 1,
+   "cumulative_extreme_points_AB": 10,
+   "cumulative_AB_hull_invariant_under_TRswap": true,
+   "all_inside_P_AB": true,
+   "P_AB_vertices_realized": 10,
+   "seconds": 0.0
+  },
+  "dA2_k4_dB2": {
+   "distinct": 25,
+   "new_vs_previous": 8,
+   "cumulative_extreme_points_AB": 10,
+   "cumulative_AB_hull_invariant_under_TRswap": true,
+   "all_inside_P_AB": true,
+   "P_AB_vertices_realized": 10,
+   "seconds": 0.1
+  },
+  "dA2_k2_dB4": {
+   "distinct": 45,
+   "new_vs_previous": 28,
+   "cumulative_extreme_points_AB": 10,
+   "cumulative_AB_hull_invariant_under_TRswap": true,
+   "all_inside_P_AB": true,
+   "P_AB_vertices_realized": 10,
+   "seconds": 0.1
+  },
+  "dA4_k1_dB2": {
+   "distinct": 45,
+   "new_vs_previous": 28,
+   "cumulative_extreme_points_AB": 10,
+   "cumulative_AB_hull_invariant_under_TRswap": true,
+   "all_inside_P_AB": true,
+   "P_AB_vertices_realized": 10,
+   "seconds": 0.1
+  },
+  "dA4_k1_dB4": {
+   "distinct": 169,
+   "new_vs_previous": 96,
+   "cumulative_extreme_points_AB": 58,
+   "cumulative_AB_hull_invariant_under_TRswap": true,
+   "all_inside_P_AB": true,
+   "P_AB_vertices_realized": 10,
+   "seconds": 1.3
+  },
+  "dA4_k2_dB2": {
+   "distinct": 79,
+   "new_vs_previous": 26,
+   "cumulative_extreme_points_AB": 58,
+   "cumulative_AB_hull_invariant_under_TRswap": true,
+   "all_inside_P_AB": true,
+   "P_AB_vertices_realized": 10,
+   "seconds": 0.8
+  },
+  "dA2_k4_dB4": {
+   "distinct": 79,
+   "new_vs_previous": 26,
+   "cumulative_extreme_points_AB": 58,
+   "cumulative_AB_hull_invariant_under_TRswap": true,
+   "all_inside_P_AB": true,
+   "P_AB_vertices_realized": 10,
+   "seconds": 14.8
+  }
+ },
+ "P_AB_vertices_realized_total": 10,
+ "P_AB_vertices_total": 18,
+ "P_TS_circ": {
+  "points_AB": 229,
+  "points_union": 417,
+  "affine_dim": 9,
+  "hull_same_as_Def_II": true,
+  "facets": 480,
+  "cdd_equals_lrs": true,
+  "generators_automorphisms": {
+   "swap": true,
+   "TR": true,
+   "flip_a": true,
+   "flip_b": true,
+   "flip_x": true,
+   "flip_y": true
+  },
+  "classes_G": 15,
+  "new_classes": 14,
+  "new_directional": 3,
+  "known_max": {
+   "GYNI": "1/2",
+   "LGYNI_fwd": "3/4",
+   "LGYNI_bwd": "3/4"
+  },
+  "known_face_dim(facet = dim-1)": {
+   "GYNI": 3,
+   "LGYNI_fwd": 6,
+   "LGYNI_bwd": 6
+  },
+  "classes": [
+   {
+    "size": 64,
+    "in_K": false,
+    "K_readings": [],
+    "directional": true,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 16,
+      "0010": 8,
+      "0011": 24,
+      "0100": 16,
+      "0101": 24,
+      "0110": 8,
+      "0111": 0,
+      "1000": 24,
+      "1001": 0,
+      "1010": 0,
+      "1011": 8,
+      "1100": 8,
+      "1101": 8,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "12.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 64,
+    "in_K": false,
+    "K_readings": [],
+    "directional": true,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 4,
+      "0011": 16,
+      "0100": 8,
+      "0101": 16,
+      "0110": 4,
+      "0111": 0,
+      "1000": 16,
+      "1001": 0,
+      "1010": 0,
+      "1011": 4,
+      "1100": 8,
+      "1101": 8,
+      "1110": 0,
+      "1111": 4
+     },
+     "rhs": "8.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 64,
+    "in_K": false,
+    "K_readings": [],
+    "directional": true,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 8,
+      "0011": 16,
+      "0100": 16,
+      "0101": 0,
+      "0110": 0,
+      "0111": 8,
+      "1000": 12,
+      "1001": 4,
+      "1010": 16,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 4,
+      "1111": 4
+     },
+     "rhs": "8.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 32,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 12,
+      "0010": 20,
+      "0011": 20,
+      "0100": 12,
+      "0101": 8,
+      "0110": 0,
+      "0111": 0,
+      "1000": 20,
+      "1001": 0,
+      "1010": 16,
+      "1011": 0,
+      "1100": 20,
+      "1101": 0,
+      "1110": 0,
+      "1111": 16
+     },
+     "rhs": "12.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 32,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 24,
+      "0011": 16,
+      "0100": 24,
+      "0101": 0,
+      "0110": 8,
+      "0111": 0,
+      "1000": 8,
+      "1001": 0,
+      "1010": 0,
+      "1011": 8,
+      "1100": 16,
+      "1101": 8,
+      "1110": 0,
+      "1111": 24
+     },
+     "rhs": "12.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 32,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 2,
+      "0011": 24,
+      "0100": 8,
+      "0101": 24,
+      "0110": 2,
+      "0111": 0,
+      "1000": 24,
+      "1001": 0,
+      "1010": 2,
+      "1011": 8,
+      "1100": 14,
+      "1101": 14,
+      "1110": 0,
+      "1111": 14
+     },
+     "rhs": "12.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 32,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 0,
+      "1001": 8,
+      "1010": 0,
+      "1011": 0,
+      "1100": 0,
+      "1101": 8,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 32,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 4,
+      "0011": 8,
+      "0100": 4,
+      "0101": 8,
+      "0110": 0,
+      "0111": 0,
+      "1000": 8,
+      "1001": 0,
+      "1010": 0,
+      "1011": 4,
+      "1100": 0,
+      "1101": 4,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 32,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 4,
+      "0010": 8,
+      "0011": 4,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 4,
+      "1001": 0,
+      "1010": 0,
+      "1011": 4,
+      "1100": 4,
+      "1101": 4,
+      "1110": 0,
+      "1111": 8
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 0,
+      "0011": 20,
+      "0100": 20,
+      "0101": 12,
+      "0110": 4,
+      "0111": 0,
+      "1000": 20,
+      "1001": 4,
+      "1010": 12,
+      "1011": 0,
+      "1100": 12,
+      "1101": 20,
+      "1110": 20,
+      "1111": 0
+     },
+     "rhs": "12.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 16,
+      "0011": 16,
+      "0100": 0,
+      "0101": 16,
+      "0110": 0,
+      "0111": 0,
+      "1000": 16,
+      "1001": 0,
+      "1010": 0,
+      "1011": 16,
+      "1100": 16,
+      "1101": 0,
+      "1110": 16,
+      "1111": 0
+     },
+     "rhs": "10.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": true,
+    "K_readings": [
+     "bwd",
+     "fwd"
+    ],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 8,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 8,
+      "1000": 0,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 8,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 5,
+      "0010": 5,
+      "0011": 7,
+      "0100": 5,
+      "0101": 6,
+      "0110": 2,
+      "0111": 0,
+      "1000": 5,
+      "1001": 2,
+      "1010": 6,
+      "1011": 0,
+      "1100": 7,
+      "1101": 0,
+      "1110": 0,
+      "1111": 6
+     },
+     "rhs": "4.5",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 1,
+      "0010": 1,
+      "0011": 6,
+      "0100": 7,
+      "0101": 4,
+      "0110": 0,
+      "0111": 1,
+      "1000": 7,
+      "1001": 0,
+      "1010": 4,
+      "1011": 1,
+      "1100": 2,
+      "1101": 7,
+      "1110": 7,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   }
+  ]
+ },
+ "classical_closure": {
+  "M_vertices": 38,
+  "AB_extreme_points": 26,
+  "AB_extreme_points_realized_by_truncated_search": 10,
+  "truncated_points_inside_closure": true,
+  "AB_closure_inside_Def_II_P_AB": true,
+  "Def_II_P_AB_vertices_in_closure": 10,
+  "TS_vertices": 48,
+  "affine_dim": 9,
+  "facets": 160,
+  "cdd_equals_lrs": true,
+  "all_valid": true,
+  "all_are_facets": true,
+  "generators_automorphisms": {
+   "swap": true,
+   "TR": true,
+   "flip_a": true,
+   "flip_b": true,
+   "flip_x": true,
+   "flip_y": true
+  },
+  "known_max": {
+   "GYNI": "1/2",
+   "LGYNI_fwd": "3/4",
+   "LGYNI_bwd": "3/4"
+  },
+  "known_face_dim(facet = dim-1)": {
+   "GYNI": 3,
+   "LGYNI_fwd": 6,
+   "LGYNI_bwd": 6
+  },
+  "classes_G": 7,
+  "new_classes": 6,
+  "new_directional": 0,
+  "classes": [
+   {
+    "size": 32,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 0,
+      "1001": 8,
+      "1010": 0,
+      "1011": 0,
+      "1100": 0,
+      "1101": 8,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 32,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 4,
+      "0011": 8,
+      "0100": 4,
+      "0101": 8,
+      "0110": 0,
+      "0111": 0,
+      "1000": 8,
+      "1001": 0,
+      "1010": 0,
+      "1011": 4,
+      "1100": 0,
+      "1101": 4,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 32,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 4,
+      "0010": 8,
+      "0011": 4,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 4,
+      "1001": 0,
+      "1010": 0,
+      "1011": 4,
+      "1100": 4,
+      "1101": 4,
+      "1110": 0,
+      "1111": 8
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": true,
+    "K_readings": [
+     "bwd",
+     "fwd"
+    ],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 8,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 0,
+      "1000": 8,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 0,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 0,
+      "0010": 8,
+      "0011": 8,
+      "0100": 8,
+      "0101": 0,
+      "0110": 0,
+      "0111": 8,
+      "1000": 0,
+      "1001": 0,
+      "1010": 0,
+      "1011": 0,
+      "1100": 8,
+      "1101": 0,
+      "1110": 8,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 5,
+      "0010": 5,
+      "0011": 7,
+      "0100": 5,
+      "0101": 6,
+      "0110": 2,
+      "0111": 0,
+      "1000": 5,
+      "1001": 2,
+      "1010": 6,
+      "1011": 0,
+      "1100": 7,
+      "1101": 0,
+      "1110": 0,
+      "1111": 6
+     },
+     "rhs": "4.5",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   },
+   {
+    "size": 16,
+    "in_K": false,
+    "K_readings": [],
+    "directional": false,
+    "nicest_form": {
+     "weights": {
+      "0000": 0,
+      "0001": 1,
+      "0010": 1,
+      "0011": 6,
+      "0100": 7,
+      "0101": 4,
+      "0110": 0,
+      "0111": 1,
+      "1000": 7,
+      "1001": 0,
+      "1010": 4,
+      "1011": 1,
+      "1100": 2,
+      "1101": 7,
+      "1110": 7,
+      "1111": 0
+     },
+     "rhs": "4.0",
+     "normalized_rhs(game value, weights/4)": null
+    }
+   }
+  ]
+ },
+ "seconds_total": 100.1
+}
