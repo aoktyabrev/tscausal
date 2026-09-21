@@ -181,3 +181,96 @@ LGYNI» в сценарии без настроек мы берём в форм�
 Итог: **F ← {(3), (5)}**, **B ← {(4), (6)}**. Ловушка терминологии: ур. (3) запрещает сигнал
 **назад** во времени (MH-16, MH-21), но выводится из **прямой** причинности. «F» здесь
 означает условия, следующие из прямой причинности, то есть временно-прямую картину B15/OCB.
+
+---
+
+## Stage C: формализм временно-симметричных процесс-матриц (MH24, Sec. 3–4) и OCB (B15, Sec. IV)
+
+**MH-22 (лаборатория: доход, исход, настройка), Sec. 1:**
+> In the TSOPT developed in \cite{Hardy:2021fqs}, an additional classical variable called an ``income''---the time-reversed counterpart of an outcome---is available before the operation is performed. An income may be interpreted as the initial state of a measuring apparatus or the initial value of a classical ancilla.
+>
+> An income is distinguished from a \emph{setting}, which is some classical information that the agent, Alice, has free choice to determine at the time of the operation, independent of any external influences.
+
+**MH-23 (u, v и процесс-матрица), Sec. 3.1:**
+> The classical variables $u$ ad $v$, which we call the \emph{pre-selection and post-selection variables}, represent information that is available before and after the experiment. The process matrix can be thought of as a generalization of a density matrix since it determines probabilities in an analogous way
+> p(a,b,x,y,u,v) = \Tr_{A_IA_OB_IB_O}[W_{u,v}^{A_IA_OB_IB_O}\cdot(M_{a,x}^{A_IA_O}\otimes M_{b,y}^{B_IB_O}) ].
+
+**MH-24 (положительность и нормировка), ур. (positiveW), (sumtoone), (Wcons1)–(Wcons4):**
+> W_{u,v}^{A_IA_OB_IB_O} \geq 0 \qquad \forall u,v.
+>
+> \sum_{u,v}\Tr_{A_IA_OB_IB_O}[W_{u,v}] &= d_Ad_B, [...] \sum_{u,v}{}_{B_IB_O[1-A_I][1-A_O]}W_{u,v}&=0, [...] \sum_{u,v}{}_{A_IA_O[1-B_I][1-B_O]}W_{u,v}&=0, [...] \sum_{u,v}{}_{[1-A_I][1-A_O][1-B_I][1-B_O]}W_{u,v}&=0.
+>
+> We adopt the notation of Ref.~\cite{Branciard_2016} to write ${}_{X}W \coloneq \frac{1}{d_X}\mathds{1}^X\otimes\Tr_X[W]$ as the ``trace part'' of an operator $W\in \mathcal{L}(\mathcal{H}^X)$. We also use ${}_{[1-X]}W \coloneq W - {}_{X}W$ to denote the ``traceless part'' of $W$.
+
+**MH-25 (без постселекции / без предселекции), ур. (vcons1)–(ucons3):**
+> Process matrices with the post-selection variable marginalized satisfy additional no-signalling constraints:
+> \sum_v {}_{A_I[1-B_O]}W_{u,v} &= 0, [...] \sum_v {}_{B_I[1-A_O]}W_{u,v} &= 0, [...] \sum_v {}_{[1-A_O]}{}_{[1-B_O]}W_{u,v}&=0.
+>
+> Similarly, there are three constraints for a process matrix with the pre-selection variable marginalized:
+> \sum_u {}_{A_O[1-B_I]}W_{u,v} &= 0, [...] \sum_u {}_{B_O[1-A_I]}W_{u,v} &= 0, [...] \sum_u {}_{[1-A_I]}{}_{[1-B_I]}W_{u,v}&=0.
+
+**MH-26 (общий вид процесса и свойства слагаемых), ур. (genproc), (sigmaops) и текст:**
+> The most general, physical bipartite process matrix can be written as a sum
+> W_{u,v}^{A_IA_OB_IB_O} = \frac{1}{d_Ad_B}\bigg(p_0(u,v)\mathbb{1}^{A_IA_OB_IB_O} + \sigma_{u,v}^{TS} + \sigma_{u,v}^{TF} + \sigma_{u,v}^{TB} + \sigma_{u,v}^{ISO} \bigg)
+>
+> This of course must satisfy $\sum_{u,v}p_0(u,v) = 1$.
+>
+> \sigma_{u,v}^{ISO} &= \sum_{ij>0}\bigg(s_{ij}\sigma_i^{A_I}\sigma_j^{B_O} + t_{ij}\sigma_i^{A_O}\sigma_j^{B_I}\bigg).
+>
+> \sum_u \sigma_{u,v}^{TS} = \sum_v\sigma_{u,v}^{TS} = 0, [...] \sum_u\sigma_{u,v}^{TF} = 0. [...] \sum_v\sigma_{u,v}^{TB} = 0.
+>
+> The final operator $\sigma_{u,v}^{ISO}$ represents terms which may be found in an isolated process, that is, one that does not require pre-selection or post-selection.
+
+**MH-27 (иерархия классов):**
+> A sub-class (TF) is formed by the time-forward processes---those that do not involve post-selection. These processes may contain terms from $\sigma_{u,v}^{TF}$ and $\sigma_{u,v}^{ISO}$ and coincide with the known set of bipartite process matrices studied by Oreshkov, Costa, and Brukner \cite{Oreshkov:2011er}. [...] Finally, the smallest sub-class (ISO) is formed by the isolated processes. These lie at the intersection of the time-forward and time-backward processes and contain terms only from $\sigma_{u,v}^{ISO}$.
+
+**MH-28 (TS-операция в базисе), Sec. 3.2:**
+> M^{X_IX_O} = \frac{1}{d_X}\bigg( \mathbb{1}^{X_IX_O} + \sum_{ij>0}\mathcal{X}_{ij}\sigma_i^{X_I}\sigma_j^{X_O}\bigg).
+
+**MH-29 (пример MH24: процесс, операции, значения), Sec. 4.1, ур. (exampleW), (aliceop), (bobop):**
+> W^{A_IA_OB_IB_O} = \frac{1}{4}\bigg[ \mathds{1}^{A_IA_OB_IB_O} + \frac{1}{\sqrt{2}}\bigg( \sigma_z^{A_O}\sigma_z^{B_I} + \sigma_z^{A_I}\sigma_x^{B_I}\sigma_z^{B_O}\bigg)\bigg],
+>
+> This process matrix requires pre-selection, but not post-selection.
+>
+> M^{A_IA_O}_{a,x} = \frac{1}{4}[\mathds{1}+(-1)^x\sigma_z]^{A_I}\otimes [\mathds{1}+(-1)^a\sigma_z]^{A_O}.
+>
+> M^{B_IB_O}_{b,y}[\beta] &= \frac{1}{2}\beta [\mathds{1}+(-1)^y\sigma_z]^{B_I}\otimes \mathds{1}^{B_O} \nonumber \\ &\qquad + \frac{1}{4}(\beta\oplus 1)[\mathds{1}+(-1)^y\sigma_x]^{B_I}\otimes [\mathds{1}+(-1)^{b+y}\sigma_z]^{B_O}.
+>
+> p_\text{LGYNI} = \frac{2+\sqrt{2}}{4} > \frac{3}{4} [...] \tilde{p}_\text{LGYNI} = \frac{1}{2} < \frac{3}{4},
+
+**MH-30 (обращение времени процесса):**
+> To take the time-reversal of a process matrix, one must swap operators on the following Hilbert spaces: $A_O \leftrightarrow B_I$ and $A_I \leftrightarrow B_O$.
+
+**B15-8 (OCB: инструменты, вероятности, допустимость W), Sec. IV A, ур. (eq:valid_instrument), (eq:probw), (eq:valid_W):**
+> M_{a|x}^{A_IA_O} \geq 0 \quad \forall \, a \mathand \tr_{A_O} \sum_a M_{a|x}^{A_IA_O} = \id^{A_I}
+>
+> p(a,b|x,y) = \tr\big[ (M_{a|x}^{A_IA_O} \otimes M_{b|y}^{B_IB_O}) \cdot W\big]
+>
+> W \ge 0 \, , [...] \tr W = d_{A_O} \, d_{B_O} \, , [...] {}_{B_IB_O}W = {}_{A_OB_IB_O}W \, , [...] {}_{A_IA_O}W = {}_{A_IA_OB_O}W \, , [...] W = {}_{B_O}W + {}_{A_O}W - {}_{A_OB_O}W \, ,
+
+**B15-9 (явный пример и see-saw-максимумы для кубитов), Sec. IV B и App. C:**
+> W = \frac{1}{4} \left[ \id^{\otimes 4} + \frac{Z^{A_I} Z^{A_O} Z^{B_I} \id^{B_O} + Z^{A_I} \id^{A_O} X^{B_I} X^{B_O}}{\sqrt{2}} \right] \, ,
+>
+> M_{0|0}^{A_IA_O} &= M_{0|0}^{B_IB_O} = 0 \, , [...] M_{1|0}^{A_IA_O} &= M_{1|0}^{B_IB_O} = 2 \, \proj{\Phi^+} \, , [...] M_{0|1}^{A_IA_O} &= M_{0|1}^{B_IB_O} = \proj{0} \otimes \proj{0} \, , [...] M_{1|1}^{A_IA_O} &= M_{1|1}^{B_IB_O} = \proj{1} \otimes \proj{0} \, ,
+>
+> p_{\text{GYNI}} &\, = \, \frac5{16}\Big(1+\frac1{\sqrt{2}}\Big) \, \approx \, 0.5335 [...] p_{\text{LGYNI}} &\, = \, \frac5{16}\Big(1+\frac1{\sqrt{2}}\Big) + \frac14 \, \approx \, 0.7835
+>
+> From our numerical results, we thus conjecture that the maximal violations of our causal inequalities achievable with qubit systems are
+> p_{\text{GYNI}}^{\text{max}, d=2} & \, \approx \, 0.5694 \, > \, \frac12 \,, \\ p_{\text{LGYNI}}^{\text{max}, d=2} & \, \approx \, 0.8194 \,=\, p_{\text{GYNI}}^{\text{max}, d=2} + \frac14 \, > \, \frac34 \,.
+>
+> our maximal probability $p_{\text{GYNI}}^{\text{max}, d=2}$ of winning the GYNI game with qubits is then found to be the smallest real root of the polynomial
+> 1\,769\,472 \,x^4 - 2\,884\,032 \,x^3 + 1\,630\,800 \,x^2 - 380\,052 \,x + 34\,087,
+
+(B15-9: see-saw — нижние оценки, авторы называют их гипотезой: «we thus conjecture».)
+
+### D5. Совместная вероятность в сценарии без настроек (вывод, не цитата)
+По MH-23 `p = Tr[W (M⊗M)]`, а по MH-1 для каждого дохода `Tr_{A_O} Σ_x M_{a,x} = 1^{A_I}`.
+Тогда при `Tr W = d_A d_B` сумма `Σ_{a,b,x,y} Tr[W(M⊗M)] = N_a N_b`, а не 1. Нормировку восстанавливает
+множитель R-боксов на проводах доходов (MH-2): `p(a,b,x,y) = (1/(N_a N_b)) Tr[W (M_{a,x}⊗M_{b,y})]`.
+Проверка: с этим множителем пример MH-29 должен дать `(2+√2)/4`. Это калибровка C.1.
+
+### D6. Лемма об изолированных процессах (вывод, не цитата; доказательство — в PREREGISTRATION_C.md)
+При маргинализованных `u, v` статистика задаётся матрицей `Σ_{u,v} W_{u,v}`. По MH-26 в ней
+обнуляются σ^TS, σ^TF и σ^TB и остаётся `(1/(d_A d_B))(1 + σ^ISO)`. σ^ISO содержит только
+двухчастичные члены типов `A_I B_O` и `A_O B_I`, и такая матрица — выпуклая смесь одностороннего
+канала A→B и одностороннего канала B→A.
