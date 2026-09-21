@@ -312,3 +312,52 @@ LGYNI» в сценарии без настроек мы берём в форм�
 этому соответствует множитель ¼: `|y⟩⟨y| ⊗ 1/2`, невязка 0. Значения игры от этого множителя не
 зависят (условная форма делит на p(a,b)), так что опечатка не влияет на числа статьи. Их числа
 воспроизводятся только при прочтении игры, отличном от напечатанных ур. (9) и (11) (Stage C, C.1.1).
+
+---
+
+## T3.0: три стороны (выгрузки — `sources/litcheck_T3/<id>/`)
+
+**BW16 (arXiv:1507.01714, Baumeler, Wolf, NJP 18, 013036), `arxiv.tex` стр. 1152 — процесс Лугано (Araújo–Feix):**
+> I_A=\bar O_BO_C\,,\quad I_B=O_A\bar O_C\,,\quad I_C=\bar O_AO_B
+
+**BW16, пример 2, стр. 1325–1337 — игра, граница, значение:**
+> p_\text{succ}^\text{ex2}=\frac{1}{2}(&\Pr(X=C,Y=A,Z=B\,|\,\mathrm{maj}(A,B,C)=0)\notag\\ +\Pr&(X=\bar B,Y=\bar C,Z=\bar A\,|\,\mathrm{maj}(A,B,C)=1))
+>
+> The success probability of winning this game in a world with a predefined causal order is upper bounded by~$3/4$.
+>
+> [...] can be won perfectly. The parties simply forward their inputs to the environment and use the bits obtained from the environment as the guesses.
+
+(В BW16 «input» A,B,C — свободные биты сторон; в нашем сценарии без настроек их роль играют доходы a,b,c, а «guesses» X,Y,Z — исходы x,y,z. Перенос — вывод D11.)
+
+**WBO23 (arXiv:2201.11832, Wechs, Branciard, Oreshkov), `main_OO.tex` стр. 391–397, ур. (eq:pm_bw) — обратимое (унитарное) расширение:**
+> It was then shown by Baumeler and Wolf~\cite{baumeler17} (cf. also Refs.~\cite{araujo17,araujo17a}) that $W_{\text{AF}}$ has a unitary extension $W_{\text{BW}} = \dketbra{U_{\text{BW}}}$, with
+> \dket{U_{\text{BW}}} &= \sum_{\substack{a_O b_O c_O\\p_1 p_2 p_3}} \ket{p_1,p_2,p_3}^{P_1 P_2 P_3} \otimes \ket{p_1 \oplus \neg b_O \land c_O, p_2 \oplus \neg c_O \land a_O, p_3 \oplus \neg a_O \land b_O}^{A_I B_I C_I} \notag \\[-4mm] &\hspace{75mm}\otimes \ket{a_O,b_O,c_O}^{A_OB_OC_O} \otimes \ket{a_O,b_O,c_O}^{F_1 F_2 F_3}
+>
+> $W_{\text{AF}}$ is recovered from $\dketbra{U_{\text{BW}}}$ when the global past party prepares the state $\ketbra{0,0,0}{0,0,0}^{P_1 P_2 P_3}$, and the global future party is traced out.
+
+
+**WBO23, стр. 235–244 — общее определение расширения:**
+> such that the original process matrix $W$ is recovered when $P$ prepares some fixed state and $F$ is traced out
+
+**BCRWZ19 (arXiv:1703.00779, Baumeler, Costa, Ralph, Wolf, Zych), `manuscript.tex` стр. 504–517 — согласованность при любом состоянии источника:**
+> which should be satisfied for every $f\in \mathcal{D}$ and $e\in \mathcal{O}_{\source}$. This is true because $f_R\circ T_R^{e_R}$ is a local operation and, as $w$ is a process function, a fixed point $o\in \mathcal{O}$ exists for every local operation.
+
+**BCRWZ19, стр. 241–250 — критерий допустимости детерминированного процесса:**
+> In other words, if $w$ is a process function, then $w\circ f$ has a fixed point for every local operation $f$. [...] Given a function $w:\mathcal{O}\rightarrow \mathcal{I}$ that satisfies condition~(fixedpoint), the fixed point of $w\circ f$ is unique for every set of local operations
+
+**BCRWZ19, стр. 280 — причинно упорядоченная функция процесса:**
+> A process function is compatible with such a structure if signalling is only possible from a region to its causal future. We call such a process function causally ordered.
+
+**ABCFGB15 (arXiv:1506.03776, Araújo et al.), стр. 1121–1123 — допустимость (OCB) для трёх сторон:**
+> L_V(W) = {}_{[1 - (1 - A_O + A_I A_O)(1 - B_O + B_I B_O)(1 - C_O + C_I C_O) + A_I A_O B_I B_O C_I C_O]} W
+
+### D10. Класс «без селекции» для N сторон (вывод, не цитата)
+MH24 дают только двусторонний случай. Там ISO = TF ∩ TB (MH-27), TF совпадает с OCB (MH-27), TB — обращение
+TF (MH-30: A_I↔A_O у обращённых операций; для класса — нормировка для обратных инструментов). Определяем
+ISO_N = {W: нормировка для всех прямых инструментов} ∩ {W: нормировка для всех обратных инструментов}.
+Калибровка: при N = 2 это должно дать ровно 19 базисных элементов Stage C.
+
+### D11. Игра BW16 в TS-сценарии (вывод)
+Доходы a,b,c равномерны (R-боксы, D1) и играют роль A,B,C из BW16; исходы x,y,z — роль X,Y,Z.
+Операции — TS (двойная причинность), классически — биекции (доход, вход) ↔ (исход, выход).
+Стратегия BW16 «forward inputs, use received bits as guesses» — это биекция (a, i) ↦ (x = i, o = a), она TS-допустима.
