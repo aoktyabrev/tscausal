@@ -1,0 +1,3897 @@
+{
+ "stage": "T3.1",
+ "timestamp": "2026-09-22T05:34:39",
+ "fast": false,
+ "n_causal_strategies": 138304,
+ "a_W3": {
+  "source": "1403.7333 стр. 276–286; 1507.01714 E_ex1",
+  "components": {
+   "r=0": {
+    "valid_process_function": false
+   },
+   "r=1": {
+    "valid_process_function": false
+   }
+  },
+  "consistent_all_local_functions": true,
+  "membership": {
+   "TF": true,
+   "TB": true,
+   "ISO": true
+  },
+  "separable_exact_cdd": false,
+  "distinct_correlations": 344,
+  "checked_until_first_outside": 37,
+  "outside_example": [
+   {
+    "ops_index": 1202,
+    "support_game_causal_bound": "1/2",
+    "W3_value": "1"
+   }
+  ]
+ },
+ "a_W_star_fine_tuning": [
+  {
+   "q": "1/4",
+   "membership": {
+    "TF": true,
+    "TB": false,
+    "ISO": false
+   }
+  },
+  {
+   "q": "2/5",
+   "membership": {
+    "TF": true,
+    "TB": false,
+    "ISO": false
+   }
+  },
+  {
+   "q": "1/2",
+   "membership": {
+    "TF": true,
+    "TB": true,
+    "ISO": true
+   }
+  },
+  {
+   "q": "3/5",
+   "membership": {
+    "TF": true,
+    "TB": false,
+    "ISO": false
+   }
+  },
+  {
+   "q": "3/4",
+   "membership": {
+    "TF": true,
+    "TB": false,
+    "ISO": false
+   }
+  }
+ ],
+ "b_games": {
+  "BW16": {
+   "quoted_causal_bound": "3/4",
+   "computed_causal_bound": "3/4",
+   "calibration_bound_matches": true,
+   "mirror_invariant": false,
+   "Lugano": {
+    "forward_strategy": "1",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   },
+   "mirror": {
+    "forward_strategy": "0",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   },
+   "W_star": {
+    "forward_strategy": "1/2",
+    "max_over_TS_ops": 0.5,
+    "violates": false
+   }
+  },
+  "I1": {
+   "quoted_causal_bound": "7/8",
+   "computed_causal_bound": "7/8",
+   "calibration_bound_matches": true,
+   "mirror_invariant": false,
+   "Lugano": {
+    "forward_strategy": "7/8",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   },
+   "mirror": {
+    "forward_strategy": "1",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   },
+   "W_star": {
+    "forward_strategy": "15/16",
+    "max_over_TS_ops": 0.9375,
+    "violates": true
+   }
+  },
+  "I2": {
+   "quoted_causal_bound": "7/8",
+   "computed_causal_bound": "7/8",
+   "calibration_bound_matches": true,
+   "mirror_invariant": false,
+   "Lugano": {
+    "forward_strategy": "7/8",
+    "max_over_TS_ops": 0.875,
+    "violates": false
+   },
+   "mirror": {
+    "forward_strategy": "5/8",
+    "max_over_TS_ops": 0.875,
+    "violates": false
+   },
+   "W_star": {
+    "forward_strategy": "3/4",
+    "max_over_TS_ops": 0.875,
+    "violates": false
+   }
+  },
+  "I3": {
+   "quoted_causal_bound": "7/8",
+   "computed_causal_bound": "7/8",
+   "calibration_bound_matches": true,
+   "mirror_invariant": false,
+   "Lugano": {
+    "forward_strategy": "1",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   },
+   "mirror": {
+    "forward_strategy": "1",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   },
+   "W_star": {
+    "forward_strategy": "1",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   }
+  },
+  "I4": {
+   "quoted_causal_bound": "3/4",
+   "computed_causal_bound": "3/4",
+   "calibration_bound_matches": true,
+   "mirror_invariant": false,
+   "Lugano": {
+    "forward_strategy": "5/8",
+    "max_over_TS_ops": 0.875,
+    "violates": true
+   },
+   "mirror": {
+    "forward_strategy": "7/8",
+    "max_over_TS_ops": 0.875,
+    "violates": true
+   },
+   "W_star": {
+    "forward_strategy": "3/4",
+    "max_over_TS_ops": 0.75,
+    "violates": false
+   }
+  },
+  "G*": {
+   "quoted_causal_bound": null,
+   "computed_causal_bound": "3/4",
+   "calibration_bound_matches": true,
+   "mirror_invariant": true,
+   "Lugano": {
+    "forward_strategy": "1",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   },
+   "mirror": {
+    "forward_strategy": "1",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   },
+   "W_star": {
+    "forward_strategy": "1",
+    "max_over_TS_ops": 1.0,
+    "violates": true
+   }
+  }
+ },
+ "c_group": {
+  "order": 768,
+  "stabilizer_of_Lugano": [
+   "fI=000,fO=000,π=012,T=0",
+   "fI=000,fO=000,π=120,T=0",
+   "fI=000,fO=000,π=201,T=0",
+   "fI=000,fO=111,π=021,T=0",
+   "fI=000,fO=111,π=102,T=0",
+   "fI=000,fO=111,π=210,T=0"
+  ],
+  "n_gL_process": 384,
+  "n_mix_in_TF": 384,
+  "n_mix_in_ISO": 6,
+  "n_working": 6,
+  "working": [
+   {
+    "g": "fI=111,fO=000,π=021,T=0",
+    "mixture_equals_W_star": true,
+    "process_certificate_exact": true,
+    "forward_correlation_outside": true
+   },
+   {
+    "g": "fI=111,fO=000,π=102,T=0",
+    "mixture_equals_W_star": true,
+    "process_certificate_exact": true,
+    "forward_correlation_outside": true
+   },
+   {
+    "g": "fI=111,fO=000,π=210,T=0",
+    "mixture_equals_W_star": true,
+    "process_certificate_exact": true,
+    "forward_correlation_outside": true
+   },
+   {
+    "g": "fI=111,fO=111,π=012,T=0",
+    "mixture_equals_W_star": true,
+    "process_certificate_exact": true,
+    "forward_correlation_outside": true
+   },
+   {
+    "g": "fI=111,fO=111,π=120,T=0",
+    "mixture_equals_W_star": true,
+    "process_certificate_exact": true,
+    "forward_correlation_outside": true
+   },
+   {
+    "g": "fI=111,fO=111,π=201,T=0",
+    "mixture_equals_W_star": true,
+    "process_certificate_exact": true,
+    "forward_correlation_outside": true
+   }
+  ],
+  "distinct_working_mixtures": 1,
+  "transpose_alone_in_ISO": false
+ },
+ "c_orbits": {
+  "cyclic_distinct": 373,
+  "n_ISO_nonseparable": 16,
+  "list": [
+   {
+    "generator": "fI=000,fO=000,π=012,T=0",
+    "orbit_size": 1,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=000,fO=000,π=012,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=000,π=021,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=000,fO=000,π=021,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=001,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=001,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=001,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=001,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=001,π=102,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=001,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=001,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=001,π=120,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=001,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=001,π=201,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=001,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=010,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=010,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=010,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=010,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=010,π=120,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=010,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=010,π=201,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=010,π=210,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=010,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=011,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=011,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=011,π=021,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=011,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=011,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=011,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=011,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=011,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=011,π=201,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=011,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=011,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=011,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=100,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=100,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=100,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=100,π=120,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=100,π=201,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=100,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=101,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=101,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=101,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=101,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=101,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=000,fO=101,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=101,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=101,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=110,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=110,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=110,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=110,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=110,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=110,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=000,fO=111,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=000,fO=111,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=000,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=000,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=000,π=102,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=000,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=000,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=000,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=001,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=001,π=012,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=001,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=001,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=001,π=102,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=001,π=102,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=001,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=001,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=001,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=001,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=001,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=001,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=010,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=010,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=010,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=010,π=021,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=010,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=010,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=010,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=010,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=010,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=010,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=010,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=010,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=011,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=011,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=011,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=011,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=011,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=011,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=011,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=011,π=120,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=011,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=011,π=201,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=011,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=011,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=100,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=100,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=100,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=100,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=100,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=100,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=100,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=100,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=100,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=100,π=210,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=101,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=101,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=101,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=101,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=101,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=101,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=101,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=101,π=201,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=101,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=001,fO=101,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=110,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=110,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=110,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=110,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=110,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=110,π=120,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=110,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=110,π=201,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=110,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=110,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=111,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=111,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=111,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=111,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=111,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=111,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=111,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=111,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=001,fO=111,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=001,fO=111,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=000,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=000,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=000,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=000,π=210,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=001,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=001,π=021,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=001,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=001,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=001,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=001,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=001,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=001,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=010,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=010,π=012,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=010,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=010,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=010,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=010,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=010,π=210,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=010,π=210,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=011,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=011,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=011,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=011,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=011,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=011,π=120,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=011,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=011,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=011,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=100,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=100,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=100,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=100,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=100,π=102,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=100,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=101,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=101,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=101,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=101,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=101,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=101,π=201,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=101,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=110,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=110,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=110,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=110,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=110,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=110,π=120,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=110,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=010,fO=110,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=111,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=111,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=111,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=111,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=111,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=111,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=010,fO=111,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=010,fO=111,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=000,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=000,π=021,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=000,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=000,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=000,π=201,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=000,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=001,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=001,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=011,fO=001,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=001,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=001,π=120,T=1",
+    "orbit_size": 12,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=011,fO=001,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=001,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=001,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=010,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=010,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=010,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=010,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=010,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=010,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=011,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=011,π=012,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=011,π=021,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=011,π=021,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=011,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=011,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=011,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=011,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=011,π=201,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=011,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=011,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=011,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=100,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=011,fO=100,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=011,fO=100,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=100,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=100,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=101,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=101,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=101,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=011,fO=101,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=101,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=101,π=102,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=101,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=101,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=101,π=201,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=101,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=101,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=101,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=110,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=110,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=110,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=110,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=110,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=110,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=110,π=201,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=110,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=110,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=110,π=210,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=111,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=111,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=111,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=111,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=011,fO=111,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=111,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=011,fO=111,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=000,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=100,fO=000,π=021,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=100,fO=001,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=100,fO=001,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=100,fO=001,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=001,π=210,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=010,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=100,fO=010,π=102,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=011,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=100,fO=011,π=021,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=100,fO=011,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=011,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=100,π=012,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=100,π=021,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=101,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=100,fO=101,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=101,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=100,fO=101,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=101,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=110,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=100,fO=110,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=110,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=110,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=111,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=111,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=111,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=111,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=111,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=100,fO=111,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=000,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=000,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=000,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=000,π=210,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=001,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=001,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=001,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=001,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=101,fO=010,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=010,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=010,π=210,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=011,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=011,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=011,π=102,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=011,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=011,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=011,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=011,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=101,fO=011,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=100,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=100,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=100,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=101,π=012,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=101,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=101,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=101,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=101,π=120,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=101,π=210,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=110,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=110,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=110,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=110,π=021,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=110,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=110,π=120,T=0",
+    "orbit_size": 3,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=111,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=111,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=111,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=101,fO=111,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=101,fO=111,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=110,fO=000,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=110,fO=000,π=102,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=110,fO=001,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=110,fO=001,π=102,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=110,fO=010,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=110,fO=010,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=110,fO=011,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=110,fO=011,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=110,fO=011,π=201,T=1",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=110,fO=011,π=210,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=110,fO=100,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=110,fO=101,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=110,fO=101,π=021,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=110,fO=110,π=012,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=110,fO=110,π=102,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=110,fO=111,π=012,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=110,fO=111,π=021,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=110,fO=111,π=102,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=110,fO=111,π=210,T=1",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=111,fO=000,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=111,fO=000,π=021,T=0",
+    "orbit_size": 2,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "generator": "fI=111,fO=001,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=111,fO=001,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=001,π=102,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=111,fO=001,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=001,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=001,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=010,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=111,fO=010,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=010,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=010,π=210,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=111,fO=011,π=012,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=111,fO=011,π=021,T=0",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "generator": "fI=111,fO=011,π=102,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=011,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=011,π=201,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=011,π=210,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=101,π=021,T=0",
+    "orbit_size": 4,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=101,π=120,T=0",
+    "orbit_size": 6,
+    "ISO": false,
+    "separable": true
+   },
+   {
+    "generator": "fI=111,fO=111,π=012,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "generator": "fI=111,fO=111,π=021,T=1",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": null
+   },
+   {
+    "subgroup": "Z2^6 (все инверсии)",
+    "orbit_size": 64,
+    "ISO": true,
+    "separable": true
+   },
+   {
+    "subgroup": "S3 (перестановки)",
+    "orbit_size": 2,
+    "ISO": false,
+    "separable": false
+   },
+   {
+    "subgroup": "полная инверсия {1, inv}",
+    "orbit_size": 2,
+    "ISO": true,
+    "separable": false
+   },
+   {
+    "subgroup": "диагональные инверсии (fI = fO)",
+    "orbit_size": 8,
+    "ISO": true,
+    "separable": true
+   }
+  ]
+ },
+ "d_enumeration": {
+  "candidates": 4096,
+  "valid": 744,
+  "causal_among_valid": 680,
+  "noncausal": 64,
+  "own_dependence_valid_in_random_sample_of_300": 0,
+  "classes_under_Z2^6xS3": [
+   {
+    "rep": [
+     "000",
+     "000",
+     "001",
+     "101",
+     "011",
+     "001",
+     "011",
+     "101"
+    ],
+    "size": 64,
+    "contains_lugano": true
+   }
+  ],
+  "n_symmetrizable": 64,
+  "symmetrizable": [
+   {
+    "process": [
+     "000",
+     "000",
+     "001",
+     "101",
+     "011",
+     "001",
+     "011",
+     "101"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=100,π=201,T=0",
+     "fI=100,fO=001,π=120,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "001",
+     "001",
+     "000",
+     "100",
+     "010",
+     "000",
+     "010",
+     "100"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=001,π=120,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=100,π=201,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "000",
+     "010",
+     "000",
+     "110",
+     "011",
+     "011",
+     "010",
+     "110"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=100,π=120,T=0",
+     "fI=100,fO=010,π=201,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "001",
+     "011",
+     "001",
+     "111",
+     "010",
+     "010",
+     "011",
+     "111"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=010,π=201,T=0",
+     "fI=010,fO=100,π=120,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "010",
+     "000",
+     "010",
+     "100",
+     "001",
+     "001",
+     "000",
+     "100"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=010,π=201,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=100,π=120,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "011",
+     "001",
+     "011",
+     "101",
+     "000",
+     "000",
+     "001",
+     "101"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=010,π=201,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=100,fO=100,π=120,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "010",
+     "010",
+     "011",
+     "111",
+     "001",
+     "011",
+     "001",
+     "111"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=100,π=201,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=001,π=120,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "011",
+     "011",
+     "010",
+     "110",
+     "000",
+     "010",
+     "000",
+     "110"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=001,π=120,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=100,fO=100,π=201,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "000",
+     "000",
+     "101",
+     "001",
+     "001",
+     "011",
+     "101",
+     "011"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=001,π=201,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=010,π=120,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "001",
+     "001",
+     "100",
+     "000",
+     "000",
+     "010",
+     "100",
+     "010"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=001,π=201,T=0",
+     "fI=111,fO=010,π=120,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "000",
+     "010",
+     "100",
+     "010",
+     "001",
+     "001",
+     "100",
+     "000"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0",
+     "fI=111,fO=111,π=120,T=0",
+     "fI=111,fO=111,π=201,T=0"
+    ]
+   },
+   {
+    "process": [
+     "001",
+     "011",
+     "101",
+     "011",
+     "000",
+     "000",
+     "101",
+     "001"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=111,π=201,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=111,π=120,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "010",
+     "000",
+     "110",
+     "000",
+     "011",
+     "011",
+     "110",
+     "010"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=111,π=120,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=111,π=201,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "011",
+     "001",
+     "111",
+     "001",
+     "010",
+     "010",
+     "111",
+     "011"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=111,π=201,T=0",
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=111,π=120,T=0",
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "010",
+     "010",
+     "111",
+     "011",
+     "011",
+     "001",
+     "111",
+     "001"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=001,π=201,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=010,fO=010,π=120,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "011",
+     "011",
+     "110",
+     "010",
+     "010",
+     "000",
+     "110",
+     "000"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=010,π=120,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=001,π=201,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "000",
+     "100",
+     "001",
+     "001",
+     "010",
+     "100",
+     "010",
+     "000"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0",
+     "fI=111,fO=111,π=120,T=0",
+     "fI=111,fO=111,π=201,T=0"
+    ]
+   },
+   {
+    "process": [
+     "001",
+     "101",
+     "000",
+     "000",
+     "011",
+     "101",
+     "011",
+     "001"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=111,π=201,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=111,π=120,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "000",
+     "110",
+     "000",
+     "010",
+     "010",
+     "110",
+     "011",
+     "011"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=010,π=120,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=001,π=201,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "001",
+     "111",
+     "001",
+     "011",
+     "011",
+     "111",
+     "010",
+     "010"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=001,π=201,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=010,fO=010,π=120,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "010",
+     "100",
+     "010",
+     "000",
+     "000",
+     "100",
+     "001",
+     "001"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=001,π=201,T=0",
+     "fI=111,fO=010,π=120,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "011",
+     "101",
+     "011",
+     "001",
+     "001",
+     "101",
+     "000",
+     "000"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=001,π=201,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=010,π=120,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "010",
+     "110",
+     "011",
+     "011",
+     "000",
+     "110",
+     "000",
+     "010"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=111,π=120,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=111,π=201,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "011",
+     "111",
+     "010",
+     "010",
+     "001",
+     "111",
+     "001",
+     "011"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=111,π=201,T=0",
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=111,π=120,T=0",
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "000",
+     "100",
+     "101",
+     "101",
+     "000",
+     "110",
+     "100",
+     "110"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=010,π=201,T=0",
+     "fI=010,fO=100,π=120,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "001",
+     "101",
+     "100",
+     "100",
+     "001",
+     "111",
+     "101",
+     "111"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=100,π=120,T=0",
+     "fI=100,fO=010,π=201,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "000",
+     "110",
+     "100",
+     "110",
+     "000",
+     "100",
+     "101",
+     "101"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=100,π=201,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=001,π=120,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "001",
+     "111",
+     "101",
+     "111",
+     "001",
+     "101",
+     "100",
+     "100"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=001,π=120,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=100,fO=100,π=201,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "010",
+     "100",
+     "110",
+     "100",
+     "010",
+     "110",
+     "111",
+     "111"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=100,π=201,T=0",
+     "fI=100,fO=001,π=120,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "011",
+     "101",
+     "111",
+     "101",
+     "011",
+     "111",
+     "110",
+     "110"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=001,π=120,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=100,π=201,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "010",
+     "110",
+     "111",
+     "111",
+     "010",
+     "100",
+     "110",
+     "100"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=010,π=201,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=100,fO=100,π=120,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "011",
+     "111",
+     "110",
+     "110",
+     "011",
+     "101",
+     "111",
+     "101"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=010,π=201,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=100,π=120,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "100",
+     "000",
+     "001",
+     "001",
+     "100",
+     "010",
+     "000",
+     "010"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=010,π=201,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=100,π=120,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "101",
+     "001",
+     "000",
+     "000",
+     "101",
+     "011",
+     "001",
+     "011"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=010,π=201,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=100,fO=100,π=120,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "100",
+     "010",
+     "000",
+     "010",
+     "100",
+     "000",
+     "001",
+     "001"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=001,π=120,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=100,π=201,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "101",
+     "011",
+     "001",
+     "011",
+     "101",
+     "001",
+     "000",
+     "000"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=100,π=201,T=0",
+     "fI=100,fO=001,π=120,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "110",
+     "000",
+     "010",
+     "000",
+     "110",
+     "010",
+     "011",
+     "011"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=001,π=120,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=100,fO=100,π=201,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "111",
+     "001",
+     "011",
+     "001",
+     "111",
+     "011",
+     "010",
+     "010"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=100,π=201,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=001,π=120,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "110",
+     "010",
+     "011",
+     "011",
+     "110",
+     "000",
+     "010",
+     "000"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=100,π=120,T=0",
+     "fI=100,fO=010,π=201,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "111",
+     "011",
+     "010",
+     "010",
+     "111",
+     "001",
+     "011",
+     "001"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=010,π=201,T=0",
+     "fI=010,fO=100,π=120,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "100",
+     "000",
+     "101",
+     "101",
+     "110",
+     "000",
+     "110",
+     "100"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=111,π=201,T=0",
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=111,π=120,T=0",
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "101",
+     "001",
+     "100",
+     "100",
+     "111",
+     "001",
+     "111",
+     "101"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=111,π=120,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=111,π=201,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "100",
+     "010",
+     "100",
+     "110",
+     "110",
+     "010",
+     "111",
+     "111"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=001,π=201,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=010,π=120,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "101",
+     "011",
+     "101",
+     "111",
+     "111",
+     "011",
+     "110",
+     "110"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=001,π=201,T=0",
+     "fI=111,fO=010,π=120,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "110",
+     "000",
+     "110",
+     "100",
+     "100",
+     "000",
+     "101",
+     "101"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=001,π=201,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=010,fO=010,π=120,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "111",
+     "001",
+     "111",
+     "101",
+     "101",
+     "001",
+     "100",
+     "100"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=010,π=120,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=001,π=201,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "110",
+     "010",
+     "111",
+     "111",
+     "100",
+     "010",
+     "100",
+     "110"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=111,π=201,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=111,π=120,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "111",
+     "011",
+     "110",
+     "110",
+     "101",
+     "011",
+     "101",
+     "111"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0",
+     "fI=111,fO=111,π=120,T=0",
+     "fI=111,fO=111,π=201,T=0"
+    ]
+   },
+   {
+    "process": [
+     "100",
+     "100",
+     "001",
+     "101",
+     "101",
+     "111",
+     "001",
+     "111"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=010,π=120,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=001,π=201,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "101",
+     "101",
+     "000",
+     "100",
+     "100",
+     "110",
+     "000",
+     "110"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=001,π=201,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=010,fO=010,π=120,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "100",
+     "110",
+     "000",
+     "110",
+     "101",
+     "101",
+     "000",
+     "100"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=111,π=201,T=0",
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=111,π=120,T=0",
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "101",
+     "111",
+     "001",
+     "111",
+     "100",
+     "100",
+     "001",
+     "101"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=111,π=120,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=111,π=201,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "110",
+     "100",
+     "010",
+     "100",
+     "111",
+     "111",
+     "010",
+     "110"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=111,π=201,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=111,π=120,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "111",
+     "101",
+     "011",
+     "101",
+     "110",
+     "110",
+     "011",
+     "111"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0",
+     "fI=111,fO=111,π=120,T=0",
+     "fI=111,fO=111,π=201,T=0"
+    ]
+   },
+   {
+    "process": [
+     "110",
+     "110",
+     "011",
+     "111",
+     "111",
+     "101",
+     "011",
+     "101"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=021,T=0",
+     "fI=111,fO=001,π=201,T=0",
+     "fI=111,fO=010,π=120,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "111",
+     "111",
+     "010",
+     "110",
+     "110",
+     "100",
+     "010",
+     "100"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=001,π=201,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=100,fO=000,π=021,T=0",
+     "fI=100,fO=010,π=120,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "100",
+     "100",
+     "101",
+     "001",
+     "111",
+     "101",
+     "111",
+     "001"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=001,π=120,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=100,fO=100,π=201,T=0",
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "101",
+     "101",
+     "100",
+     "000",
+     "110",
+     "100",
+     "110",
+     "000"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=100,π=201,T=0",
+     "fI=001,fO=110,π=102,T=0",
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=001,π=120,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "100",
+     "110",
+     "100",
+     "010",
+     "111",
+     "111",
+     "110",
+     "010"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=010,π=201,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=100,fO=100,π=120,T=0",
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "101",
+     "111",
+     "101",
+     "011",
+     "110",
+     "110",
+     "111",
+     "011"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=102,T=0",
+     "fI=111,fO=010,π=201,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=100,π=120,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "110",
+     "100",
+     "110",
+     "000",
+     "101",
+     "101",
+     "100",
+     "000"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=010,π=201,T=0",
+     "fI=010,fO=100,π=120,T=0",
+     "fI=010,fO=101,π=210,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "111",
+     "101",
+     "111",
+     "001",
+     "100",
+     "100",
+     "101",
+     "001"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=001,fO=000,π=102,T=0",
+     "fI=001,fO=100,π=120,T=0",
+     "fI=100,fO=010,π=201,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=111,fO=101,π=210,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "110",
+     "110",
+     "111",
+     "011",
+     "101",
+     "111",
+     "101",
+     "011"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=111,fO=000,π=210,T=0",
+     "fI=111,fO=001,π=120,T=0",
+     "fI=111,fO=011,π=021,T=0",
+     "fI=111,fO=100,π=201,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   },
+   {
+    "process": [
+     "111",
+     "111",
+     "110",
+     "010",
+     "100",
+     "110",
+     "100",
+     "010"
+    ],
+    "n_working_g": 6,
+    "working_g": [
+     "fI=010,fO=000,π=210,T=0",
+     "fI=010,fO=100,π=201,T=0",
+     "fI=100,fO=001,π=120,T=0",
+     "fI=100,fO=011,π=021,T=0",
+     "fI=111,fO=110,π=102,T=0",
+     "fI=111,fO=111,π=012,T=0"
+    ]
+   }
+  ]
+ },
+ "seconds": 82.2
+}

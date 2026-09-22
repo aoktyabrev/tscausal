@@ -361,3 +361,52 @@ ISO_N = {W: нормировка для всех прямых инструмен
 Доходы a,b,c равномерны (R-боксы, D1) и играют роль A,B,C из BW16; исходы x,y,z — роль X,Y,Z.
 Операции — TS (двойная причинность), классически — биекции (доход, вход) ↔ (исход, выход).
 Стратегия BW16 «forward inputs, use received bits as guesses» — это биекция (a, i) ↦ (x = i, o = a), она TS-допустима.
+
+---
+
+## T3.1: литчек новизны W* (выгрузки — `sources/litcheck_T31/<id>/`)
+
+**SD26 (arXiv:2502.15579, Steffinlongo, Dourdent, «Simulating Noncausality with Quantum Control of Causal Orders», PRR 8, 013127 (2026)), `main.tex` стр. 420–424 — «без глобального прошлого» как свойство функции:**
+> Let us consider the special case of process functions \textit{without global past},  where each party can receive a signal from at least one other party,
+> \forall i, \exists k, \bm{a}_{\backslash i}\in\{0,1\}^{N-1}: w_i(\bm{a}_{\backslash i})\neq w_i(\bm{a}_{\backslash i}^{(k)})
+> [...] The Lugano process Eq.~\eqref{eq:lugano} is an example of such a Boolean process function without global past.
+
+(Это свойство функции: вход ни одной стороны не константа. О состоянии системы глобального прошлого P оно ничего не говорит; в их конструкции P фиксировано в |0⟩. С нашим ISO₃ не совпадает.)
+
+**GB18 (arXiv:1805.12429, Guérin, Brukner, «Observer-dependent locality of quantum events»), `main_text.tex` стр. 594, 609 — обращённый Лугано, равномерная суперпозиция в P, квантовое нарушение:**
+> A simple choice of input state is the uniform superposition $|\psi\rangle^P = \frac{1}{2\sqrt{2}}\sum_\mathbf{u} |\mathbf{u}\rangle$, which yields
+>
+> The value of the violation that we obtain is $I_1 \approx -\frac{1}{4}$.
+
+(Чистая равномерная суперпозиция, а не максимально смешанное состояние; нарушение только квантовыми инструментами. Ближайшая квантовая работа — цитировать.)
+
+**BFW14 (arXiv:1403.7333, Baumeler, Feix, Wolf, PRA 90, 042106), `arxiv.tex` стр. 276–286 — W₃, смесь двух петель:**
+> \frac{1}{2},&\text{$i_0=o_2$,~$i_1=o_0$,~$i_2=o_1$,}\\ \frac{1}{2},&\text{$i_0=\bar o_2$,~$i_1=\bar o_0$, $i_2=\bar o_1$,}\\
+>
+> Therefore,~$W_3$ implements a uniform mixture of the loops where the input of party~\mbox{$S_{i\bmod 3}$} is sent to party~\mbox{$S_{i+1\bmod 3}$}, and where the input of party~\mbox{$S_{i\bmod 3}$} is flipped and sent to~\mbox{$S_{i+1\bmod 3}$}
+
+**BW16 (1507.01714), стр. 1269 — та же точка (E_ex1):**
+> This extremal point is a {\em proper mixture\/} of logically inconsistent processes, as it cannot be written as a convex combination of deterministic points from within the polytope
+
+**AGB17 (arXiv:1706.09854, Araújo, Guérin, Baumeler, PRA 96, 052315), `complexity.tex` стр. 334 — N-стороннее обобщение Лугано:**
+> f(x)_k = x_{k\ominus1} \land \de{\bigwedge_{l=1}^{n-2} \lnot x_{k\oplus l} },
+
+**TC20 (arXiv:2001.02511, Tobar, Costa), `main.tex` стр. 338–343 — явный четырёхсторонний вид:**
+> a_1 = x_4(x_2 \oplus 1)(x_3 \oplus 1) \\ a_2 = x_1(x_4 \oplus 1)(x_3 \oplus 1) \\ a_3 = x_2(x_1 \oplus 1)(x_4 \oplus 1) \\ a_4 = x_3(x_2 \oplus 1)(x_1 \oplus 1).
+
+**BW21 (arXiv:2104.06234), `manuscript.tex` стр. 549 — вложение смесей в обратимые функции:**
+> Moreover, from Ref.~\cite{Baumeler2016fp} it is known that every process function and every mixture of process functions is embeddable into a {\em reversible\/} process function with two additional parties:
+
+**ABCFGB16 / Abbott et al. (1608.01528), `Npartite_causal_polytopes.tex` стр. 478 — внешняя сверка числа стратегий:**
+> For example, the polytope for the `complete binary' tripartite case where binary outputs are allowed for both inputs, has $138\,304$ vertices and is 56-dimensional.
+
+**Abbott et al., стр. 433–470, 486–494 — неравенства I₁–I₄ и их игровые формы** (используются в T3.1.b):
+> I_1 =&\, P_{AB}(11|110) + P_{BC}(11|011) \notag \\ &+ P_{AC}(11|101) - P_{ABC}(111|111) \ \ge \ 0
+>
+> & P\big(xy(ab \oplus z) = yz(bc \oplus x) \notag \\ &\hspace{18mm} =xz(ac \oplus y)=0\big) \ \le \ 7/8
+>
+> I_4=\,& 2 - P_{ABC}(000|000)  - P_{ABC}(011|110) \notag \\ & \quad  - P_{ABC}(101|011) - P_{ABC}(110|101) \ \ge \ 0
+>
+> P\big( (x\!\oplus\! y \!\oplus\! z \!\oplus\! 1)(&(b\!\oplus\! x\!\oplus\! 1)(c \!\oplus\! y\!\oplus\! 1) \notag \\ &  \times(a \!\oplus\! z\!\oplus\! 1)\!\oplus\! 1)=0\big) \le \ 3/4
+
+(Формы I₂, I₃ — там же, стр. 440–470. Условие «вход стороны не зависит от её собственного выхода» — TC20 стр. 155–157: «each component of a process function w has to be independent of the output of the same region».)
