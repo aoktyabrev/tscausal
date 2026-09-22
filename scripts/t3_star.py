@@ -1,0 +1,223 @@
+"""
+T3.0 — РАЗВЕДКА (не предрегистрирована): процесс W* = ½(ω_L + ω̄_L), ω̄_L(o) = ¬ω_L(¬o).
+Найден в T.1(в) (последнее однобитовое расширение) и в T.2 (оптимум LP): ∈ ISO_3 и причинно неразделим.
+1) точный сертификат неразделимости (разделяющая гиперплоскость, проверка в Fraction);
+2) уровень корреляций: для всех различных p(xyz|abc), порождаемых W* и тройками TS-биекций, — принадлежность
+   трёхстороннему причинному многограннику (детерминированные стратегии с динамическим порядком, Abbott et al.);
+   для внешних точек — точный сертификат (неравенство) и его значение.
+Результат: results/json/t3_star.json.
+"""
+import itertools
+import json
+import os
+import sys
+import time
+from fractions import Fraction
+
+import numpy as np
+from scipy.optimize import linprog
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import polytope as P  # noqa: E402
+import t3_classical as TC  # noqa: E402
+
+F_ = Fraction
+BITS3 = TC.BITS3
+IDX = TC.IDX
+
+
+OPS = list(itertools.product(TC.PERMS, repeat=3))
+
+
+def omega_bar(o):
+    return tuple(1 - v for v in TC.lugano(tuple(1 - u for u in o)))
+
+
+def star_T():
+    return (TC.det_T(TC.lugano) + TC.det_T(omega_bar)) / 2
+
+
+def certificate(target, points, exact_points):
+    """LP: max c·target − t при c·x_k ≤ t, −1 ≤ c ≤ 1. >0 → вне оболочки. Проверка c (рационализованного) точно."""
+    X = np.array(points, float)
+    n, dim = X.shape
+    # переменные: c (dim), t
+    obj = np.concatenate([-np.array(target, float), [1.0]])
+    A_ub = np.hstack([X, -np.ones((n, 1))])
+    r = linprog(obj, A_ub=A_ub, b_ub=np.zeros(n), bounds=[(-1, 1)] * dim + [(None, None)], method="highs")
+    if r.status != 0:
+        return None
+    gap = -r.fun
+    if gap <= 1e-9:
+        return {"outside": False, "float_gap": gap}
+    c = [F_(v).limit_denominator(1000) for v in r.x[:dim]]
+    tgt = sum(ci * F_(x) for ci, x in zip(c, target))
+    mx = max(sum(ci * F_(x) for ci, x in zip(c, pt)) for pt in exact_points)
+    return {"outside": tgt > mx, "float_gap": gap, "exact_value_target": str(tgt), "exact_max_causal": str(mx),
+            "coefficients": [str(v) for v in c]}
+
+
+def causal_strategies():
+    """Детерминированные причинные стратегии p(x,y,z|a,b,c) (3 стороны, бинарные входы/выходы, динамический порядок):
+    первая сторона X: выход — функция своего входа; вторая Y выбирается по входу X; выход Y — функция (вход Y, вход X);
+    третья Z — выход функция всех трёх входов."""
+    funcs1 = list(itertools.product((0, 1), repeat=2))
+    out = set()
+    for X in range(3):
+        rest = [k for k in range(3) if k != X]
+        for fX in funcs1:
+            branch = []
+            for aX in (0, 1):
+                opts = []
+                for Y in rest:
+                    Z = [k for k in rest if k != Y][0]
+                    for fY in funcs1:                       # выход Y при данном aX как функция aY
+                        for fZ in itertools.product((0, 1), repeat=4):   # выход Z как функция (aY, aZ) при данном aX
+                            opts.append((Y, Z, fY, fZ))
+                branch.append(opts)
+            for b0 in branch[0]:
+                for b1 in branch[1]:
+                    table = []
+                    for inc in BITS3:
+                        Y, Z, fY, fZ = (b0, b1)[inc[X]]
+                        o = [0, 0, 0]
+                        o[X] = fX[inc[X]]
+                        o[Y] = fY[inc[Y]]
+                        o[Z] = fZ[2 * inc[Y] + inc[Z]]
+                        table.append(tuple(o))
+                    out.add(tuple(table))
+    return out
+
+
+def corr_vector(table):
+    v = [0] * 64
+    for k, inc in enumerate(BITS3):
+        v[k * 8 + IDX[table[k]]] = 1
+    return v
+
+
+def correlations(T, n):
+    """p(outs|incomes) для тройки TS-биекций n: p = Σ_i T(i | f(i)) [исходы]."""
+    pA, pB, pC = OPS[n]
+    p = [F_(0)] * 64
+    for k, inc in enumerate(BITS3):
+        for i in BITS3:
+            outs, outcomes = [], []
+            for perm, inc_x, i_x in zip((pA, pB, pC), inc, i):
+                q = perm[2 * inc_x + i_x]
+                outcomes.append(q >> 1)
+                outs.append(q & 1)
+            p[k * 8 + IDX[tuple(outcomes)]] += T[IDX[i], IDX[tuple(outs)]]
+    return p
+
+
+def main():
+    t0 = time.time()
+    out = {"stage": "T3.0 разведка: W*", "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S")}
+    T = star_T()
+    ok = all(sum(T[i, o] for i in range(8)) == 1 for o in range(8))
+    # логическая согласованность для всех детерминированных локальных функций: Σ_i T(i|f(i)) = 1
+    cons = all(sum(T[IDX[i], IDX[(fA[i[0]], fB[i[1]], fC[i[2]])]] for i in BITS3) == 1
+               for fA, fB, fC in itertools.product(TC.LOCAL_F, repeat=3))
+    out["W_star"] = {"columns_normalized": ok, "consistent_all_local_functions": cons,
+                     "membership": TC.membership(T), "omega_bar_valid": TC.valid_det(omega_bar),
+                     "T": [[str(T[i, o]) for o in range(8)] for i in range(8)]}
+    # 1) сертификат неразделимости процесса
+    ctab = TC.causal_functions()
+    cT = [TC.det_T(lambda o, t=t: t[o]) for t in ctab]
+    pts = [[float(Tk[i, o]) for i in range(8) for o in range(8)] for Tk in cT]
+    ex = [[Tk[i, o] for i in range(8) for o in range(8)] for Tk in cT]
+    tgt = [T[i, o] for i in range(8) for o in range(8)]
+    out["process_certificate"] = certificate(tgt, pts, ex)
+    out["process_separable_cdd"] = TC.separable(T, cT)
+    # 2) уровень корреляций
+    print("причинные стратегии…", flush=True)
+    strat = causal_strategies()
+    S = [corr_vector(t) for t in strat]
+    out["n_causal_strategies"] = len(S)
+    print(f"  {len(S)} стратегий; перебор корреляций W*…", flush=True)
+    seen = {}
+    for n in range(len(TC.PERMS) ** 3):
+        p = tuple(correlations(T, n))
+        if p not in seen:
+            seen[p] = n
+    out["distinct_correlations"] = len(seen)
+    print(f"  различных корреляций: {len(seen)}", flush=True)
+    Sarr = np.array(S, float).T                                   # 64 × n
+
+    def inside(p):
+        r = linprog(np.zeros(Sarr.shape[1]), A_eq=np.vstack([Sarr, np.ones((1, Sarr.shape[1]))]),
+                    b_eq=np.concatenate([np.array(p, float), [1.0]]), bounds=(0, None), method="highs")
+        if r.status not in (0, 2):
+            raise RuntimeError(f"LP статус {r.status}")
+        return r.status == 0
+    # калибровки (тест обязан уметь провалиться в обе стороны)
+    fwd = TC.PERMS.index((0, 2, 1, 3))
+    pL = correlations(TC.det_T(TC.lugano), fwd * 576 + fwd * 24 + fwd)
+    rng = np.random.default_rng(7)
+    cal_in = []
+    for _ in range(20):
+        t = ctab[int(rng.integers(len(ctab)))]
+        n = int(rng.integers(len(OPS)))
+        cal_in.append(inside(correlations(TC.det_T(lambda o, t=t: t[o]), n)))
+    out["calibration"] = {"lugano_forward_outside": not inside(pL),
+                          "causal_process_correlations_inside_20_of_20": all(cal_in)}
+    print("калибровка:", out["calibration"], flush=True)
+    outside = []
+    t1 = time.time()
+    for m, (p, n) in enumerate(seen.items()):
+        if not inside(p):                                         # вне причинного многогранника
+            cert = certificate(list(p), S, S)
+            outside.append({"ops_index": n, "certificate": cert})
+            if len(outside) >= 5:
+                break
+        if m % 200 == 0:
+            print(f"  {m}/{len(seen)} проверено, вне: {len(outside)}, {time.time() - t1:.0f} с", flush=True)
+    out["correlations_outside_causal_polytope"] = outside
+    out["n_checked"] = m + 1
+    # игра G*: выигрыш, если исход попадает в носитель p_{W*}(·|доходы) при стратегии «переслать» (тройка fwd)
+    fwd = TC.PERMS.index((0, 2, 1, 3))
+    nf = fwd * 576 + fwd * 24 + fwd
+    pw = correlations(T, nf)
+    supp = {inc: {o for o in BITS3 if pw[k * 8 + IDX[o]]} for k, inc in enumerate(BITS3)}
+    causal_best = max(sum(1 for k, inc in enumerate(BITS3) if t[k] in supp[inc]) for t in strat)
+    win_star = sum(sum(pw[k * 8 + IDX[o]] for o in supp[inc]) for k, inc in enumerate(BITS3)) / 8
+    out["game_G_star"] = {"ops": "у всех трёх: (доход a, вход i) → (исход x = i, выход = a)", "ops_index": nf,
+                          "winning_sets": {"".join(map(str, k)): sorted("".join(map(str, o)) for o in v) for k, v in supp.items()},
+                          "causal_bound_exact": str(F_(causal_best, 8)), "W_star_value_exact": str(win_star),
+                          "post_hoc": True}
+    # контроль класса TB: нормировка для операций только с обратной нормировкой (квантовый код)
+    import qproc as Q
+    import t3_quantum as TQ
+    e = [np.array([1, 0], complex), np.array([0, 1], complex)]
+    Pj = lambda v: np.outer(v, v.conj())  # noqa: E731
+    W = np.zeros((64, 64), complex)
+    for ii, i in enumerate(BITS3):
+        for oo, o in enumerate(BITS3):
+            if T[ii, oo]:
+                W += float(T[ii, oo]) * TQ.kron(Pj(e[i[0]]), Pj(e[o[0]]), Pj(e[i[1]]), Pj(e[o[1]]), Pj(e[i[2]]), Pj(e[o[2]]))
+
+    def rand_bwd(rng):
+        M = {}
+        for x in (0, 1):
+            Ps = [Q.rand_psd(4, rng) for _ in (0, 1)]
+            L = np.linalg.inv(Q.sqrtm_psd(Q.ptrace_AB(Ps[0] + Ps[1], 2, 0)))
+            for a in (0, 1):
+                M[(a, x)] = np.kron(np.eye(2), L) @ Ps[a] @ np.kron(np.eye(2), L).conj().T
+        return M
+    rng = np.random.default_rng(5)
+    dev = lambda Wm, mk: max(abs(sum(TQ.probs(Wm, [mk(rng) for _ in range(3)]).values()) - 1) for _ in range(30))  # noqa: E731
+    out["normalization_checks"] = {
+        "W_star_ts": dev(W, lambda r: Q.random_ts_instrument(2, r)),
+        "W_star_forward_only": dev(W, lambda r: Q.random_fwd_instrument(2, r)),
+        "W_star_backward_only": dev(W, rand_bwd),
+        "lugano_backward_only_control_must_fail": dev(TQ.lugano_W(), rand_bwd),
+        "W_star_pauli_class_residual_ISO": TQ.in_class(W, "ISO")}
+    out["seconds"] = round(time.time() - t0, 1)
+    with open(os.path.join(P.ROOT, "results", "json", "t3_star.json"), "w") as fh:
+        json.dump(out, fh, ensure_ascii=False, indent=1, default=str)
+    print(json.dumps({k: v for k, v in out.items() if k != "W_star"}, ensure_ascii=False, indent=1, default=str)[:4000])
+
+
+if __name__ == "__main__":
+    main()

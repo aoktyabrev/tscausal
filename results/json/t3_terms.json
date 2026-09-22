@@ -1,0 +1,136 @@
+{
+ "stage": "T3.0/T.0",
+ "timestamp": "2026-09-21T19:15:56",
+ "N2": {
+  "TF": {
+   "dim": 88,
+   "pauli_elements_inside": 88,
+   "ambiguous": 0
+  },
+  "TB": {
+   "dim": 88,
+   "pauli_elements_inside": 88,
+   "ambiguous": 0
+  },
+  "ISO": {
+   "dim": 19,
+   "pauli_elements_inside": 19,
+   "ambiguous": 0
+  },
+  "rule_count_formula": 19,
+  "rule_equals_nullspace": true,
+  "structure": {
+   "n_terms": 18,
+   "anticommuting_pairs": 36,
+   "example_anticommuting": [
+    [
+     "O",
+     "I"
+    ],
+    [
+     0,
+     1,
+     1,
+     0
+    ],
+    [
+     "O",
+     "I"
+    ],
+    [
+     0,
+     1,
+     2,
+     0
+    ]
+   ],
+   "terms_by_number_of_parties": {
+    "2": 18
+   },
+   "n_types": 2,
+   "types": [
+    "AIBO",
+    "AOBI"
+   ]
+  },
+  "seconds": 1.1
+ },
+ "N3": {
+  "TF": {
+   "dim": 1900,
+   "pauli_elements_inside": 1900,
+   "ambiguous": 0
+  },
+  "TB": {
+   "dim": 1900,
+   "pauli_elements_inside": 1900,
+   "ambiguous": 0
+  },
+  "ISO": {
+   "dim": 703,
+   "pauli_elements_inside": 703,
+   "ambiguous": 0
+  },
+  "rule_count_formula": 703,
+  "rule_equals_nullspace": true,
+  "structure": {
+   "n_terms": 702,
+   "anticommuting_pairs": 120474,
+   "example_anticommuting": [
+    [
+     "-",
+     "O",
+     "I"
+    ],
+    [
+     0,
+     0,
+     0,
+     1,
+     1,
+     0
+    ],
+    [
+     "-",
+     "O",
+     "I"
+    ],
+    [
+     0,
+     0,
+     0,
+     1,
+     2,
+     0
+    ]
+   ],
+   "terms_by_number_of_parties": {
+    "2": 54,
+    "3": 648
+   },
+   "n_types": 18,
+   "types": [
+    "BICO",
+    "BOCI",
+    "AICO",
+    "AIBICO",
+    "AIBIOCO",
+    "AIBO",
+    "AIBOCI",
+    "AIBOCIO",
+    "AIBOCO",
+    "AIOBICO",
+    "AIOBOCI",
+    "AOCI",
+    "AOBI",
+    "AOBICI",
+    "AOBICIO",
+    "AOBICO",
+    "AOBIOCI",
+    "AOBOCI"
+   ]
+  },
+  "seconds": 119.0
+ },
+ "calibration_N2_equals_stageC_19": true
+}

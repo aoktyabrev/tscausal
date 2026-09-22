@@ -1,0 +1,369 @@
+{
+ "stage": "T3.0/T.1-T.2 classical",
+ "timestamp": "2026-09-22T04:40:57",
+ "n_causal_functions": 680,
+ "causal_functions_all_valid": true,
+ "T1a": {
+  "valid": true,
+  "membership": {
+   "TF": true,
+   "TB": false,
+   "ISO": false
+  },
+  "game_max_TS": 1.0,
+  "game_exact": "1",
+  "forward_strategy_value": "1",
+  "causally_separable": false,
+  "image_multiplicities": {
+   "000": 2,
+   "001": 2,
+   "010": 2,
+   "011": 0,
+   "100": 2,
+   "101": 0,
+   "110": 0,
+   "111": 0
+  }
+ },
+ "calibration": {
+  "causal_example_separable": true,
+  "max_game_over_causal_functions": 0.75
+ },
+ "T1b": {
+  "W_is_trivial_uniform": true,
+  "membership": {
+   "TF": true,
+   "TB": true,
+   "ISO": true
+  },
+  "game_max_TS": 0.125,
+  "game_exact": "1/8",
+  "causally_separable": true
+ },
+ "T1b_per_fixed_p": {
+  "000": {
+   "valid": true,
+   "game_max_TS": 1.0,
+   "separable": false
+  },
+  "001": {
+   "valid": true,
+   "game_max_TS": 1.0,
+   "separable": false
+  },
+  "010": {
+   "valid": true,
+   "game_max_TS": 1.0,
+   "separable": false
+  },
+  "011": {
+   "valid": true,
+   "game_max_TS": 1.0,
+   "separable": false
+  },
+  "100": {
+   "valid": true,
+   "game_max_TS": 1.0,
+   "separable": false
+  },
+  "101": {
+   "valid": true,
+   "game_max_TS": 1.0,
+   "separable": false
+  },
+  "110": {
+   "valid": true,
+   "game_max_TS": 1.0,
+   "separable": false
+  },
+  "111": {
+   "valid": true,
+   "game_max_TS": 1.0,
+   "separable": false
+  }
+ },
+ "T1c": {
+  "distinct_omega1_candidates": 2520,
+  "valid_extensions": 8,
+  "max_avg_game": 0.5,
+  "all_avg_in_ISO": false,
+  "any_avg_nonseparable": true,
+  "list": [
+   {
+    "omega1": [
+     "011",
+     "101",
+     "111",
+     "101",
+     "011",
+     "111",
+     "110",
+     "110"
+    ],
+    "omega1_game": 1.0,
+    "omega1_separable": false,
+    "avg_membership": {
+     "TF": true,
+     "TB": false,
+     "ISO": false
+    },
+    "avg_game": 0.5,
+    "avg_game_exact": "1/2",
+    "avg_separable": false
+   },
+   {
+    "omega1": [
+     "011",
+     "111",
+     "110",
+     "110",
+     "011",
+     "101",
+     "111",
+     "101"
+    ],
+    "omega1_game": 1.0,
+    "omega1_separable": false,
+    "avg_membership": {
+     "TF": true,
+     "TB": false,
+     "ISO": false
+    },
+    "avg_game": 0.5,
+    "avg_game_exact": "1/2",
+    "avg_separable": false
+   },
+   {
+    "omega1": [
+     "101",
+     "011",
+     "101",
+     "111",
+     "111",
+     "011",
+     "110",
+     "110"
+    ],
+    "omega1_game": 1.0,
+    "omega1_separable": false,
+    "avg_membership": {
+     "TF": true,
+     "TB": false,
+     "ISO": false
+    },
+    "avg_game": 0.5,
+    "avg_game_exact": "1/2",
+    "avg_separable": false
+   },
+   {
+    "omega1": [
+     "101",
+     "111",
+     "101",
+     "011",
+     "110",
+     "110",
+     "111",
+     "011"
+    ],
+    "omega1_game": 1.0,
+    "omega1_separable": false,
+    "avg_membership": {
+     "TF": true,
+     "TB": false,
+     "ISO": false
+    },
+    "avg_game": 0.5,
+    "avg_game_exact": "1/2",
+    "avg_separable": false
+   },
+   {
+    "omega1": [
+     "110",
+     "110",
+     "011",
+     "111",
+     "111",
+     "101",
+     "011",
+     "101"
+    ],
+    "omega1_game": 1.0,
+    "omega1_separable": false,
+    "avg_membership": {
+     "TF": true,
+     "TB": false,
+     "ISO": false
+    },
+    "avg_game": 0.5,
+    "avg_game_exact": "1/2",
+    "avg_separable": false
+   },
+   {
+    "omega1": [
+     "110",
+     "110",
+     "111",
+     "011",
+     "101",
+     "111",
+     "101",
+     "011"
+    ],
+    "omega1_game": 1.0,
+    "omega1_separable": false,
+    "avg_membership": {
+     "TF": true,
+     "TB": false,
+     "ISO": false
+    },
+    "avg_game": 0.5,
+    "avg_game_exact": "1/2",
+    "avg_separable": false
+   },
+   {
+    "omega1": [
+     "111",
+     "011",
+     "110",
+     "110",
+     "101",
+     "011",
+     "101",
+     "111"
+    ],
+    "omega1_game": 1.0,
+    "omega1_separable": false,
+    "avg_membership": {
+     "TF": true,
+     "TB": false,
+     "ISO": false
+    },
+    "avg_game": 0.5,
+    "avg_game_exact": "1/2",
+    "avg_separable": false
+   },
+   {
+    "omega1": [
+     "111",
+     "101",
+     "011",
+     "101",
+     "110",
+     "110",
+     "011",
+     "111"
+    ],
+    "omega1_game": 1.0,
+    "omega1_separable": false,
+    "avg_membership": {
+     "TF": true,
+     "TB": true,
+     "ISO": true
+    },
+    "avg_game": 0.5,
+    "avg_game_exact": "1/2",
+    "avg_separable": false
+   }
+  ]
+ },
+ "T2_classical": {
+  "method": "LP по многограннику ISO_3 для каждой из 24^3 троек TS-биекций",
+  "n_ISO_types": 18,
+  "n_op_triples": 13824,
+  "max_game_float": 0.5000000000000001,
+  "max_game_exact": "1/2",
+  "best_ops_index": 1202,
+  "optimal_T_membership": {
+   "TF": true,
+   "TB": true,
+   "ISO": true
+  },
+  "optimal_T_exact_game": "1/2",
+  "optimal_T_separable": false,
+  "optimal_T": [
+   [
+    "1/2",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1/2"
+   ],
+   [
+    "0",
+    "0",
+    "1/2",
+    "1/2",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1/2",
+    "0",
+    "1/2",
+    "0"
+   ],
+   [
+    "0",
+    "0",
+    "1/2",
+    "0",
+    "0",
+    "0",
+    "1/2",
+    "0"
+   ],
+   [
+    "0",
+    "1/2",
+    "0",
+    "0",
+    "0",
+    "1/2",
+    "0",
+    "0"
+   ],
+   [
+    "0",
+    "1/2",
+    "0",
+    "1/2",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1/2",
+    "1/2",
+    "0",
+    "0"
+   ],
+   [
+    "1/2",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1/2"
+   ]
+  ],
+  "seconds": 58.0
+ },
+ "seconds": 1190.8
+}
