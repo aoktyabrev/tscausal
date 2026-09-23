@@ -228,6 +228,11 @@ def _solve(prob):
         prob.solve(solver=SOLVER)
     except cp.error.SolverError:
         pass
+    except BaseException as e:                       # Clarabel (Rust) может упасть паникой: PanicException
+        if isinstance(e, KeyboardInterrupt):
+            raise
+        STATS.setdefault("panics", 0)
+        STATS["panics"] += 1
     if prob.status == "optimal":
         return prob.value
     if prob.status in ("infeasible", "unbounded", "infeasible_inaccurate", "unbounded_inaccurate"):
@@ -238,6 +243,9 @@ def _solve(prob):
         prob.solve(solver="SCS", eps=1e-9, max_iters=200000)
     except cp.error.SolverError:
         pass
+    except BaseException as e:
+        if isinstance(e, KeyboardInterrupt):
+            raise
     if prob.status != "optimal":
         STATS["failed"] += 1
         raise SolverFailure(f"солвер: статус {prob.status} (после SCS)")

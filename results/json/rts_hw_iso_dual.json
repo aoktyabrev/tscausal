@@ -1,0 +1,13 @@
+{
+ "stage": "RTS0 R.2.2 dual bound",
+ "lift_check": 8.526512829121202e-14,
+ "status": "optimal",
+ "dual_value_raw": 4.242640687304425,
+ "lambda_min_raw": -7.773104391191922e-09,
+ "shift": 8.773104391191923e-09,
+ "certified_upper_bound": 4.24264069607753,
+ "three_sqrt2": 4.242640687119286,
+ "six_sqrt2": 8.485281374238571,
+ "min_eig_certificate": 1.0000012126154997e-09,
+ "seconds": 2.4
+}

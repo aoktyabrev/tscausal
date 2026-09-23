@@ -1,0 +1,113 @@
+{
+ "stage": "RTS0 struct",
+ "calibration_and_HW": {
+  "complex_T": 8.485281374238557,
+  "complex_T_expected_6sqrt2": 8.485281374238571,
+  "complex_marginals_dev": [
+   1.1102230246251565e-16,
+   1.1102230246251565e-16
+  ],
+  "complex_alice_ts_constraint": [
+   3.0,
+   3.0
+  ],
+  "complex_charlie_ts_constraint": [
+   6.0,
+   6.0
+  ],
+  "complex_bob_traces": [
+   0.9999999999999998,
+   0.9999999999999998,
+   0.9999999999999998,
+   0.9999999999999998
+  ],
+  "HW_T": 8.485281374238562,
+  "HW_state_min_eig": -1.852348348077979e-16,
+  "HW_is_real_symmetric": true,
+  "HW_marginals_dev": [
+   0.062499999999999986,
+   0.062499999999999986
+  ],
+  "HW_rebit_terms": {
+   "J_A' J_C'": -0.9999999999999999,
+   "J_B1' J_B2'": -0.9999999999999999,
+   "J_A' J_B2'": -0.9999999999999999,
+   "J_B1' J_C'": -0.9999999999999999,
+   "J_A' J_B1'": -0.9999999999999999,
+   "J_B2' J_C'": -0.9999999999999999,
+   "J⊗4": 0.9999999999999999
+  },
+  "HW_OI_violation": 3.552713678800501e-15,
+  "HW_ops_real_symmetric": true
+ },
+ "J_terms": {
+  "J^{A_O} J^{B_I1} J^{B_I2} J^{C_O} (4-частичный, J на каждом конце обоих каналов)": {
+   "TF": true,
+   "TB": true,
+   "ISO": true
+  },
+  "J^{A_O} J^{C_O} (корреляция выходов A и C)": {
+   "TF": false,
+   "TB": true,
+   "ISO": false
+  },
+  "J^{B_I1} J^{B_I2} (корреляция входов Боба)": {
+   "TF": true,
+   "TB": false,
+   "ISO": false
+  },
+  "J^{A_O} J^{B_I2} (перекрёстный: A с портом Чарли)": {
+   "TF": true,
+   "TB": true,
+   "ISO": true
+  },
+  "Z^{A_O} J^{B_I1} J^{B_I2} Z^{C_O}": {
+   "TF": true,
+   "TB": true,
+   "ISO": true
+  },
+  "X^{A_O} X^{B_I1} (тождественный канал A→B, контроль: допустим)": {
+   "TF": true,
+   "TB": true,
+   "ISO": true
+  },
+  "Z^{A_I} (предселекция A, контроль: запрещён в TB)": {
+   "TF": true,
+   "TB": false,
+   "ISO": false
+  },
+  "Z^{A_O} Z^{C_O} (контроль: запрещён в TF)": {
+   "TF": false,
+   "TB": true,
+   "ISO": false
+  }
+ },
+ "HW_projected_to_ISO": {
+  "marginals_dev": [
+   1.3877787807814457e-17,
+   1.3877787807814457e-17
+  ],
+  "min_eig": -0.007812500000000082,
+  "T": 8.485281374238562,
+  "OI_violation": 2.6645352591003757e-15,
+  "white_noise_needed": 0.666666666666669,
+  "T_after_noise": 2.8284271247461703
+ },
+ "SDP_fixed_HW_ops": {
+  "solver": "SCS",
+  "status": "optimal",
+  "sdp_value": 4.2426406873408204,
+  "min_eig_raw": -3.004833092168566e-11,
+  "noise_for_feasibility": 7.692372656778931e-09,
+  "T_max": 4.2426406547048465,
+  "T_product_only": 4.242640687119281,
+  "min_eig": 8.871124040910355e-19,
+  "marginals_dev": [
+   5.850362924734856e-16,
+   1.5663833341066894e-16
+  ],
+  "OI_violation": 4.243174611673339e-08,
+  "seconds": 3.2
+ },
+ "seconds": 3.6
+}

@@ -19,4 +19,14 @@ $PY scripts/stage_b_explore.py > /dev/null
 $PY scripts/stage_b2.py > /dev/null
 $PY scripts/stage_c.py > /dev/null 2>&1   # ~30–40 мин (see-saw, кутриты)
 $PY scripts/stage_d.py > /dev/null 2>&1   # ~55 мин (основное — see-saw прямого сценария)
+# T3, T3.1 — свои скрипты (t3_*.py, t31*.py), запускаются отдельно.
+# RTS stage 0 (память: каждый скрипт ставит RLIMIT_AS, запускать строго по одному):
+$PY scripts/rts_struct.py > /dev/null 2>&1        # структура J-членов, HW, SDP при операциях HW (~1 мин)
+$PY scripts/rts_calib.py > /dev/null 2>&1         # антивакуумная калибровка: комплексный see-saw → 6√2 (~1 мин)
+$PY scripts/rts_seesaw.py > /dev/null 2>&1        # вещественный see-saw, малые размерности (~23 мин)
+$PY scripts/rts_hw_iso.py > /dev/null 2>&1        # R.2.2: разложение HW, удаление членов, SDP по ISO (~15 мин)
+$PY scripts/rts_hw_iso_dual.py > /dev/null 2>&1   # двойственный сертификат 3√2 (~3 с)
+$PY scripts/rts_4444.py > /dev/null 2>&1          # see-saw (4,4,4,4): старт HW + 4 случайных (~3 ч)
+$PY scripts/rts_4444_ext.py > /dev/null 2>&1      # продолжение старта HW, 60 итераций (~6,6 ч)
+$PY scripts/rts_4444_final.py > /dev/null 2>&1    # очистка финальной точки (ISO и ОН точные)
 $PY scripts/make_results.py

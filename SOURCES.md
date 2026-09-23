@@ -410,3 +410,41 @@ ISO_N = {W: нормировка для всех прямых инструмен
 > P\big( (x\!\oplus\! y \!\oplus\! z \!\oplus\! 1)(&(b\!\oplus\! x\!\oplus\! 1)(c \!\oplus\! y\!\oplus\! 1) \notag \\ &  \times(a \!\oplus\! z\!\oplus\! 1)\!\oplus\! 1)=0\big) \le \ 3/4
 
 (Формы I₂, I₃ — там же, стр. 440–470. Условие «вход стороны не зависит от её собственного выхода» — TC20 стр. 155–157: «each component of a process function w has to be independent of the output of the same region».)
+
+---
+
+## RTS stage 0: вещественная КМ (выгрузки — `sources/litcheck_RTS/<id>/`)
+
+**SMK26 (arXiv:2605.30238, Surace, Minagawa, Kunjwal, «Indefinite Causal Order Reverses the Real-Complex Hierarchy», v2) — ВКМ в процесс-матрицах (OCB), первая строка отчёта:**
+> An \emph{RQT process matrix} is defined by applying the OCB operational characterisation to real laboratories.
+>
+> Under N2, the process matrix used in this version to separate RQT from QT is not valid, and the claimed RQT/QT separation is therefore not established.
+
+(Временно-симметричных формализмов и максимально смешанного глобального прошлого там нет: «time-symmetric», «global past», «Mrini», «Cerf» — 0 вхождений.)
+
+**HW26 (arXiv:2603.19208, Hoffreumon, Woods, «Quantum theory based on real numbers cannot be experimentally falsified»):**
+- Теорема 1, `content_core.tex` стр. 140–142:
+> For any finite network of independent sources and locally measuring parties, if the sources are required only to be operationally independent, then every outcome distribution predicted by the QT model of the network can also be predicted by an equivalent RQT model.
+- Операциональная независимость, `content_methods.tex` стр. 67:
+> Alternatively, the model assumes \textbf{operationally independent states} with respect to the $n$-partition if and only if the distribution is uncorrelated for any local measurement with respect to the $n$-partition.
+- Пример Caves et al., `content_methods.tex` стр. 96–105 (цитата по отчёту субагента, строка 105 сверена):
+> While this RQT state is not a product state, it is yet an operationally independent one.
+- Многочастичные единицы, `content_SI_RepresentationOfComplexUnits.tex` стр. 23–24:
+> \I{1} := I  \:, \quad \I{n}{} := \frac{1}{2}\left(\I{n-1} \ktensor I  - \J{n-1} \ktensor J\right)\:;\\ \J{1} := J  \:, \quad \J{n}{} := \frac{1}{2}\left(\J{n-1} \ktensor I + \I{n-1} \ktensor J\right)
+- `content_SI_RNQTandProofThm1.tex` стр. 520:
+> Now the fact is that operationally independent states are always in $R$-product form, so they can always be used to pass the phase around for the effects.
+
+**RTW21 (arXiv:2101.10873, Renou et al., Nature 600, 625):**
+- стр. 368: «\mathscr{T}(\bar{P})=6\sqrt{2}\approx 8.4852»;
+- стр. 376: «\mathscr{T}(P)=\sum_{b\in\{0,1\}^2}\mathscr{T}_b(P)\leq 7.6605.» (вещественные состояния и измерения, источники независимы с общей случайностью λ);
+- стр. 308 (по отчёту субагента): у Алисы 3, у Чарли 6 дихотомических настроек, у Боба измерение с 4 исходами (базис Белла); оптимальная комплексная стратегия — Φ⁺ в обоих источниках, Алиса σ_Z, σ_X, σ_Y, Чарли (σ_i ± σ_j)/√2, Боб — измерение в базисе Белла (стр. 328–332).
+
+**Другие (по отчёту субагента, сверены выборочно):** Barrios Hita et al. 2503.17307 — вещественная КМ с флаговым кубитом на каждую частицу, состояние бинокального сценария не факторизуется по источникам; Feng–Ren–Vedral 2504.07808 — «require the inclusion of a nonlocal map»; Weilenmann–Gisin–Sekatski 2502.20102 (PRL 135, 180201, 2025; это и есть «Partial independence suffices…») — общее для m источников состояние ребитов; при m = 2 это состояние Caves с α = 1 (проверка субагента).
+
+### D12. Перевод бинокального сценария в TS без селекции (вывод, не цитата)
+По образцу D8: источник ↦ канал (выход стороны → вход Боба) при максимально смешанном входе стороны. Настройка
+Алисы (Чарли) ↦ её исход x (z), результат ↦ доход a (c). Эффективное «состояние источников» — это Choi/(d_A d_C)
+совместного канала (A_O, C_O) → (B_I1, B_I2). Условия ISO (D10): маргинал на (A, C) максимально смешан
+(сохранение следа, нет предселекции), маргинал на (B₁, B₂) максимально смешан (унитальность, нет постселекции).
+В ребитовом базисе члены J_{A'}J_{C'} (нет стороны «только вход») и J_{B₁'}J_{B₂'} (нет стороны «только
+выход») **запрещены**, а J_{A'}J_{B₂'} и J_{B₁'}J_{C'} — допустимы.
