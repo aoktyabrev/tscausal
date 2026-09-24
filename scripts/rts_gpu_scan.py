@@ -1,13 +1,13 @@
 """
-RTS stage 1, S.1 — скан по размерности на GPU-пути (rts_gpu_seesaw.run_gpu).
-План по умолчанию: d = 2, 4 (калибровка против CPU/SCS-скана `rts_scan.py`), затем 6 и 8.
-Для каждой размерности: холодные старты (обязательны) и тёплый старт вложением лучшей точки предыдущей
-размерности (обязательно рядом с холодными). Отчётное число — очищенное 𝒯 (пофакторный шум, ISO и ОН точные,
-положительность по Холецкому); сырое приводится рядом.
+RTS stage 1, S.1 — scan over dimension on the GPU path (rts_gpu_seesaw.run_gpu).
+Default plan: d = 2, 4 (calibration against the CPU/SCS scan `rts_scan.py`), then 6 and 8.
+For each dimension: cold starts (mandatory) and a warm start by embedding the best point of the previous
+dimension (mandatory alongside the cold ones). The reported number is the cleaned 𝒯 (per-factor noise, exact ISO
+and operational independence, positivity by Cholesky); the raw one is given next to it.
 
-Точность ADMM влияет только на то, насколько хорошую точку мы найдём: итоговое число считается заново на
-строго допустимой точке, поэтому недосходимость ADMM занижает результат, а не завышает.
-Результат: results/json/rts_gpu_scan.json, лучшие точки — results/rts_gpu_<d>.npz.
+The ADMM accuracy affects only how good a point we find: the final number is recomputed from scratch on a
+strictly feasible point, so an under-converged ADMM lowers the result rather than inflating it.
+Result: results/json/rts_gpu_scan.json, best points — results/rts_gpu_<d>.npz.
 """
 import json
 import os
@@ -28,12 +28,12 @@ OUT = os.path.join(P.ROOT, "results", "json", "rts_gpu_scan.json")
 
 def main():
     rng = np.random.default_rng(int(os.environ.get("RTS_SEED", "20260923")))
-    # (d, число холодных стартов, итераций see-saw на фазу, итераций ADMM, бюджет секунд на размерность)
+    # (d, number of cold starts, see-saw iterations per phase, ADMM iterations, seconds budget per dimension)
     plan = json.loads(os.environ.get("RTS_GPU_PLAN", "[[2,20,15,800,1800],[4,20,20,1200,9000]]"))
     out = json.load(open(OUT)) if os.path.exists(OUT) else {"stage": "RTS1 S.1 скан (GPU, ADMM)",
                                                             "device": GP.DEV}
     prev = None
-    wf = os.environ.get("RTS_GPU_WARM_FROM")      # продолжение скана в новом процессе: тёплый старт из npz
+    wf = os.environ.get("RTS_GPU_WARM_FROM")      # continuation of the scan in a new process: warm start from npz
     if wf:
         z = np.load(os.path.join(P.ROOT, "results", f"rts_gpu_{wf}.npz"), allow_pickle=True)
         prev = {"w1": z["w1"], "w2": z["w2"], "A": z["A"].item(), "F": list(z["F"]), "C": z["C"].item(),
@@ -50,7 +50,7 @@ def main():
             if r:
                 r["kind"] = "тёплый"
                 recs.append(r)
-                print(f"  d={d} тёплый: сырое {r['T_raw']:.6f} → очищенное {r['T_clean']:.6f} ({r['seconds']} с)",
+                print(f"  d={d} warm: raw {r['T_raw']:.6f} → cleaned {r['T_clean']:.6f} ({r['seconds']} s)",
                       flush=True)
         while len([r for r in recs if r.get("kind") == "холодный"]) < nst and time.time() - t0 < budget:
             r = GS.run_gpu(dims, rng, iters=iters, admm_iters=ai, verbose=False,
@@ -60,8 +60,8 @@ def main():
                 continue
             r["kind"] = "холодный"
             recs.append(r)
-            print(f"  d={d} холодный {len(recs)}: сырое {r['T_raw']:.6f} → очищенное {r['T_clean']:.6f} "
-                  f"({r['seconds']} с)", flush=True)
+            print(f"  d={d} cold {len(recs)}: raw {r['T_raw']:.6f} → cleaned {r['T_clean']:.6f} "
+                  f"({r['seconds']} s)", flush=True)
         ok = [r for r in recs if "T_clean" in r]
         best = max(ok, key=lambda r: r["T_clean"]) if ok else None
         cold = [r for r in ok if r["kind"] == "холодный"]
@@ -83,8 +83,8 @@ def main():
             np.savez(os.path.join(P.ROOT, "results", f"rts_gpu_{d}.npz"), w1=p["w1"], w2=p["w2"], D=p["D"],
                      A=np.array(p["A"], dtype=object), F=np.array(p["F"]), C=np.array(p["C"]))
             prev = p
-        print(f"d={d}: лучшее очищенное {rec['T_clean_best']}, успешных {rec['n_success']}, "
-              f"упавших {rec['n_failed']}, {rec['wall_seconds']:.0f} с", flush=True)
+        print(f"d={d}: best cleaned {rec['T_clean_best']}, succeeded {rec['n_success']}, "
+              f"failed {rec['n_failed']}, {rec['wall_seconds']:.0f} s", flush=True)
     out["solver_stats"] = dict(Q.STATS)
     out["thresholds"] = {"4+2sqrt2": 4 + 2 * np.sqrt(2), "real_bound_RTW21": 7.6605, "6sqrt2": 6 * np.sqrt(2)}
     with open(OUT, "w") as fh:

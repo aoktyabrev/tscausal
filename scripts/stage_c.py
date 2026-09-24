@@ -1,8 +1,8 @@
 """
-Stage C — нарушают ли N1, N2 (и классы замыкания) процессы формализма MH24.
-Определения и прогнозы — PREREGISTRATION_C.md; цитаты — SOURCES.md (MH-22…30, B15-8, B15-9);
-выводы D5, D6. Результат: results/json/stage_c.json.
-Параметр окружения STAGE_C_FAST=1 уменьшает число стартов (только для отладки; отчёт — без него).
+Stage C — do the processes of the MH24 formalism violate N1, N2 (and the closure classes)?
+Definitions and predictions — PREREGISTRATION_C.md; quotations — SOURCES.md (MH-22…30, B15-8, B15-9);
+conclusions D5, D6. Result: results/json/stage_c.json.
+The environment variable STAGE_C_FAST=1 reduces the number of starts (debugging only; the report is made without it).
 """
 import itertools
 import json
@@ -39,10 +39,10 @@ def weights_from(wdict):
     return {tuple(int(c) for c in k): float(v) for k, v in wdict.items()}
 
 
-# ------------------------------------------------------------------ функционалы классов
+# ------------------------------------------------------------------ class functionals
 
 def class_functionals():
-    """N1, N2 (игровая форма Stage B) и классы классического замыкания (канонически сопоставлены)."""
+    """N1, N2 (the game form from Stage B) and the classes of the classical closure (matched canonically)."""
     sb = json.load(open(os.path.join(P.ROOT, "results", "json", "stage_b.json")))
     out = {}
     names = {}
@@ -53,7 +53,7 @@ def class_functionals():
         sup = c["display_form"]["support_abxy_weight1"]
         w = {t: (F(1) if keystr(t) in sup else F(0)) for t in KEYS}
         out[name] = {"w": w, "rhs": F(1, 2), "size": c["size"], "source": "Stage B display_form"}
-    # замыкание: классы и их канонические формы; сопоставление с N1/N2 по канонике
+    # closure: the classes and their canonical forms; matched against N1/N2 by the canonical form
     S = B2.build("U2")
     fs, proj, hull, _ = B2.facets(S["TS"])
     canon_TS = {}
@@ -68,7 +68,7 @@ def class_functionals():
         if rep == pos:
             continue
         if rep in canon_TS:
-            continue            # это N1 или N2 (сопоставлено по канонике; проверяется ниже)
+            continue            # this is N1 or N2 (matched by the canonical form; checked below)
         n = __import__("pretty").nicest(list(rep))
         w = {tuple(int(c) for c in kk): F(v) for kk, v in n["weights"].items()}
         out[f"cl{k}"] = {"w": w, "rhs": F(n["rhs"]), "size": len(mem), "source": "closure nicest_form"}
@@ -81,11 +81,11 @@ def exact_max(w, V):
     return max(sum(w[t] * v[SB.SC.idx[t]] for t in KEYS) for v in V)
 
 
-# ------------------------------------------------------------------ C.0.2 пять чисел
+# ------------------------------------------------------------------ C.0.2 five numbers
 
 def five_numbers(funcs, S, V_cl):
     base = SB.NORM + B2.U["U2"]
-    V_U2 = P.vertices_cdd(base, SB.POS)                     # U2-«симплекс»: (1/4)·перестановки
+    V_U2 = P.vertices_cdd(base, SB.POS)                     # the U2 "simplex": (1/4)·permutations
     eqF, inF = P.facets_cdd(S["F"])
     eqB, inB = P.facets_cdd(S["B"])
     V_FB = P.vertices_cdd(eqF + eqB, inF + inB)
@@ -109,7 +109,7 @@ def lemma_checks(rng):
         out[f"d{d}"] = {"allowed_count": len(allowed), "expected": 1 + 2 * (d * d - 1) ** 2,
                         "types": [list(t) for t in Q.types_of(allowed)], "non_diagonal_hits": nondiag,
                         "seconds": round(time.time() - t0, 1)}
-    # классы TF, TB, OCB для кубитов (контроль, что классификатор различает классы)
+    # the TF, TB and OCB classes for qubits (a control that the classifier tells the classes apart)
     d = 2
     for name, words in (("TF_no_post", Q.mh_constraints(d, pre_marg=False, post_marg=True)),
                         ("TB_no_pre", Q.mh_constraints(d, pre_marg=True, post_marg=False)),
@@ -119,7 +119,7 @@ def lemma_checks(rng):
     al, nd = Q.classify_basis(d, Q.ocb_constraints(d))
     out["OCB_B15"] = {"count": len(al), "types": [list(t) for t in Q.types_of(al)], "non_diagonal_hits": nd}
     out["TF_equals_OCB_types"] = out["TF_no_post"]["types"] == out["OCB_B15"]["types"]
-    # (b) разложение на случайных W ∈ R
+    # (b) decomposition on random W ∈ R
     dec = {}
     for d in (2, 3):
         fam = Q.ProcessFamily(d, lemma_allowed(d))
@@ -128,7 +128,7 @@ def lemma_checks(rng):
             w = rng.normal(size=len(fam.B)) * rng.uniform(0.1, 3)
             W = fam.matrix(w)
             lam = np.linalg.eigvalsh(W).min()
-            # масштабируем бесследовую часть до границы положительности
+            # scale the traceless part down to the boundary of positivity
             s = (1 / d ** 2) / ((1 / d ** 2) - lam) if lam < 0 else 1.0
             W = fam.W0 + s * (W - fam.W0)
             Tm = sum(wk * s * Bk for wk, Bk, idx in zip(w, fam.B, fam.idx) if idx[1] > 0) * d ** 2
@@ -171,16 +171,16 @@ def ocb_allowed(d):
     return _ALLOWED[key][0]
 
 
-# ------------------------------------------------------------------ C.1 калибровки
+# ------------------------------------------------------------------ C.1 calibrations
 
 def residuals(W, d, words):
     return {k: float(np.abs(Q.op(W, d, w)).max()) for k, w in words.items()}
 
 
 def cal_mh_example():
-    """Пример MH-29. Буквальная проверка + локализация расхождений:
-    (i) множитель при β=1 в (bobop) — буквально 1/2, что нарушает ур. (2); проверяется и 1/4;
-    (ii) перебор 36 назначений «чья догадка требуется при (α,β)» для прямой и обратной игры."""
+    """The MH-29 example. A literal check plus localisation of the discrepancies:
+    (i) the factor at β=1 in (bobop) is literally 1/2, which violates Eq. (2); 1/4 is checked as well;
+    (ii) a sweep over the 36 assignments of "whose guess is required at (α,β)" for the forward and backward game."""
     s2 = 1 / np.sqrt(2)
     W = 0.25 * (np.eye(16) + s2 * (Q.kron(I2, Z_, Z_, I2) + Q.kron(Z_, I2, X_, Z_)))
     P0 = lambda s, sign: (I2 + sign * s)  # noqa: E731
@@ -228,8 +228,8 @@ def cal_mh_example():
 
 
 def cal_normalization(rng):
-    """D5: при W ∈ R и TS-операциях Σp = 1, p(a,b) = p(x,y) = 1/4. Контроль, который обязан
-    провалиться: инструмент Боба только с прямой причинностью (OCB) даёт неравномерное p(x,y)."""
+    """D5: for W ∈ R and TS operations, Σp = 1 and p(a,b) = p(x,y) = 1/4. The control that is required
+    to fail: a Bob instrument with forward causality only (OCB) gives a non-uniform p(x,y)."""
     worst = 0.0
     fam = family_R(2)
     for _ in range(50):
@@ -243,8 +243,8 @@ def cal_normalization(rng):
         worst = max(worst, abs(sum(p.values()) - 1),
                     max(abs(sum(p[(a, b, x, y)] for x in (0, 1) for y in (0, 1)) - 0.25) for a in (0, 1) for b in (0, 1)),
                     max(abs(sum(p[(a, b, x, y)] for a in (0, 1) for b in (0, 1)) - 0.25) for x in (0, 1) for y in (0, 1)))
-    # контроль: канал B_O -> A_I (ISO) и операция Боба «измерить Z, приготовить |0⟩» — она
-    # удовлетворяет только прямой причинности; тогда исход Алисы x = 0 всегда, p(x,y) неравномерно
+    # control: the channel B_O -> A_I (ISO) and Bob's operation "measure Z, prepare |0⟩" — it satisfies
+    # forward causality only; then Alice's outcome is always x = 0 and p(x,y) is non-uniform
     e0 = np.array([1, 0], complex)
     MBf = {(b, y): np.kron(np.diag([1.0 - y, float(y)]).astype(complex), np.outer(e0, e0)) for b in (0, 1) for y in (0, 1)}
     W = 0.25 * (np.eye(16) + Q.kron(Z_, I2, I2, Z_))
@@ -264,7 +264,7 @@ def b15_instruments():
     phi = np.zeros(4, complex); phi[0] = phi[3] = 1 / np.sqrt(2)
     k0 = np.array([1, 0], complex); k1 = np.array([0, 1], complex)
     P = lambda v: np.outer(v, v.conj())  # noqa: E731
-    # ключ (a, x): выход a при входе x (нотация B15)
+    # key (a, x): output a for input x (B15 notation)
     return {(0, 0): np.zeros((4, 4), complex), (1, 0): 2 * P(phi),
             (0, 1): np.kron(P(k0), P(k0)), (1, 1): np.kron(P(k1), P(k0))}
 
@@ -284,7 +284,7 @@ def cal_b15(rng):
     exp = 5 / 16 * (1 + s2)
     out["wsimple"] = {"GYNI": g, "LGYNI": lg, "GYNI_expected": exp, "LGYNI_expected": exp + 0.25,
                       "ocb_residuals": ocb_res, "min_eig": float(np.linalg.eigvalsh(W).min())}
-    # W_max из App. C: корни полиномов, ближайшие к приведённым десятичным значениям
+    # W_max from App. C: the polynomial roots closest to the decimal values quoted there
     polys = [[4608, -1575, 525, -117, -1], [221184, 142479, -19701, -15603, 2363],
              [9216, -16857, 11724, -3660, 430], [221184, -50895, -16200, 1368, 602],
              [221184, 16335, -37008, -11400, 3440]]
@@ -302,7 +302,7 @@ def cal_b15(rng):
     out["W_max_appC"] = {"a": a, "GYNI": Q.value(pm, GYNI_B15), "LGYNI": Q.value(pm, LGYNI_B15),
                          "GYNI_expected_smallest_root": root, "min_eig": float(np.linalg.eigvalsh(Wm).min()),
                          "ocb_residual_max": max(float(np.abs(f(Wm)).max()) for f in Q.ocb_constraints(2).values())}
-    # see-saw OCB на кубитах
+    # OCB see-saw on qubits
     fam = Q.ProcessFamily(2, ocb_allowed(2))
     ss = {}
     for name, wts, ref in (("GYNI", GYNI_B15, 0.5694), ("LGYNI", LGYNI_B15, 0.8194)):
@@ -327,10 +327,11 @@ def cal_b15(rng):
 
 
 def cal_postselection(funcs):
-    """Процесс без связи с пред- и постселекцией; условно на событие u = π(v) — p = ¼ δ[(x,y)=π(a,b)]."""
+    """A process with no link, together with pre- and postselection; conditioned on the event u = π(v),
+    p = ¼ δ[(x,y)=π(a,b)]."""
     e = [np.array([1, 0], complex), np.array([0, 1], complex)]
     Pj = lambda v: np.outer(v, v.conj())  # noqa: E731
-    MA = {(a, x): np.kron(Pj(e[x]), Pj(e[a])) for a in (0, 1) for x in (0, 1)}   # исход = вход, выход = доход
+    MA = {(a, x): np.kron(Pj(e[x]), Pj(e[a])) for a in (0, 1) for x in (0, 1)}   # outcome = input, output = income
     ins = Q.ts_instrument_residual(MA, 2)
     Wuv = {}
     for x0, y0, a0, b0 in KEYS:
@@ -350,7 +351,7 @@ def cal_postselection(funcs):
         best, bestpi = -1, None
         for pi in perms:
             pimap = dict(zip(itertools.product((0, 1), repeat=2), pi))
-            # совместные p(a,b,x,y,u,v) и условие на событие E: (x0,y0) = π(a0,b0)
+            # the joint p(a,b,x,y,u,v) and the conditioning on the event E: (x0,y0) = π(a0,b0)
             joint = {}
             PE = 0.0
             for key, Wm in Wuv.items():
@@ -390,7 +391,7 @@ def cal_solver(rng):
             "pass": known < 1e-6 and bad.status in ("infeasible", "infeasible_inaccurate") and raised}
 
 
-# ------------------------------------------------------------------ C.2 иерархия
+# ------------------------------------------------------------------ C.2 hierarchy
 
 def family_R(d):
     return Q.ProcessFamily(d, lemma_allowed(d))
@@ -402,7 +403,7 @@ def family_oneway(d, which):
 
 
 def p3_processes(d):
-    """P3: общий контроль — ½(W_f + W_b); независимые контроли — ¼ Σ четырёх ветвей."""
+    """P3: a common control gives ½(W_f + W_b); independent controls give ¼ Σ over the four branches."""
     Phi = np.zeros((d * d, d * d), complex)
     for i in range(d):
         for j in range(d):
@@ -410,19 +411,19 @@ def p3_processes(d):
     Id = np.eye(d, dtype=complex)
 
     def place(pairs_op, single_ids, order):
-        """Собрать оператор: pairs_op на паре подсистем (s1,s2), тождества на остальных, в порядке 0..3."""
+        """Assemble the operator: pairs_op on the subsystem pair (s1,s2), identities on the rest, in the order 0..3."""
         (s1, s2) = pairs_op
         rest = [k for k in range(4) if k not in (s1, s2)]
-        M = np.kron(Phi, np.kron(Id, Id))                     # подсистемы в порядке [s1, s2, r1, r2]
+        M = np.kron(Phi, np.kron(Id, Id))                     # subsystems in the order [s1, s2, r1, r2]
         perm_src = [s1, s2] + rest
         T = M.reshape([d] * 8)
         inv = [perm_src.index(k) for k in range(4)]
         T = T.transpose(inv + [i + 4 for i in inv])
         return T.reshape(d ** 4, d ** 4) / d                  # Tr = d_A d_B
-    Wf = place((1, 2), None, None)    # A_O -> B_I (вперёд)
-    Wb = place((3, 0), None, None)    # B_O -> A_I (назад: обращены вход/выход обеих операций)
-    Wfb = place((1, 3), None, None)   # Алиса вперёд, Боб назад: A_O -> B_O
-    Wbf = place((0, 2), None, None)   # Алиса назад, Боб вперёд: связь A_I — B_I
+    Wf = place((1, 2), None, None)    # A_O -> B_I (forward)
+    Wb = place((3, 0), None, None)    # B_O -> A_I (backward: input/output of both operations are swapped)
+    Wfb = place((1, 3), None, None)   # Alice forward, Bob backward: A_O -> B_O
+    Wbf = place((0, 2), None, None)   # Alice backward, Bob forward: the link A_I — B_I
     return {"common": 0.5 * (Wf + Wb), "independent": 0.25 * (Wf + Wb + Wfb + Wbf), "Wf": Wf, "Wb": Wb}
 
 
@@ -436,7 +437,7 @@ WITNESSES = {}
 
 
 def repair_W(W, d):
-    """Сдвиг к 1/d² до границы положительности (устраняет погрешность солвера ~1e-9)."""
+    """A shift towards 1/d² up to the boundary of positivity (removes the solver error of ~1e-9)."""
     W = (W + W.conj().T) / 2
     lam = np.linalg.eigvalsh(W).min()
     W0 = np.eye(d ** 4) / d ** 2
@@ -446,8 +447,8 @@ def repair_W(W, d):
 
 
 def repair_M(M, d):
-    """Подмешивание допустимого TS-инструмента M0_{a,x} = 1/(2d)·1 (удовлетворяет ур. (2)):
-    M' = (1-ε) M + ε M0 сохраняет линейные условия и поднимает спектр до неотрицательного."""
+    """Mixing in the feasible TS instrument M0_{a,x} = 1/(2d)·1 (which satisfies Eq. (2)):
+    M' = (1-ε) M + ε M0 preserves the linear conditions and lifts the spectrum up to non-negative."""
     M = {k: (v + v.conj().T) / 2 for k, v in M.items()}
     lam = min(np.linalg.eigvalsh(v).min() for v in M.values())
     if lam >= 0:
@@ -459,7 +460,7 @@ def repair_M(M, d):
 
 
 def verify_mp(W, MA, MB, w, d, tag=None):
-    """Прямой пересчёт p в mpmath (50 знаков) по отремонтированному W и проверка допустимости."""
+    """A direct recomputation of p in mpmath (50 digits) from the repaired W, plus a feasibility check."""
     mp.mp.dps = 50
     Wr = repair_W(W, d)
     MA, MB = repair_M(MA, d), repair_M(MB, d)
@@ -485,7 +486,8 @@ def verify_mp(W, MA, MB, w, d, tag=None):
 
 
 def verify_np(W, MA, MB, w, d):
-    """Независимая проверка найденной точки: допустимость W (в R) и инструментов, пересчёт значения."""
+    """An independent check of the point found: feasibility of W (in R) and of the instruments, plus a
+    recomputation of the value."""
     rA, rB = Q.ts_instrument_residual(MA, d), Q.ts_instrument_residual(MB, d)
     return {"value_recomputed": Q.value(Q.probs_ts(W, MA, MB, d), w),
             "instr_res": max(rA[0], rB[0]), "instr_min_eig": min(rA[1], rB[1]),
@@ -496,7 +498,7 @@ def run_hierarchy(funcs, rng):
     out = {}
     for d in (2, 3):
         fams = {"P1_AB": family_oneway(d, "AB"), "P1_BA": family_oneway(d, "BA"), "P4_R": family_R(d)}
-        if d == 3:                      # кутриты: только N1, N2 и P4 (⊇ P1), P3 — см. отклонения
+        if d == 3:                      # qutrits: only N1, N2 and P4 (⊇ P1), P3 — see the deviations
             fams = {"P4_R": fams["P4_R"]}
         p3 = p3_processes(d)
         for name, f in funcs.items():
@@ -538,16 +540,16 @@ def run_hierarchy(funcs, rng):
 
 
 def tf_pre_diagnostic(funcs, rng):
-    """Вне R: OCB-процессы с TS-операциями, статистика условна по u (предселекция)."""
+    """Outside R: OCB processes with TS operations, with the statistics conditioned on u (preselection)."""
     out = {}
-    # точная схема с определённым порядком и предселекцией: даёт z
+    # an exact scheme with a definite order and preselection: it gives z
     e = [np.array([1, 0], complex), np.array([0, 1], complex)]
     Pj = lambda v: np.outer(v, v.conj())  # noqa: E731
     MA = {(a, x): (np.kron(Pj(e[0]), Pj(e[a])) + np.kron(Pj(e[1]), Pj(e[a ^ 1]))) * (1 if x == a else 0)
           for a in (0, 1) for x in (0, 1)}                   # (a,i) -> (x=a, o=a⊕i)
     MB = {(b, y): sum(np.kron(Pj(e[j]), Pj(e[b])) for j in (0, 1) if y == (b ^ j)) for b in (0, 1) for y in (0, 1)}
-    chan = sum(Q.kron(Pj(e[k]), Pj(e[k])) for k in (0, 1))  # классический тождественный канал A_O -> B_I
-    Wu = np.kron(np.kron(Pj(e[0]), chan), I2)                # A_I = |0⟩ (предселекция), B_O сброшен
+    chan = sum(Q.kron(Pj(e[k]), Pj(e[k])) for k in (0, 1))  # the classical identity channel A_O -> B_I
+    Wu = np.kron(np.kron(Pj(e[0]), chan), I2)                # A_I = |0⟩ (preselection), B_O discarded
     p = Q.probs_ts(Wu, MA, MB, 2)
     z = {t: (0.25 if (t[2] == t[0] and t[3] == (t[0] ^ t[1])) else 0.0) for t in KEYS}
     ocb_res = max(float(np.abs(f(Wu)).max()) for f in Q.ocb_constraints(2).values())
@@ -557,13 +559,13 @@ def tf_pre_diagnostic(funcs, rng):
                         "W_in_R": in_R(Wu, 2)[0],
                         "instruments_ts": [Q.ts_instrument_residual(MA, 2), Q.ts_instrument_residual(MB, 2)],
                         "u_marginal_W_in_R": in_R(0.5 * (Wu + np.kron(np.kron(Pj(e[1]), chan), I2)), 2)[0]}
-    # фасеты TS, которые z нарушает: члены классов N1/N2
+    # the TS facets that z violates: members of the classes N1/N2
     b2 = json.load(open(os.path.join(P.ROOT, "results", "json", "stage_b_facets.json")))
     facets = [tuple(f) for f in b2["facets_projected_primitive"]]
     zv = [F(1, 4) if (t[2] == t[0] and t[3] == (t[0] ^ t[1])) else F(0) for t in SB.COORD]
     cut = [f for f in facets if P.dot(f[:-1], zv) > f[-1]]
     out["z_cut_by_TS_facets"] = len(cut)
-    # see-saw по OCB-классу (d=2) на N1, N2 в игровой форме
+    # a see-saw over the OCB class (d=2) on N1, N2 in the game form
     fam = Q.ProcessFamily(2, ocb_allowed(2))
     for name in ("N1", "N2"):
         w = {t: float(funcs[name]["w"][t]) for t in KEYS}

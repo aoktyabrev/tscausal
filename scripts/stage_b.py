@@ -1,8 +1,8 @@
 """
-Stage B — временно-симметричный причинный многогранник, сценарий без настроек.
+Stage B — time-symmetric causal polytope, scenario without settings.
 
-Определения — PREREGISTRATION.md (Def-II основное, Def-I контроль чувствительности),
-цитаты — SOURCES.md. Результат: results/json/stage_b.json, results/json/stage_b_facets.json.
+Definitions — PREREGISTRATION.md (Def-II is the main one, Def-I the sensitivity control),
+citations — SOURCES.md. Result: results/json/stage_b.json, results/json/stage_b_facets.json.
 """
 import itertools
 import json
@@ -30,13 +30,13 @@ NAMES = "abxy"
 
 
 def marg(vars_, vals):
-    """Линейная форма p(vars_ = vals) — маргинал по подмножеству переменных."""
+    """Linear form p(vars_ = vals) — the marginal over a subset of the variables."""
     pos = [NAMES.index(v) for v in vars_]
     return [F(1) if all(c[i] == s for i, s in zip(pos, vals)) else F(0) for c in COORD]
 
 
 def indep_eqs(target, rest):
-    """p(target ∪ rest) = p(rest)/2 для бинарной target: форма ур. (3)–(6) MH24 при N=2."""
+    """p(target ∪ rest) = p(rest)/2 for a binary target: the form of eqs. (3)–(6) of MH24 at N=2."""
     eqs = []
     for vals in itertools.product(BITS, repeat=1 + len(rest)):
         lhs = marg(target + rest, vals)
@@ -48,10 +48,10 @@ def indep_eqs(target, rest):
 NORM = [([F(1)] * D, F(1))]
 D1 = ([(marg("ab", v), F(1, 4)) for v in itertools.product(BITS, repeat=2)]
       + [(marg("xy", v), F(1, 4)) for v in itertools.product(BITS, repeat=2)])
-EQ3 = indep_eqs("b", "ax")     # p(a,b,x) = p(a,x)/2   (A≼B, вперёд)
-EQ4 = indep_eqs("x", "by")     # p(b,x,y) = p(b,y)/2   (A≼B, назад)
-EQ5 = indep_eqs("a", "by")     # p(a,b,y) = p(b,y)/2   (B≼A, вперёд)
-EQ6 = indep_eqs("y", "ax")     # p(a,x,y) = p(a,x)/2   (B≼A, назад)
+EQ3 = indep_eqs("b", "ax")     # p(a,b,x) = p(a,x)/2   (A≼B, forward)
+EQ4 = indep_eqs("x", "by")     # p(b,x,y) = p(b,y)/2   (A≼B, backward)
+EQ5 = indep_eqs("a", "by")     # p(a,b,y) = p(b,y)/2   (B≼A, forward)
+EQ6 = indep_eqs("y", "ax")     # p(a,x,y) = p(a,x)/2   (B≼A, backward)
 POS = [([F(-1) if j == i else F(0) for j in range(D)], F(0)) for i in range(D)]
 
 
@@ -64,21 +64,21 @@ def functional(win):
 
 
 GYNI = functional(lambda a, b, x, y: x == b and y == a)
-GYNI_R = functional(lambda a, b, x, y: x == b and y == a)          # D3: тот же функционал
+GYNI_R = functional(lambda a, b, x, y: x == b and y == a)          # D3: the same functional
 LGYNI_F = functional(lambda a, b, x, y: a * (x ^ b) == 0 and b * (y ^ a) == 0)
 LGYNI_B = functional(lambda a, b, x, y: x * (a ^ y) == 0 and y * (b ^ x) == 0)
-# MH-9 буквально при N_α=N_β=1 (D2): единственная настройка = 1 либо = 0
+# MH-9 literally at N_α=N_β=1 (D2): the only setting is = 1 or = 0
 MH9_ALPHA1 = functional(lambda a, b, x, y: (y ^ a) == 0 and (x ^ b) == 0)
 MH9_ALPHA0 = functional(lambda a, b, x, y: True)
 
 
-# ------------------------------------------------------------------ схемы (детерминированные)
+# ------------------------------------------------------------------ circuits (deterministic)
 
 def circuit_distributions(k):
-    """Все распределения детерминированных классических TS-схем A≼B с анциллой размера k.
-    Биекции 2-битных пар (доход, вход) -> (исход, выход); канал Алиса->Боб задаётся
-    сбалансированной функцией (o_A, anc) -> i_B (выход анциллы отбрасывается)."""
-    perms = list(itertools.permutations(range(4)))           # индекс = 2*first + second
+    """All distributions of deterministic classical TS circuits A≼B with an ancilla of size k.
+    Bijections of 2-bit pairs (income, input) -> (outcome, output); the Alice->Bob channel is
+    given by a balanced function (o_A, anc) -> i_B (the ancilla output is discarded)."""
+    perms = list(itertools.permutations(range(4)))           # index = 2*first + second
     pairs = [(i >> 1, i & 1) for i in range(4)]
     cells = list(itertools.product(BITS, range(k)))           # (o_A, anc)
     chans = [f for f in itertools.product(BITS, repeat=2 * k) if sum(f) == k]
@@ -97,25 +97,25 @@ def circuit_distributions(k):
     return out
 
 
-# ------------------------------------------------------------------ K (фасеты B15)
+# ------------------------------------------------------------------ K (B15 facets)
 
 def branciard_K(proj):
-    """48 фасет B15 в прямом и 48 в обратном чтении как функционалы на p(a,b,x,y) (через D1)."""
+    """48 B15 facets in the forward and 48 in the backward reading as functionals on p(a,b,x,y) (via D1)."""
     Vb = [tuple(F(x) for x in v) for v in calib.causal_vertices()]
     _, ineqs = P.facets_cdd(Vb)
     K = {}
     for c, c0 in ineqs:
-        cc = dict(zip(calib.COORD, c))                        # calib: (X, Y, A, B), A,B — входы
-        # прямое чтение: входы = доходы (a,b), выходы = исходы (x,y); p(x,y|a,b) = 4 p(a,b,x,y)
+        cc = dict(zip(calib.COORD, c))                        # calib: (X, Y, A, B), A,B — inputs
+        # forward reading: inputs = incomes (a,b), outputs = outcomes (x,y); p(x,y|a,b) = 4 p(a,b,x,y)
         fwd = [4 * cc[(x, y, a, b)] for (a, b, x, y) in COORD]
-        # обратное чтение: входы = исходы (x,y), выходы = доходы (a,b); p(a,b|x,y) = 4 p
+        # backward reading: inputs = outcomes (x,y), outputs = incomes (a,b); p(a,b|x,y) = 4 p
         bwd = [4 * cc[(a, b, x, y)] for (a, b, x, y) in COORD]
         K.setdefault(P.projected(fwd, c0, proj), set()).add("fwd")
         K.setdefault(P.projected(bwd, c0, proj), set()).add("bwd")
     return K, len(ineqs)
 
 
-# ------------------------------------------------------------------ вспомогательное
+# ------------------------------------------------------------------ helpers
 
 def gen(f):
     return SC.perm_from_map(lambda t: f(*t))
@@ -136,8 +136,8 @@ NEG_CONTROLS = {
 
 
 def display_form(members, proj):
-    """Самый симметричный член класса (инвариантность к обмену, обращению, их композиции),
-    затем минимальный носитель; веса 0/1 после деления на общий множитель."""
+    """The most symmetric member of the class (invariance under swap, reversal, their composition),
+    then the minimal support; weights 0/1 after dividing by the common factor."""
     sw, tr = GENS["swap"], GENS["TR"]
     best = None
     for f in members:
@@ -157,7 +157,7 @@ def display_form(members, proj):
 
 
 def table(f):
-    """Коэффициенты фасеты как таблица: строки (a,b), столбцы (x,y); плюс правая часть."""
+    """Facet coefficients as a table: rows (a,b), columns (x,y); plus the right-hand side."""
     c, c0 = f[:-1], f[-1]
     rows = {}
     for (a, b, x, y), v in zip(COORD, c):
@@ -166,7 +166,7 @@ def table(f):
 
 
 def local_automorphisms(V):
-    """Все «локальные» преобразования: биекции пар (a,x) у Алисы, (b,y) у Боба, ± обмен сторон."""
+    """All "local" transformations: bijections of the pairs (a,x) for Alice, (b,y) for Bob, ± swap of parties."""
     pairs = list(itertools.product(BITS, BITS))
     found = []
     for sa in itertools.permutations(pairs):
@@ -189,7 +189,7 @@ def vertices_of(eqs):
 
 
 def cond_gyni(p):
-    """Условная форма (8): (1/4) Σ δ p(x,y|a,b); None, если какой-то p(a,b)=0."""
+    """Conditional form (8): (1/4) Σ δ p(x,y|a,b); None if some p(a,b)=0."""
     tot = F(0)
     for a, b in itertools.product(BITS, BITS):
         pab = sum(p[SC.idx[(a, b, x, y)]] for x, y in itertools.product(BITS, BITS))
@@ -206,7 +206,7 @@ def main():
     out = {"stage": "B", "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
            "definition": "Def-II (PREREGISTRATION.md §1)"}
 
-    # --------------------------------------------------------- B.2 вершины
+    # --------------------------------------------------------- B.2 vertices
     E_AB = NORM + D1 + EQ3 + EQ4
     E_BA = NORM + D1 + EQ5 + EQ6
     V_AB = vertices_of(E_AB)
@@ -216,8 +216,8 @@ def main():
     out["vertices"] = {"P_AB": len(V_AB), "P_BA": len(V_BA), "common": len(common),
                        "P_TS_union": len(V),
                        "denominators": sorted({x.denominator for v in V for x in v})}
-    # все точки объединения — вершины P_TS? (ни одна не в оболочке остальных: проверка по cdd)
-    # перекрёстная проверка детерминированными схемами
+    # are all points of the union vertices of P_TS? (none in the hull of the rest: checked via cdd)
+    # cross-check with deterministic circuits
     cross = {}
     V_AB_set = set(V_AB)
     swapg = GENS["swap"]
@@ -232,17 +232,17 @@ def main():
     cross["P_BA_equals_swap_of_P_AB"] = ba_from_swap == set(V_BA)
     out["vertex_crosscheck"] = cross
 
-    # --------------------------------------------------------- аффинная оболочка, проекция
+    # --------------------------------------------------------- affine hull, projection
     hull = P.affine_hull(V)
     proj = P.Projector(hull)
     dim = D - len(hull)
     out["affine_dim"] = dim
-    # оболочка задаётся именно NORM + D1?
+    # is the hull given exactly by NORM + D1?
     out["hull_equals_norm_plus_D1"] = (
         P.rank([list(e) + [e0] for e, e0 in hull]) == P.rank([list(e) + [e0] for e, e0 in NORM + D1])
         == P.rank([list(e) + [e0] for e, e0 in hull + NORM + D1]))
 
-    # --------------------------------------------------------- ворота: известные максимумы
+    # --------------------------------------------------------- gate: known maxima
     gates = {
         "GYNI": P.fr(P.max_over(GYNI, V)),
         "GYNI_reversed": P.fr(P.max_over(GYNI_R, V)),
@@ -258,7 +258,7 @@ def main():
     if not out["gates"]["pass"]:
         out["STOP"] = "ворота известных максимумов не пройдены"
 
-    # --------------------------------------------------------- группа: антивакуум
+    # --------------------------------------------------------- group: anti-vacuum
     autos = {k: P.is_automorphism(g, V) for k, g in GENS.items()}
     nontriv = {k: g != tuple(range(D)) for k, g in GENS.items()}
     rng = random.Random(20260921)
@@ -266,7 +266,7 @@ def main():
     rng.shuffle(rperm)
     negs = {k: P.is_automorphism(g, V) for k, g in NEG_CONTROLS.items()}
     negs["random_permutation"] = P.is_automorphism(tuple(rperm), V)
-    # известные неравенства с переименованиями: GYNI, LGYNI_f, LGYNI_b и их образы по флипам
+    # known inequalities with relabelings: GYNI, LGYNI_f, LGYNI_b and their images under the flips
     known = {"GYNI": (GYNI, F(1, 2)), "LGYNI_fwd": (LGYNI_F, F(3, 4)), "LGYNI_bwd": (LGYNI_B, F(3, 4))}
     known["GYNI_flip_x"] = (P.act_ineq(GENS["flip_x"], GYNI), F(1, 2))
     gen_tests = {}
@@ -296,7 +296,7 @@ def main():
     if not gpass:
         out["STOP"] = "антивакуумный тест группы не пройден"
 
-    # --------------------------------------------------------- B.3 фасеты: cdd.gmp и lrs
+    # --------------------------------------------------------- B.3 facets: cdd.gmp and lrs
     t1 = time.time()
     _, ineq_cdd = P.facets_cdd(V)
     t_cdd = time.time() - t1
@@ -315,7 +315,7 @@ def main():
     if not (set(S_cdd) == S_lrs and valid and is_facet):
         out["STOP"] = "фасеты: расхождение инструментов или невалидная строка"
 
-    # --------------------------------------------------------- B.4 канонизация, классы
+    # --------------------------------------------------------- B.4 canonicalisation, classes
     K, nb = branciard_K(proj)
     pos = {P.projected(c, c0, proj) for c, c0 in POS}
     TR = GENS["TR"]
@@ -347,8 +347,8 @@ def main():
         })
     n_new = sum(1 for c in cls_out if not c["in_K"])
 
-    # антивакуум для теста направленности: LGYNI_fwd направлен (его обращение — LGYNI_bwd),
-    # GYNI — нет (D3); если тест не различает их, он вакуумен
+    # anti-vacuum test for directionality: LGYNI_fwd is directional (its reversal is LGYNI_bwd),
+    # GYNI is not (D3); if the test does not tell them apart, it is vacuous
     def directional_of(c, c0):
         f = P.projected(c, c0, proj)
         t = P.projected(P.act_ineq(TR, f[:-1]), f[-1], proj)
@@ -361,9 +361,9 @@ def main():
     known_face = {n: P.tight_rank(c, b, V) for n, c, b in
                   (("GYNI", GYNI, F(1, 2)), ("LGYNI_fwd", LGYNI_F, F(3, 4)), ("LGYNI_bwd", LGYNI_B, F(3, 4)))}
     n_new_dir = sum(1 for c in cls_out if not c["in_K"] and c["directional"])
-    # классы по полной локальной группе автоморфизмов (если она больше G)
+    # classes under the full local automorphism group (if it is larger than G)
     classes_full = len({P.canonical(f[:-1], f[-1], proj, local) for f in facets})
-    # K лежит в пересечении? отделяющая точка z: в K-многограннике, но вне P_TS
+    # does K lie in the intersection? separating point z: inside the K polytope, but outside P_TS
     z_in_K = all(sum(a * b for a, b in zip(f[:-1], z)) <= f[-1] for f in K)
     z_in_PTS = all(sum(a * b for a, b in zip(f[:-1], z)) <= f[-1] for f in facets)
     K_all_valid_on_PTS = all(P.max_over(f[:-1], V) <= f[-1] for f in K)
@@ -388,7 +388,7 @@ def main():
         outcome = "НОВЫЙ, НО НЕНАПРАВЛЕННЫЙ: классы вне K есть, все G'-эквивалентны своему обращению"
     out["outcome"] = outcome if "STOP" not in out else "СТОП: " + out["STOP"]
 
-    # --------------------------------------------------------- Def-I (контроль чувствительности)
+    # --------------------------------------------------------- Def-I (sensitivity control)
     t1 = time.time()
     V1_AB = vertices_of(NORM + EQ3 + EQ4)
     V1_BA = vertices_of(NORM + EQ5 + EQ6)
@@ -398,7 +398,7 @@ def main():
     f1 = sorted({P.projected(c, c0, proj1) for c, c0 in ineq1})
     G1 = [g for g in G if P.is_automorphism(g, V1)]
     cls1 = len({P.canonical(f[:-1], f[-1], proj1, G1) for f in f1})
-    # условная форма (8) на смесях вершин Def-I: случайный поиск, фиксированное зерно
+    # conditional form (8) on mixtures of the Def-I vertices: random search, fixed seed
     rng = random.Random(1508)
     best, best_mix = F(0), None
     for _ in range(4000):

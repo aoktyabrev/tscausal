@@ -1,8 +1,9 @@
 """
-Монитор продолжения (4,4,4,4) (rts_4444_ext.py): при каждом обновлении results/rts_4444_ext.npz — невязки сырой
-точки (min eig, маргиналы ISO, ОН, 𝒯) и очищенное 𝒯 (точная проекция на ограничения + шум до ω > 0).
-Если очищенное 𝒯 растёт вместе с сырым — рост настоящий; если стоит — дрейф солвера.
-Результат: results/json/rts_4444_ext_monitor.json. Предыдущие точки (итерации 0–11) не сохранялись.
+A monitor for the (4,4,4,4) continuation (rts_4444_ext.py): on every update of results/rts_4444_ext.npz it reports
+the residuals of the raw point (min eig, ISO marginals, OI, 𝒯) and the cleaned 𝒯 (exact projection onto the
+constraints plus noise until ω > 0). If the cleaned 𝒯 grows together with the raw one, the growth is real; if it
+stays put, it is solver drift.
+Result: results/json/rts_4444_ext_monitor.json. The earlier points (iterations 0–11) were not saved.
 """
 import json
 import os
@@ -48,10 +49,10 @@ def main():
                 with open(OUT, "w") as fh:
                     json.dump(recs, fh, ensure_ascii=False, indent=1, default=float)
                 print(f"  iter {it}: raw {rec['T_raw']:.6f} (λmin {rec['min_eig_raw']:.1e}, ISO {max(rec['iso_dev_raw']):.1e}, "
-                      f"ОН {rec['oi_raw']:.1e}) → clean {rec['T_clean']:.6f} (шум {rec['noise']:.1e})", flush=True)
+                      f"OI {rec['oi_raw']:.1e}) → clean {rec['T_clean']:.6f} (noise {rec['noise']:.1e})", flush=True)
                 last = mt
-        except Exception as e:  # noqa: BLE001 — файл мог писаться в этот момент
-            print("  повтор:", type(e).__name__, str(e)[:100], flush=True)
+        except Exception as e:  # noqa: BLE001 — the file may have been in the middle of being written
+            print("  retry:", type(e).__name__, str(e)[:100], flush=True)
             time.sleep(10)
             continue
         if not any(p for p in os.popen("pgrep -f rts_4444_ext.py").read().split()):

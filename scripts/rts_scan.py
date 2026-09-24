@@ -1,10 +1,10 @@
 """
-RTS stage 1, S.1 — скан по размерности: тот же see-saw со свободными операциями (сценарий D12) при
-(2,2,2,2), (4,4,4,4), (6,6,6,6), (8,8,8,8). Холодные старты обязательны; тёплые (вложение очищенной точки
-меньшей размерности) — отдельно и только вместе с холодными той же размерности.
-Финальная точка каждого старта очищается пофакторным шумом (ISO и ОН точные, положительность — Cholesky),
-отчётное число — очищенное 𝒯. Потолок по ресурсам фиксируется числами, без экстраполяции.
-Результат: results/json/rts_scan.json, лучшие точки — results/rts_scan_<d>.npz.
+RTS stage 1, S.1 — a dimension scan: the same see-saw with free operations (scenario D12) at
+(2,2,2,2), (4,4,4,4), (6,6,6,6), (8,8,8,8). Cold starts are mandatory; warm ones (an embedding of the cleaned
+point of a smaller dimension) are reported separately and only together with cold starts of the same dimension.
+The final point of every start is cleaned up with per-factor noise (ISO and OI exact, positivity via Cholesky),
+and the reported number is the cleaned 𝒯. The resource ceiling is recorded as numbers, without extrapolation.
+Result: results/json/rts_scan.json; the best points go to results/rts_scan_<d>.npz.
 """
 import json
 import os
@@ -24,8 +24,8 @@ OUT = os.path.join(P.ROOT, "results", "json", "rts_scan.json")
 
 
 def embed_state(w, d, dp, rng):
-    """w на (d⊗d) → w' на (dp⊗dp) с маргиналами I/dp: w' = (d/dp)·w ⊕ (r/dp)·σ, σ — максимально запутанное
-    на дополнении (r = dp − d), блочная структура по обеим сторонам."""
+    """w on (d⊗d) → w' on (dp⊗dp) with marginals I/dp: w' = (d/dp)·w ⊕ (r/dp)·σ, where σ is maximally entangled
+    on the complement (r = dp − d), with a block structure on both sides."""
     r = dp - d
     wp = np.zeros((dp * dp, dp * dp))
     idx_sub = np.array([i * dp + j for i in range(d) for j in range(d)])
@@ -41,7 +41,7 @@ def embed_state(w, d, dp, rng):
 
 
 def embed_ops(A, d, dp, n_settings):
-    """POVM: A_{a|x} ⊕ I_comp/2 — сумма по a остаётся I, а TS-условие Σ_x Tr = k·dp выполняется автоматически."""
+    """POVM: A_{a|x} ⊕ I_comp/2 — the sum over a stays I, and the TS condition Σ_x Tr = k·dp holds automatically."""
     out = {}
     for s in range(1, n_settings + 1):
         out[s] = []
@@ -58,9 +58,9 @@ def embed_bob(F, dB, dBp):
 
 
 def warm_start(m, src, rng):
-    """Тёплый старт: вложение очищенной точки меньшей размерности (см. PREREGISTRATION_RTS1.md)."""
+    """A warm start: the embedding of the cleaned point of a smaller dimension (see PREREGISTRATION_RTS1.md)."""
     d, dp = src["d"], m.dims[0]
-    w1 = embed_state(src["w1"], d, dp, rng)          # ω₁ на (A⊗B1): d⊗d → dp⊗dp
+    w1 = embed_state(src["w1"], d, dp, rng)          # ω₁ on (A⊗B1): d⊗d → dp⊗dp
     w2 = embed_state(src["w2"], d, dp, rng)
     A = embed_ops(src["A"], d, dp, 3)
     C = embed_ops(src["C"], d, dp, 6)
@@ -69,8 +69,9 @@ def warm_start(m, src, rng):
 
 
 def run_dim(dims, n_success_target, iters, budget_s, rng, warm=None, max_attempts_factor=4):
-    """Стартует, пока не наберётся n_success_target УСПЕШНЫХ стартов (упавшие не засчитываются), либо пока не
-    кончится бюджет времени или лимит попыток. Каждая точка очищается пофакторным шумом (ОН и ISO точные)."""
+    """Keeps starting until n_success_target SUCCESSFUL starts have been collected (failed ones do not count),
+    or until the time budget or the attempt limit runs out. Every point is cleaned with per-factor noise
+    (OI and ISO exact)."""
     m = S.Model(dims)
     recs, t0 = [], time.time()
     starts = ([("тёплый", warm_start(m, warm, rng))] if warm else [])
@@ -102,7 +103,7 @@ def run_dim(dims, n_success_target, iters, budget_s, rng, warm=None, max_attempt
                      "iso_dev": max(cl["iso_marginals_dev"]), "oi": cl["oi_violation"], "q_noise": cl["q_noise"],
                      "delta_rel_norm": cl["delta_rel_norm"], "seconds": round(time.time() - t1, 1),
                      "point": {"w1": w1, "w2": w2, "A": A, "F": F, "C": C, "d": dims[0]}})
-        print(f"  {dims} {kind}: сырое {val:.6f} → очищенное {cl['T']:.6f} ({recs[-1]['seconds']:.0f} с)", flush=True)
+        print(f"  {dims} {kind}: raw {val:.6f} → cleaned {cl['T']:.6f} ({recs[-1]['seconds']:.0f} s)", flush=True)
     return recs
 
 
@@ -146,8 +147,8 @@ def main():
             np.savez(os.path.join(P.ROOT, "results", f"rts_scan_{d}.npz"), w1=b["w1"], w2=b["w2"],
                      A=np.array(b["A"], dtype=object), F=np.array(b["F"]), C=np.array(b["C"]))
             prev = b
-        print(f"{dims}: лучшее очищенное {s['T_clean_best']}, успешных {s['n_success']}, упавших {s['n_failed']}, "
-              f"{s['wall_seconds']:.0f} с", flush=True)
+        print(f"{dims}: best cleaned {s['T_clean_best']}, successful {s['n_success']}, failed {s['n_failed']}, "
+              f"{s['wall_seconds']:.0f} s", flush=True)
     out["solver_stats"] = dict(Q.STATS)
     out["thresholds"] = {"4+2sqrt2": 4 + 2 * np.sqrt(2), "real_bound_RTW21": 7.6605, "6sqrt2": 6 * np.sqrt(2)}
     with open(OUT, "w") as fh:

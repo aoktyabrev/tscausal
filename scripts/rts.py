@@ -1,13 +1,13 @@
 """
-RTS stage 0 — временная симметрия и лазейка вещественной КМ (бинокальный сценарий Renou в TS без селекции).
-Определения — PREREGISTRATION_RTS0.md, D12 (SOURCES.md). Модель (сведённая форма по D8/D12):
-  ω — эффективное «состояние источников» на A ⊗ B1 ⊗ B2 ⊗ C (= Choi совместного канала (A_O,C_O)→(B_I1,B_I2) / d),
-      ISO ⇔ маргиналы на (A,C) и на (B1,B2) максимально смешаны;
-  Алиса: POVM A_{a|x} (x = 1..3 — её исход, a = ±1 — её доход), Σ_x Tr A_{a|x} = (3/2) d_A (TS, MH-1 с N_x=3, N_a=2);
-  Чарли: POVM C_{c|z} (z = 1..6), Σ_z Tr C_{c|z} = 3 d_C;
-  Боб: POVM F_b (4 исхода, дохода нет), Tr F_b = d_B1 d_B2 / 4;
+RTS stage 0 — time symmetry and the real-QM loophole (Renou bilocal scenario in TS without selection).
+Definitions — PREREGISTRATION_RTS0.md, D12 (SOURCES.md). Model (reduced form per D8/D12):
+  ω — effective "source state" on A ⊗ B1 ⊗ B2 ⊗ C (= Choi of the joint channel (A_O,C_O)→(B_I1,B_I2) / d),
+      ISO ⇔ the marginals on (A,C) and on (B1,B2) are maximally mixed;
+  Alice: POVM A_{a|x} (x = 1..3 — outcome, a = ±1 — income), Σ_x Tr A_{a|x} = (3/2) d_A (TS, MH-1 with N_x=3, N_a=2);
+  Charlie: POVM C_{c|z} (z = 1..6), Σ_z Tr C_{c|z} = 3 d_C;
+  Bob: POVM F_b (4 outcomes, no income), Tr F_b = d_B1 d_B2 / 4;
   P(a,b,c|x,z) = Tr[ω (A_{a|x} ⊗ F_b ⊗ C_{c|z})].
-Функционал 𝒯 — RTW21 стр. 337–342, 368.
+Functional 𝒯 — RTW21 pp. 337–342, 368.
 """
 import itertools
 import json
@@ -34,10 +34,10 @@ def kron(*ms):
     return r
 
 
-# ------------------------------------------------------------------ функционал 𝒯 (RTW21)
+# ------------------------------------------------------------------ functional 𝒯 (RTW21)
 
 def T_coeffs():
-    """coef[(b1,b2), x, z] при S^b_{xz}; x ∈ 1..3, z ∈ 1..6."""
+    """coef[(b1,b2), x, z] for S^b_{xz}; x ∈ 1..3, z ∈ 1..6."""
     c = {}
     for b1, b2 in itertools.product((0, 1), repeat=2):
         s1, s2, s12 = (-1) ** b2, (-1) ** b1, (-1) ** (b1 + b2)
@@ -53,17 +53,17 @@ BOBS = [(0, 0), (0, 1), (1, 0), (1, 1)]
 
 
 def T_value(omega, A, F, C):
-    """A[x][a] (a ∈ {+1,-1} как индексы 0,1), C[z][c], F[b]; 𝒯 = Σ coef·S^b_{xz}, S = Σ ac P."""
+    """A[x][a] (a ∈ {+1,-1} as indices 0,1), C[z][c], F[b]; 𝒯 = Σ coef·S^b_{xz}, S = Σ ac P."""
     tot = 0.0
     for (b, x, z), v in COEF.items():
         Fb = F[BOBS.index(b)]
-        Oa = A[x][0] - A[x][1]                               # наблюдаемая Σ_a a A_{a|x}
+        Oa = A[x][0] - A[x][1]                               # observable Σ_a a A_{a|x}
         Oc = C[z][0] - C[z][1]
         tot += v * np.trace(omega @ kron(Oa, Fb, Oc)).real
     return tot
 
 
-# ------------------------------------------------------------------ комплексная стратегия RTW21 (стр. 328–332)
+# ------------------------------------------------------------------ complex RTW21 strategy (pp. 328–332)
 
 def renou_complex():
     phi = np.zeros(4, complex); phi[0] = phi[3] = 1 / np.sqrt(2)
@@ -86,16 +86,16 @@ def renou_complex():
 
 
 def marginals_ok(omega, dims):
-    """ISO (D12): маргиналы на (A,C) и (B1,B2) максимально смешаны."""
+    """ISO (D12): the marginals on (A,C) and (B1,B2) are maximally mixed."""
     dA, dB1, dB2, dC = dims
     T = omega.reshape(dims * 2)
-    mAC = np.einsum("abcdebcf->adef", T).reshape(dA * dC, dA * dC)     # след по B1, B2
-    mB = np.einsum("abcdafgd->bcfg", T).reshape(dB1 * dB2, dB1 * dB2)  # след по A, C
+    mAC = np.einsum("abcdebcf->adef", T).reshape(dA * dC, dA * dC)     # trace over B1, B2
+    mB = np.einsum("abcdafgd->bcfg", T).reshape(dB1 * dB2, dB1 * dB2)  # trace over A, C
     return (float(np.abs(mAC - np.eye(dA * dC) / (dA * dC)).max()),
             float(np.abs(mB - np.eye(dB1 * dB2) / (dB1 * dB2)).max()))
 
 
-# ------------------------------------------------------------------ HW: Γ, Γ̄⁽ⁿ⁾ и бинокальная модель
+# ------------------------------------------------------------------ HW: Γ, Γ̄⁽ⁿ⁾ and the bilocal model
 
 def Ibar(n):
     I_, J_ = np.eye(2), J.copy()
@@ -110,13 +110,13 @@ def Gamma1(A):
 
 
 def hw_bilocal(omega_c, A, F, C):
-    """Вещественная модель HW26 (стр. 521–523 SI): состояние ½Γ̄⁽⁴⁾{ρ⊗σ} на (фазовые ребиты A',B1',B2',C') ⊗ (кубиты),
-    эффекты Γ{A}, Γ̄⁽²⁾{B}, Γ{C}. Нормировку фиксируем так, чтобы след = 1, и затем переупорядочиваем подсистемы
-    в (A', A)(B1', B1)(B2', B2)(C', C)."""
+    """Real HW26 model (SI pp. 521–523): state ½Γ̄⁽⁴⁾{ρ⊗σ} on (phase rebits A',B1',B2',C') ⊗ (qubits),
+    effects Γ{A}, Γ̄⁽²⁾{B}, Γ{C}. The normalisation is fixed so that the trace = 1, and the subsystems are then
+    reordered into (A', A)(B1', B1)(B2', B2)(C', C)."""
     I4, J4 = Ibar(4)
     st = np.kron(I4, omega_c.real) + np.kron(J4, omega_c.imag)          # (A'B1'B2'C') ⊗ (A B1 B2 C)
     st = st / np.trace(st).real
-    # перестановка: [A',B1',B2',C',A,B1,B2,C] -> [A',A,B1',B1,B2',B2,C',C]
+    # permutation: [A',B1',B2',C',A,B1,B2,C] -> [A',A,B1',B1,B2',B2,C',C]
     Tt = st.reshape([2] * 16)
     order = [0, 4, 1, 5, 2, 6, 3, 7]
     Tt = Tt.transpose(order + [o + 8 for o in order])
@@ -133,8 +133,8 @@ def hw_bilocal(omega_c, A, F, C):
 
 
 def rebit_terms(omega):
-    """Коэффициенты членов J_{A'}J_{C'}, J_{B1'}J_{B2'}, J_{A'}J_{B2'}, J_{B1'}J_{C'} и J⊗4 (остальное — тождество)
-    в ω на (A',A)(B1',B1)(B2',B2)(C',C): c = Tr[ω · (оператор)] / Tr[оператор²]."""
+    """Coefficients of the terms J_{A'}J_{C'}, J_{B1'}J_{B2'}, J_{A'}J_{B2'}, J_{B1'}J_{C'} and J⊗4 (the rest —
+    identity) in ω on (A',A)(B1',B1)(B2',B2)(C',C): c = Tr[ω · (operator)] / Tr[operator²]."""
     I2r = np.eye(2)
     out = {}
     pats = {"J_A' J_C'": (J, I2r, I2r, J), "J_B1' J_B2'": (I2r, J, J, I2r),
@@ -147,8 +147,8 @@ def rebit_terms(omega):
 
 
 def oi_violation(omega, dims, rng, trials=200):
-    """Операциональная независимость (HW26 стр. 67) по разбиению (A B1)(B2 C): для случайных вещественных
-    симметричных X на A⊗B1 и Z на B2⊗C: |Tr[ω X⊗Z] − Tr[ω1 X] Tr[ω2 Z]|."""
+    """Operational independence (HW26 p. 67) for the partition (A B1)(B2 C): for random real symmetric
+    X on A⊗B1 and Z on B2⊗C: |Tr[ω X⊗Z] − Tr[ω1 X] Tr[ω2 Z]|."""
     dA, dB1, dB2, dC = dims
     n1, n2 = dA * dB1, dB2 * dC
     T = omega.reshape(n1, n2, n1, n2)

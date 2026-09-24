@@ -1,18 +1,18 @@
 """
-RTS stage 1 — шаг по состоянию на GPU (torch, ADMM) вместо SCS: только он масштабируется до d = 6, 8.
-Задача шага: max ⟨G, ω⟩ при ω ⪰ 0 и ω ∈ L, где L — аффинное множество:
-  Δ-шаг: L = {ω₁⊗ω₂ + Δ}, Δ ∈ Anti(A⊗B1)⊗Anti(B2⊗C) с нулевыми маргиналами (⇒ ISO и ОН точные);
-  w-шаг: L = {V⊗ω₂ + Δ} (или {ω₁⊗V + Δ}), V симметрична с ISO-маргиналами.
-ADMM: X ← Π_PSD(Z − U + G/ρ) (eigh на GPU), Z ← Π_L(X + U), U ← U + X − Z.
+RTS stage 1 — state step on GPU (torch, ADMM) instead of SCS: only it scales up to d = 6, 8.
+Step problem: max ⟨G, ω⟩ subject to ω ⪰ 0 and ω ∈ L, where L is an affine set:
+  Δ-step: L = {ω₁⊗ω₂ + Δ}, Δ ∈ Anti(A⊗B1)⊗Anti(B2⊗C) with zero marginals (⇒ ISO and operational independence exact);
+  w-step: L = {V⊗ω₂ + Δ} (or {ω₁⊗V + Δ}), V symmetric with ISO marginals.
+ADMM: X ← Π_PSD(Z − U + G/ρ) (eigh on GPU), Z ← Π_L(X + U), U ← U + X − Z.
 
-Проекции точные и в замкнутом виде:
-- Π на Anti⊗Anti: ¼(X − X^{T1} − X^{T2} + X^{T1T2}), T1, T2 — частичные транспонирования блоков;
-- нулевые маргиналы внутри Anti⊗Anti: образы сопряжённых отображений {Y⊗I_B} и {I_AC⊗Z} **ортогональны**
-  (антисимметричные матрицы бесследовы), поэтому достаточно вычесть обе компоненты по отдельности;
-- Π на {V⊗ω₂ + Δ}: V ↦ ⟨ω₂, ·⟩/‖ω₂‖² покомпонентно (V ↦ V⊗ω₂ — изометрия с точностью до множителя),
-  затем аффинная проекция V на ISO-маргиналы.
+The projections are exact and in closed form:
+- Π onto Anti⊗Anti: ¼(X − X^{T1} − X^{T2} + X^{T1T2}), T1, T2 — partial transposes of the blocks;
+- zero marginals inside Anti⊗Anti: the images of the adjoint maps {Y⊗I_B} and {I_AC⊗Z} are **orthogonal**
+  (antisymmetric matrices are traceless), so it suffices to subtract both components separately;
+- Π onto {V⊗ω₂ + Δ}: V ↦ ⟨ω₂, ·⟩/‖ω₂‖² componentwise (V ↦ V⊗ω₂ is an isometry up to a factor),
+  then the affine projection of V onto the ISO marginals.
 
-Числа этого решателя идут в отчёт только после калибровки против SCS на общих точках (`rts_gpu_calib.py`).
+Numbers from this solver enter the report only after calibration against SCS on shared points (`rts_gpu_calib.py`).
 """
 import os
 import sys
@@ -40,7 +40,7 @@ class GState:
         self.eB2, self.eC = torch.eye(dB2, device=DEV, dtype=DT), torch.eye(dC, device=DEV, dtype=DT)
         self.eN = torch.eye(self.N, device=DEV, dtype=DT)
 
-    # ---------------- проекции
+    # ---------------- projections
     def proj_anti(self, X):
         n1, n2 = self.n1, self.n2
         T = X.reshape(n1, n2, n1, n2)
@@ -53,7 +53,7 @@ class GState:
         return torch.einsum("abcdebcf->adef", T), torch.einsum("abcdafgd->bcfg", T)
 
     def proj_delta(self, X):
-        """Π на {Δ ∈ Anti⊗Anti, оба маргинала нулевые}."""
+        """Π onto {Δ ∈ Anti⊗Anti, both marginals zero}."""
         dA, dB1, dB2, dC = self.dims
         D = self.proj_anti(0.5 * (X + X.T))
         mAC, mB = self.marginals(D)
@@ -62,7 +62,7 @@ class GState:
         return D - (c1 + c2).reshape(self.N, self.N)
 
     def fix_local(self, V, d1, d2):
-        """Аффинная проекция: оба маргинала V → I/d, след 1."""
+        """Affine projection: both marginals of V → I/d, trace 1."""
         V = 0.5 * (V + V.T)
         T = V.reshape(d1, d2, d1, d2)
         m1 = torch.einsum("ajbj->ab", T) - torch.eye(d1, device=DEV, dtype=DT) / d1
@@ -73,7 +73,7 @@ class GState:
                 + tr * torch.eye(d1 * d2, device=DEV, dtype=DT) / (d1 * d2))
 
     def proj_L(self, M, part, w1, w2, D):
-        """Π на аффинное множество шага; возвращает (ω, параметр)."""
+        """Π onto the affine set of the step; returns (ω, parameter)."""
         dA, dB1, dB2, dC = self.dims
         if part == "D":
             Dn = self.proj_delta(M - torch.kron(w1, w2))
@@ -92,7 +92,7 @@ EIGH_STATS = {"gpu": 0, "cpu_fallback": 0}
 
 
 def _eigh(Y):
-    """cuSOLVER иногда не сходится на вырожденных спектрах (error 34) — тогда считаем на CPU (LAPACK)."""
+    """cuSOLVER sometimes fails to converge on degenerate spectra (error 34) — then compute on CPU (LAPACK)."""
     try:
         ev, evec = torch.linalg.eigh(Y)
         EIGH_STATS["gpu"] += 1
@@ -104,9 +104,9 @@ def _eigh(Y):
 
 
 def admm_step(gs, G, part, w1, w2, D, iters=400, rho=None, tol=1e-9, X=None, U=None, adapt=True):
-    """max ⟨G, ω⟩ по ω ⪰ 0, ω ∈ L. Возвращает (параметр, ω, невязки, состояние для тёплого старта).
-    adapt: балансировка ρ по невязкам (Boyd §3.4.1) — без неё при N = 1296 остаточная недопустимость
-    съедает в очистке до 0.4 единицы 𝒯."""
+    """max ⟨G, ω⟩ over ω ⪰ 0, ω ∈ L. Returns (parameter, ω, residuals, state for a warm start).
+    adapt: balancing of ρ by the residuals (Boyd §3.4.1) — without it, at N = 1296 the residual infeasibility
+    eats up to 0.4 units of 𝒯 in the cleanup."""
     Gt = 0.5 * (G + G.T)
     rho = rho or float(Gt.abs().max()) * 10
     Z, param = gs.proj_L(torch.kron(w1, w2) + D, part, w1, w2, D)

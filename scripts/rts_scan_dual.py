@@ -1,13 +1,13 @@
 """
-RTS stage 1, S.2 — двойственные сертификаты при НАЙДЕННЫХ операциях (для каждой размерности скана).
-Прямая: max ⟨G, ω⟩ по ω ⪰ 0 с ISO-маргиналами (ОН не требуется — множество шире, оценка сильнее).
-Двойственная: min (Tr Y + Tr Z)/n при Y_{(A,C)}⊗I_{(B1,B2)} + I_{(A,C)}⊗Z_{(B1,B2)} − G ⪰ 0, n = dA·dC = dB1·dB2.
-Любая допустимая (Y, Z) даёт верхнюю оценку; после сдвига Y → Y + |λ_min| I допустимость проверяется Холецким.
+RTS stage 1, S.2 — dual certificates at the operations that were FOUND (for every dimension of the scan).
+Primal: max ⟨G, ω⟩ over ω ⪰ 0 with ISO marginals (OI is not required — the set is larger, so the bound is stronger).
+Dual: min (Tr Y + Tr Z)/n subject to Y_{(A,C)}⊗I_{(B1,B2)} + I_{(A,C)}⊗Z_{(B1,B2)} − G ⪰ 0, n = dA·dC = dB1·dB2.
+Any feasible (Y, Z) gives an upper bound; after the shift Y → Y + |λ_min| I, feasibility is checked by Cholesky.
 
-Это НЕ верхняя оценка при свободных операциях: она относится к конкретным операциям. Если сертификат
-совпадает с найденным значением, значит, точка оптимальна для своих операций и see-saw «выжал» состояние
-полностью; остаток разрыва до порогов — за счёт операций.
-Результат: results/json/rts_scan_dual.json.
+This is NOT an upper bound for free operations: it refers to the specific operations. If the certificate
+matches the value that was found, then the point is optimal for its own operations and the see-saw has squeezed
+the state dry; whatever gap to the thresholds remains is down to the operations.
+Result: results/json/rts_scan_dual.json.
 """
 import json
 import os
@@ -24,7 +24,7 @@ import rts_seesaw as S  # noqa: E402
 
 
 def perm_matrix(dims):
-    """Pm: порядок (A, C, B1, B2) → (A, B1, B2, C); Pm[new, old] = 1."""
+    """Pm: the order (A, C, B1, B2) → (A, B1, B2, C); Pm[new, old] = 1."""
     dA, dB1, dB2, dC = dims
     N = dA * dB1 * dB2 * dC
     Pm = np.zeros((N, N))
@@ -46,7 +46,7 @@ def certify(dims, A, F, C, solver="SCS", max_iters=100000):
     def lift(Y, Z):
         return Pm @ (np.kron(Y, np.eye(nB)) + np.kron(np.eye(nAC), Z)) @ Pm.T
 
-    # проверка подъёма: Tr[ω lift(Y,Z)] = Tr[m_AC(ω) Y] + Tr[m_B(ω) Z]
+    # a check on the lift: Tr[ω lift(Y,Z)] = Tr[m_AC(ω) Y] + Tr[m_B(ω) Z]
     rng = np.random.default_rng(0)
     Wt = rng.normal(size=(m.N, m.N)); Wt = Wt + Wt.T
     Yt = rng.normal(size=(nAC, nAC)); Yt = Yt + Yt.T
@@ -69,7 +69,7 @@ def certify(dims, A, F, C, solver="SCS", max_iters=100000):
     shift = max(0.0, -lam) + 1e-9
     Yc = Yv + shift * np.eye(nAC)
     M = lift(Yc, Zv) - G
-    np.linalg.cholesky(M)                               # сертификат допустимости
+    np.linalg.cholesky(M)                               # the feasibility certificate
     return {"solver": solver, "status": prob.status, "dual_value_raw": prob.value, "lift_check": lift_err,
             "lambda_min_raw": lam, "shift": shift,
             "certified_upper_bound": float((np.trace(Yc) + np.trace(Zv)) / nAC),
@@ -79,7 +79,7 @@ def certify(dims, A, F, C, solver="SCS", max_iters=100000):
 def main():
     S.limit_memory(float(os.environ.get("RTS_MEM_GB", "10")))
     fp = os.path.join(P.ROOT, "results", "json", "rts_scan_dual.json")
-    out = json.load(open(fp)) if os.path.exists(fp) else {}      # слияние: решатели запускаются по отдельности
+    out = json.load(open(fp)) if os.path.exists(fp) else {}      # merge: the solvers are run separately
     out["stage"] = "RTS1 S.2 сертификаты при найденных операциях"
     for d in json.loads(os.environ.get("RTS_DUAL_DIMS", "[2,4]")):
         f = os.path.join(P.ROOT, "results", f"rts_gpu_{d}.npz")

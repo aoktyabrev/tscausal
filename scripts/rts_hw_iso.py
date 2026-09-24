@@ -1,10 +1,12 @@
 """
-RTS stage 0, R.2.2: почему модель HW26 не лежит в вещественном ISO и можно ли заменить запрещённые члены.
-1) разложение ω_HW по ребитовым шаблонам {I,J}^4 на (A',B1',B2',C'): вес, вклад в 𝒯, вклад в маргиналы ISO;
-2) удаление только (A,C)-отклонения / только (B1,B2)-отклонения / обоих: min eig и 𝒯;
-3) SDP: max 𝒯 по ВСЕМ вещественным ISO-ω (без ОН) при операциях HW (POVM Боба дополнен) — существует ли замена;
-4) то же с ОН: ω = ω₁⊗ω₂ + Δ, чередование ω₁ / ω₂ / Δ при фиксированных операциях HW.
-SDP 256×256 — SCS (Clarabel требует плотный KKT ≈ 8.7 ГБ). Результат: results/json/rts_hw_iso.json.
+RTS stage 0, R.2.2: why the HW26 model does not lie in the real ISO set, and whether the forbidden terms
+can be replaced.
+1) a decomposition of ω_HW over the rebit patterns {I,J}^4 on (A',B1',B2',C'): weight, contribution to 𝒯,
+   contribution to the ISO marginals;
+2) removing only the (A,C) deviation / only the (B1,B2) deviation / both: min eig and 𝒯;
+3) SDP: max 𝒯 over ALL real ISO ω (without OI) at the HW operations (Bob's POVM completed) — does a replacement exist;
+4) the same with OI: ω = ω₁⊗ω₂ + Δ, alternating ω₁ / ω₂ / Δ at the fixed HW operations.
+The 256×256 SDP uses SCS (Clarabel needs a dense KKT of ≈ 8.7 GB). Result: results/json/rts_hw_iso.json.
 """
 import itertools
 import json
@@ -28,12 +30,13 @@ NAMES = ("A'", "B1'", "B2'", "C'")
 
 
 def rebit_component(om, pat):
-    """Компонента ω с шаблоном pat ∈ {I,J}^4 на ребитах (остальное — любые операторы на кубитах):
-    ω_pat = Σ_q P_pat ⊗ X_q, выделяется сверткой: для ребита r с шаблоном I — (ρ + ZρZ + XρX + JρJᵀ)/4-проекция
-    на span{I}; реализуем через частичные следы по ребитам с весом M/2 (M ∈ {I, J} ортогональны, Tr M Mᵀ = 2)."""
-    T = om.reshape([2] * 16)          # (A',A,B1',B1,B2',B2,C',C) × то же
+    """The component of ω with the pattern pat ∈ {I,J}^4 on the rebits (the rest being arbitrary operators
+    on the qubits): ω_pat = Σ_q P_pat ⊗ X_q, extracted by a contraction: for a rebit r with pattern I, the
+    (ρ + ZρZ + XρX + JρJᵀ)/4 projection onto span{I}; implemented as partial traces over the rebits with
+    weight M/2 (M ∈ {I, J} are orthogonal, Tr M Mᵀ = 2)."""
+    T = om.reshape([2] * 16)          # (A',A,B1',B1,B2',B2,C',C) × the same
     Ms = [I2 if p == "I" else J for p in pat]
-    # коэффициентный оператор на кубитах: X = Tr_rebits[(⊗ Mᵀ) ω] / 2^4
+    # the coefficient operator on the qubits: X = Tr_rebits[(⊗ Mᵀ) ω] / 2^4
     X = np.einsum("aibjckdlAIBJCKDL,Aa,Bb,Cc,Dd->ijklIJKL", T, Ms[0].T, Ms[1].T, Ms[2].T, Ms[3].T) / 16
     comp = np.einsum("Aa,Bb,Cc,Dd,ijklIJKL->AiBjCkDlaIbJcKdL", *Ms, X)
     return comp.reshape(256, 256)
@@ -48,7 +51,7 @@ def main():
     Fc = H.complete_bob(Fr)
     dims = (4, 4, 4, 4)
     T0 = R.T_value(omr, Ar, Fc, Cr)
-    # 1) разложение
+    # 1) the decomposition
     comps, total = {}, np.zeros((256, 256))
     for pat in itertools.product("IJ", repeat=4):
         c = rebit_component(omr, pat)
@@ -59,7 +62,7 @@ def main():
                        "AC_marginal_dev": md[0], "B_marginal_dev": md[1]}
     out["decomposition_check"] = float(np.abs(total - omr).max())
     out["components"] = {k: v for k, v in comps.items() if v["norm"] > 1e-12}
-    # 2) удаление запрещённых частей по отдельности
+    # 2) removing the forbidden parts one at a time
     T8 = omr.reshape([4] * 8)
     mAC = np.einsum("abcdebcf->adef", T8).reshape(16, 16)
     mB = np.einsum("abcdafgd->bcfg", T8).reshape(16, 16)
@@ -78,7 +81,7 @@ def main():
     out["removal"] = rem
     out["dev_AC_rank_eigs"] = sorted(set(np.round(np.linalg.eigvalsh(dAC), 10).tolist()))
     out["dev_B_rank_eigs"] = sorted(set(np.round(np.linalg.eigvalsh(dB), 10).tolist()))
-    # 3) SDP без ОН при операциях HW
+    # 3) an SDP without OI at the HW operations
     G = S.Model(dims).G(Ar, Fc, Cr)
     W = cp.Variable((256, 256), symmetric=True)
     cons = [W >> 0] + S.marg_constraints(S.Model(dims), W)
@@ -93,8 +96,8 @@ def main():
                                      "T_feasible": R.T_value(Wf, Ar, Fc, Cr), "marginals_dev": R.marginals_ok(Wf, dims),
                                      "OI_violation": R.oi_violation(Wf, dims, rng, 50),
                                      "seconds": round(time.time() - t1, 1)}
-    print("SDP без ОН:", out["SDP_ISO_noOI_at_HW_ops"], flush=True)
-    # 4) с ОН: чередование при фиксированных операциях HW
+    print("SDP without OI:", out["SDP_ISO_noOI_at_HW_ops"], flush=True)
+    # 4) with OI: alternation at the fixed HW operations
     m = S.Model(dims)
     w1, w2 = np.einsum("ajbj->ab", omr.reshape(16, 16, 16, 16)), np.einsum("jajb->ab", omr.reshape(16, 16, 16, 16))
     Dc, hist = np.zeros((256, 256)), []
@@ -107,7 +110,7 @@ def main():
             except Q.SolverFailure:
                 pass
         hist.append(float(np.trace((np.kron(w1, w2) + Dc) @ G)))
-        print(f"  ОН, фикс. операции HW, итерация {it}: {hist[-1]:.6f}", flush=True)
+        print(f"  OI, fixed HW operations, iteration {it}: {hist[-1]:.6f}", flush=True)
     cl = E.cleanup(m, w1, w2, Dc, Ar, Fc, Cr, rng)
     out["OI_alternation_at_HW_ops"] = {"history": hist, "cleanup": cl}
     out["seconds"] = round(time.time() - t0, 1)

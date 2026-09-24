@@ -1,15 +1,15 @@
 """
-Stage B, РАЗВЕДОЧНЫЙ (не предрегистрированный) анализ.
+Stage B, EXPLORATORY (not preregistered) analysis.
 
-Повод: 8 из 18 вершин P_AB (Def-II) не достигаются детерминированными классическими
-TS-схемами (stage_b.json, vertex_crosscheck). Здесь:
-  1. перечисляем распределения классических TS-схем A≼B с большими размерностями
-     проводов через редукцию (Алиса ≡ сбалансированная a = h(x, o); канал ≡ сбалансированная
-     i_B = ch(o, anc); Боб ≡ сбалансированная y = g(b, i_B)); редукция сверяется с прямым
-     перебором биекций из stage_b.circuit_distributions;
-  2. строим P_TS^circ = conv(схемы A≼B ∪ их образ при обмене сторон) и его фасеты/классы,
-     сравниваем с K и с классами основного определения.
-Результат: results/json/stage_b_explore.json. В выводы Stage B как основной результат НЕ идёт.
+Reason: 8 of the 18 vertices of P_AB (Def-II) are not reached by deterministic classical
+TS circuits (stage_b.json, vertex_crosscheck). Here:
+  1. we enumerate the distributions of classical TS circuits A≼B with larger wire
+     dimensions via a reduction (Alice ≡ balanced a = h(x, o); channel ≡ balanced
+     i_B = ch(o, anc); Bob ≡ balanced y = g(b, i_B)); the reduction is checked against the direct
+     enumeration of bijections from stage_b.circuit_distributions;
+  2. we build P_TS^circ = conv(A≼B circuits ∪ their image under the swap of parties) and its
+     facets/classes, comparing them with K and with the classes of the main definition.
+Result: results/json/stage_b_explore.json. It does NOT enter the Stage B conclusions as a main result.
 """
 import itertools
 import json
@@ -27,14 +27,14 @@ F = Fraction
 
 
 def balanced_maps(n_cells, n_vals):
-    """Все отображения [n_cells] -> [n_vals], где у каждого значения n_cells/n_vals прообразов."""
+    """All maps [n_cells] -> [n_vals] where every value has n_cells/n_vals preimages."""
     m = n_cells // n_vals
     return [f for f in itertools.product(range(n_vals), repeat=n_cells)
             if all(f.count(v) == m for v in range(n_vals))]
 
 
 def extreme_points(pts):
-    """Крайние точки конечного множества (удаление избыточных образующих, cdd.gmp)."""
+    """Extreme points of a finite set (removal of redundant generators, cdd.gmp)."""
     import cdd.gmp as cddg
     mat = cddg.matrix_from_array([[F(1)] + list(p) for p in pts], rep_type=cddg.RepType.GENERATOR)
     cddg.matrix_canonicalize(mat)
@@ -42,10 +42,10 @@ def extreme_points(pts):
 
 
 def reduced_circuits(dA, k, dB):
-    """Распределения p(a,b,x,y) схем A≼B: (x,o) равномерно на [2]x[dA], anc на [k], b на [2]."""
-    hs = balanced_maps(2 * dA, 2)                 # a = h(x, o), ячейка 2*o + x
-    chs = balanced_maps(dA * k, dB)               # i_B = ch(o, anc), ячейка k*o + anc
-    gs = balanced_maps(2 * dB, 2)                 # y = g(b, i_B), ячейка 2*i_B + b
+    """Distributions p(a,b,x,y) of A≼B circuits: (x,o) uniform on [2]x[dA], anc on [k], b on [2]."""
+    hs = balanced_maps(2 * dA, 2)                 # a = h(x, o), cell 2*o + x
+    chs = balanced_maps(dA * k, dB)               # i_B = ch(o, anc), cell k*o + anc
+    gs = balanced_maps(2 * dB, 2)                 # y = g(b, i_B), cell 2*i_B + b
     w = F(1, 2 * dA * k * 2)
     out = set()
     for h in hs:
@@ -69,7 +69,7 @@ def main():
     E_AB = B.NORM + B.D1 + B.EQ3 + B.EQ4
     V_AB = set(P.vertices_cdd(E_AB, B.POS))
 
-    # калибровка редукции: при dA=dB=2 и k=1,2,4 должна дать ровно то же, что прямой перебор
+    # calibration of the reduction: at dA=dB=2 and k=1,2,4 it must give exactly the same as the direct enumeration
     calib = {}
     for k in (1, 2, 4):
         direct = B.circuit_distributions(k)
@@ -97,7 +97,7 @@ def main():
     res["P_AB_vertices_realized_total"] = len(V_AB & allpts)
     res["P_AB_vertices_total"] = len(V_AB)
 
-    # оболочка схем: вершины A≼B-части, затем P_TS^circ
+    # hull of the circuits: vertices of the A≼B part, then P_TS^circ
     pts = sorted(allpts)
     swap = B.GENS["swap"]
     V_circ_AB = [p for p in pts]
@@ -141,11 +141,11 @@ def main():
         "classes": cls,
     }
     # ------------------------------------------------------------------------------
-    # 3. Точное замыкание классических TS-схем A≼B при любых размерностях.
-    # Распределение схемы = Σ μ(tA,tB) (1/4) [a = tA(x)] [y = tB(b)], где μ — доля ячеек (o, anc)
-    # с типом Алисы tA = (h(0,o), h(1,o)) и типом Боба tB = (g(0,i_B), g(1,i_B)), i_B = ch(o,anc).
-    # Сбалансированность h и g: E|tA| = 1, E|tB| = 1. Обратно, любая рациональная μ из M
-    # реализуется при dA = dB = N (N μ целые), i_B = o. Замыкание = образ многогранника M.
+    # 3. Exact closure of the classical TS circuits A≼B for arbitrary dimensions.
+    # Circuit distribution = Σ μ(tA,tB) (1/4) [a = tA(x)] [y = tB(b)], where μ is the fraction of cells (o, anc)
+    # with Alice type tA = (h(0,o), h(1,o)) and Bob type tB = (g(0,i_B), g(1,i_B)), i_B = ch(o,anc).
+    # Balancedness of h and g: E|tA| = 1, E|tB| = 1. Conversely, any rational μ from M
+    # is realised at dA = dB = N (N μ integer), i_B = o. The closure = the image of the polytope M.
     types = list(itertools.product(range(2), repeat=2))
     pairs = list(itertools.product(types, types))
     M_eqs = [([F(1)] * 16, F(1)),
@@ -164,7 +164,7 @@ def main():
 
     img = sorted({image(m) for m in M_vert})
     ext_cl = extreme_points(img)
-    # все точки усечённого перебора лежат в замыкании (LP через фасеты замыкания)
+    # all points of the truncated enumeration lie in the closure (LP via the closure facets)
     _, h_cl_ab = P.facets_cdd(ext_cl)
     hull_ab_cl = P.affine_hull(ext_cl)
     in_cl = lambda p: (all(sum(c * q for c, q in zip(cv, p)) <= c0 for cv, c0 in h_cl_ab)  # noqa: E731

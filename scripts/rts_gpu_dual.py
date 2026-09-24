@@ -1,16 +1,16 @@
 """
-RTS stage 1, S.2 — двойственный сертификат на GPU (ADMM), для размерностей, где cvxpy/SCS не собирают задачу:
-при N = 1296 плотное представление отображения lift в cvxpy нереально по памяти.
+RTS stage 1, S.2 — dual certificate on GPU (ADMM), for dimensions where cvxpy/SCS cannot assemble the problem:
+at N = 1296 a dense representation of the lift map in cvxpy is unrealistic memory-wise.
 
-Прямая: max ⟨G, ω⟩ по ω ⪰ 0 с ISO-маргиналами (ОН не требуется).
-Двойственная: min (Tr Y + Tr Z)/n при lift(Y, Z) := Y_{(A,C)}⊗I_{(B1,B2)} + I_{(A,C)}⊗Z_{(B1,B2)} ⪰ G.
-ADMM: min ⟨c, x⟩ + I_PSD(S) при lift(x) − S = G, x = (Y, Z).
-  x-шаг: lift*(lift(x)) = lift*(R) − c/ρ, R = S + G − u. Здесь lift*(M) = (Tr_B M, Tr_AC M), а система
+Primal: max ⟨G, ω⟩ over ω ⪰ 0 with ISO marginals (operational independence is not required).
+Dual: min (Tr Y + Tr Z)/n with lift(Y, Z) := Y_{(A,C)}⊗I_{(B1,B2)} + I_{(A,C)}⊗Z_{(B1,B2)} ⪰ G.
+ADMM: min ⟨c, x⟩ + I_PSD(S) subject to lift(x) − S = G, x = (Y, Z).
+  x-step: lift*(lift(x)) = lift*(R) − c/ρ, R = S + G − u. Here lift*(M) = (Tr_B M, Tr_AC M), and the system
      n_B·Y + (Tr Z)·I = P,  n_AC·Z + (Tr Y)·I = Q
-  разрешима с точностью до ядра (tI, −tI), вдоль которого целевая функция постоянна при n_AC = n_B.
-  S-шаг: Π_PSD(lift(x) − G + u);  u-шаг: u += lift(x) − G − S.
-Итог проверяется независимо: сдвиг Y → Y + |λ_min| I и разложение Холецкого — только после этого число
-объявляется верхней оценкой. Результат: results/json/rts_gpu_dual.json.
+  is solvable up to the kernel (tI, −tI), along which the objective is constant when n_AC = n_B.
+  S-step: Π_PSD(lift(x) − G + u);  u-step: u += lift(x) − G − S.
+The result is checked independently: the shift Y → Y + |λ_min| I and a Cholesky factorisation — only after that
+is the number declared an upper bound. Result: results/json/rts_gpu_dual.json.
 """
 import json
 import os
@@ -29,7 +29,7 @@ import rts_seesaw as S  # noqa: E402
 
 
 class Lift:
-    """lift(Y, Z) в порядке подсистем (A, B1, B2, C)."""
+    """lift(Y, Z) in the subsystem order (A, B1, B2, C)."""
 
     def __init__(self, dims):
         dA, dB1, dB2, dC = dims
@@ -54,8 +54,8 @@ class Lift:
         return mAC, mB
 
     def solve_normal(self, Pm, Qm):
-        """n_B·Y + (Tr Z)·I = P, n_AC·Z + (Tr Y)·I = Q; решение с точностью до ядра (tI, −tI)."""
-        z = 0.0                                             # калибровка вдоль ядра (объектив вдоль него постоянен)
+        """n_B·Y + (Tr Z)·I = P, n_AC·Z + (Tr Y)·I = Q; solution up to the kernel (tI, −tI)."""
+        z = 0.0                                             # gauge along the kernel (objective constant along it)
         Y = (Pm - z * torch.eye(self.nAC, device=GP.DEV, dtype=GP.DT)) / self.nB
         y = float(torch.trace(Y))
         Z = (Qm - y * torch.eye(self.nB, device=GP.DEV, dtype=GP.DT)) / self.nAC
@@ -70,7 +70,7 @@ def dual_admm(dims, G, iters=3000, rho=None, tol=1e-10):
     u = torch.zeros_like(Gt)
     Y = torch.eye(lf.nAC, device=GP.DEV, dtype=GP.DT) * float(torch.linalg.eigvalsh(Gt).max())
     Z = torch.zeros((lf.nB, lf.nB), device=GP.DEV, dtype=GP.DT)
-    cY = torch.eye(lf.nAC, device=GP.DEV, dtype=GP.DT) / lf.nAC       # ∇ целевой: (Tr Y + Tr Z)/n_AC
+    cY = torch.eye(lf.nAC, device=GP.DEV, dtype=GP.DT) / lf.nAC       # ∇ of the objective: (Tr Y + Tr Z)/n_AC
     cZ = torch.eye(lf.nB, device=GP.DEV, dtype=GP.DT) / lf.nAC
     pr = dr = float("nan")
     for k in range(iters):
@@ -102,7 +102,7 @@ def certify(dims, A, F, C, iters=3000):
     lf = Lift(dims)
     t0 = time.time()
     Y, Z, res = dual_admm(dims, Gt, iters=iters)
-    # независимая проверка на CPU: сдвиг до допустимости и Cholesky
+    # independent check on CPU: shift to feasibility and Cholesky
     Yn, Zn = Y.cpu().numpy(), Z.cpu().numpy()
     Yn, Zn = (Yn + Yn.T) / 2, (Zn + Zn.T) / 2
     M = lf(GP._t(Yn), GP._t(Zn)).cpu().numpy() - G
@@ -127,15 +127,15 @@ def main():
         z = np.load(f, allow_pickle=True)
         A, F, C = z["A"].item(), list(z["F"]), z["C"].item()
         om = np.kron(z["w1"], z["w2"]) + z["D"]
-        # сравнение — с ОЧИЩЕННОЙ точкой: сырая слегка нарушает ISO, и её 𝒯 может превышать истинный максимум
+        # comparison is against the CLEANED point: the raw one slightly violates ISO and its 𝒯 can exceed the max
         _, cl = GS.cleanup_gpu(GP.GState((d,) * 4), GP._t(z["w1"]), GP._t(z["w2"]), GP._t(z["D"]), A, F, C,
                                np.random.default_rng(0))
         rec = {"T_at_point_raw": R.T_value(om, A, F, C), "T_at_point": cl["T"], "q_noise": cl["q_noise"]}
         rec.update(certify((d,) * 4, A, F, C, iters=int(os.environ.get("RTS_DUAL_ITERS", "4000"))))
         rec["gap"] = rec["certified_upper_bound"] - rec["T_at_point"]
         out[f"d{d}"] = rec
-        print(f"d={d}: значение {rec['T_at_point']:.6f}, сертификат {rec['certified_upper_bound']:.6f}, "
-              f"зазор {rec['gap']:.1e} ({rec['seconds']} с)", flush=True)
+        print(f"d={d}: value {rec['T_at_point']:.6f}, certificate {rec['certified_upper_bound']:.6f}, "
+              f"gap {rec['gap']:.1e} ({rec['seconds']} s)", flush=True)
         with open(out_p, "w") as fh:
             json.dump(out, fh, ensure_ascii=False, indent=1, default=float)
 

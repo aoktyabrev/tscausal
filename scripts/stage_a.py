@@ -1,13 +1,13 @@
 """
-Stage A — ворота: калибровка на временно-прямом причинном многограннике Branciard et al.
+Stage A — gate: calibration on the time-forward causal polytope of Branciard et al.
 
-A.1  прогон causal_polytope_calib.py как есть + точное (GMP) воспроизведение его чисел;
-A.2  сверка с Branciard et al. (arXiv:1508.01704): 48 фасет = 16 тривиальных + 32
-     нетривиальных, 3 семейства (цитаты в SOURCES.md);
-A.3  lrs против pycddlib (cdd.gmp): совпадение множеств фасет после приведения;
-A.4  калибровка канонизатора: на известном ответе (3 класса) + контрольные провалы.
+A.1  run causal_polytope_calib.py as is + exact (GMP) reproduction of its numbers;
+A.2  comparison with Branciard et al. (arXiv:1508.01704): 48 facets = 16 trivial + 32
+     non-trivial, 3 families (citations in SOURCES.md);
+A.3  lrs versus pycddlib (cdd.gmp): the facet sets agree after reduction;
+A.4  calibration of the canonicaliser: on a known answer (3 classes) + control failures.
 
-Результат: results/json/stage_a.json
+Result: results/json/stage_a.json
 """
 import itertools
 import json
@@ -27,7 +27,7 @@ import causal_polytope_calib as calib  # noqa: E402
 
 PY = sys.executable
 
-# Координаты калибровочного скрипта: (x, y, a, b), x,y — выходы, a,b — входы.
+# Coordinates of the calibration script: (x, y, a, b), x,y — outputs, a,b — inputs.
 SC = P.Scenario(calib.COORD)
 
 
@@ -35,9 +35,9 @@ def gen(f):
     return SC.perm_from_map(lambda t: f(*t))
 
 
-# Группа переименований Branciard et al.: «relabelings of inputs and outputs»
-# (выход может переворачиваться в зависимости от своего входа: a ⊕ α1 x ⊕ α0 в их записи)
-# плюс обмен сторон.
+# Relabeling group of Branciard et al.: "relabelings of inputs and outputs"
+# (an output may be flipped depending on its own input: a ⊕ α1 x ⊕ α0 in their notation)
+# plus the swap of parties.
 BRANCIARD_GENS = {
     "flip_in_A":   gen(lambda x, y, a, b: (x, y, 1 - a, b)),
     "flip_in_B":   gen(lambda x, y, a, b: (x, y, a, 1 - b)),
@@ -75,7 +75,7 @@ def main():
     }
     V = [tuple(Fraction(x) for x in v) for v in calib.causal_vertices()]
     eqs, ineqs = P.facets_cdd(V)
-    # фильтр «тривиальности» ровно как в калибровочном скрипте
+    # "triviality" filter exactly as in the calibration script
     raw_nontriv = [(c, c0) for c, c0 in ineqs
                    if not (c0 == 0 and sorted(x for x in c if x != 0) == [1])]
     a1["exact"] = {"vertices": len(V), "equalities": len(eqs), "inequalities_total": len(ineqs),
@@ -89,7 +89,7 @@ def main():
                   and a1["exact"]["gyni_max"] == "1/2" and a1["exact"]["lgyni_max"] == "3/4")
     out["A1"] = a1
 
-    # ---------------------------------------------------------------- проекция, тривиальные
+    # ---------------------------------------------------------------- projection, trivial ones
     hull = P.affine_hull(V)
     proj = P.Projector(hull)
     pos = {P.projected([Fraction(-1) if j == i else Fraction(0) for j in range(SC.D)], 0, proj)
@@ -100,7 +100,7 @@ def main():
     trivial = [f for f in cdd_proj if f in pos]
     nontrivial = [f for f in cdd_proj if f not in pos]
     disguised = len(raw_nontriv) - len(nontrivial)
-    # разбор «36» из float-прогона калибровочного скрипта: те же строки, спроецированные
+    # breakdown of the "36" from the float run of the calibration script: the same rows, projected
     n_eq_float, raw36 = calib.facets(calib.causal_vertices())
     raw36_proj = [P.projected([Fraction(x) for x in c], Fraction(c0), proj) for c, c0 in raw36]
     a1["float_raw36_decomposition"] = {
@@ -111,7 +111,7 @@ def main():
         "literal_positivity_rows_dropped_by_script": len(ineqs) - len(raw36),
     }
 
-    # фасетность: каждая строка — действительно фасета (насыщающие вершины ранга dim-1)
+    # facetness: each row really is a facet (saturating vertices of rank dim-1)
     dim = P.rank([[1] + list(v) for v in V]) - 1
     facet_check = all(P.tight_rank(f[:-1], f[-1], V) == dim - 1 for f in cdd_proj)
     valid_check = all(P.max_over(f[:-1], V) == f[-1] for f in cdd_proj)
@@ -123,7 +123,7 @@ def main():
     lrs_set = {P.projected(c, c0, proj) for c, c0 in lineqs}
     raw_cdd = {P.primitive(c, c0) for c, c0 in ineqs}
     raw_lrs = {P.primitive(c, c0) for c, c0 in lineqs}
-    # контроль, что сравнение может провалиться: портим одну фасету lrs
+    # control that the comparison can fail: we spoil one lrs facet
     spoiled = set(lrs_set)
     victim = sorted(spoiled)[0]
     spoiled.remove(victim)
@@ -152,16 +152,16 @@ def main():
     gy_can = P.canonical(gyni, Fraction(1, 2), proj, group)
     lg_can = P.canonical(lgyni, Fraction(3, 4), proj, group)
     pos_can = P.canonical([Fraction(-1)] + [Fraction(0)] * (SC.D - 1), 0, proj, group)
-    # контроль 1: без проекции (сырые cdd-строки) — счёт классов артефактен
+    # control 1: without projection (raw cdd rows) — the class count is an artefact
     classes_noproj = {}
     for c, c0 in ineqs:
         best = min(P.primitive(P.act_ineq(g, c), c0)[0] + (P.primitive(P.act_ineq(g, c), c0)[1],)
                    for g in group)
         classes_noproj.setdefault(best, 0)
         classes_noproj[best] += 1
-    # контроль 2: тривиальная группа — классов должно быть 48
+    # control 2: trivial group — there must be 48 classes
     classes_trivgroup = {P.canonical(f[:-1], f[-1], proj, [tuple(range(SC.D))]) for f in cdd_proj}
-    # контроль 3: группа без условных переворотов выхода — 16 GYNI-фасет распадаются
+    # control 3: group without conditional output flips — the 16 GYNI facets split apart
     weak = P.group_closure([g for k, g in BRANCIARD_GENS.items() if not k.startswith("cflip")])
     classes_weak = {P.canonical(f[:-1], f[-1], proj, weak) for f in cdd_proj}
     a2 = {

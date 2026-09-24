@@ -1,10 +1,10 @@
 """
-RTS stage 1 — see-saw с шагом по состоянию на GPU (rts_gpu.admm_step): шаги по операциям остаются на CPU
-(cvxpy, задачи размера d×d), шаги по ω₁, ω₂, Δ считаются ADMM на GPU. Только этот путь масштабируется
-до (6,6,6,6) и (8,8,8,8): SCS при N = 1296 тратит ~350 с на один w-шаг.
+RTS stage 1 — see-saw with the state step on GPU (rts_gpu.admm_step): the operation steps stay on CPU
+(cvxpy, problems of size d×d), the steps over ω₁, ω₂, Δ are computed by ADMM on GPU. Only this path scales
+up to (6,6,6,6) and (8,8,8,8): SCS at N = 1296 spends ~350 s on a single w-step.
 
-Очистка точки — пофакторный шум, как в RTS 0, но безбазисная (проекции из rts_gpu): ISO и ОН точные,
-положительность подтверждается разложением Холецкого.
+Cleanup of a point — per-factor noise, as in RTS 0, but basis-free (projections from rts_gpu): ISO and
+operational independence are exact, positivity is confirmed by a Cholesky factorisation.
 """
 import os
 import sys
@@ -21,8 +21,8 @@ import rts_seesaw as S  # noqa: E402
 
 
 def cleanup_gpu(gs, w1, w2, D, A, F, C, rng, tol=1e-12):
-    """ω(q) = w₁(q)⊗w₂(q) + (1−q)Δ, w_i(q) = (1−q)w_i + q I/n_i; минимальное q делением отрезка до ω ⪰ 0.
-    ISO-маргиналы и ОН точные по построению проекций."""
+    """ω(q) = w₁(q)⊗w₂(q) + (1−q)Δ, w_i(q) = (1−q)w_i + q I/n_i; minimal q by bisection of the segment until ω ⪰ 0.
+    ISO marginals and operational independence are exact by construction of the projections."""
     dA, dB1, dB2, dC = gs.dims
     w1c, w2c = gs.fix_local(w1, dA, dB1), gs.fix_local(w2, dB2, dC)
     Dc = gs.proj_delta(D)
@@ -50,7 +50,7 @@ def cleanup_gpu(gs, w1, w2, D, A, F, C, rng, tol=1e-12):
             else:
                 lo = mid
     om_t = om_of(hi)
-    torch.linalg.cholesky(om_t.cpu())                       # сертификат ω ≻ 0
+    torch.linalg.cholesky(om_t.cpu())                       # certificate ω ≻ 0
     om = om_t.cpu().numpy()
     return om, {"q_noise": hi, "T": R.T_value(om, A, F, C), "min_eig": float(np.linalg.eigvalsh(om_t.cpu().numpy()).min()),
                 "iso_marginals_dev": R.marginals_ok(om, gs.dims),
@@ -59,7 +59,7 @@ def cleanup_gpu(gs, w1, w2, D, A, F, C, rng, tol=1e-12):
 
 
 def run_gpu(dims, rng, iters=10, admm_iters=1500, start=None, verbose=True, time_budget=None, polish=6):
-    """Двухфазный see-saw: фаза 1 — произведения (Δ = 0), фаза 2 — Δ и операции. Возвращает точку или None."""
+    """Two-phase see-saw: phase 1 — products (Δ = 0), phase 2 — Δ and operations. Returns a point or None."""
     m = S.Model(dims, delta_basis=False)
     gs = GP.GState(dims)
     dA, dB1, dB2, dC = dims
@@ -101,14 +101,14 @@ def run_gpu(dims, rng, iters=10, admm_iters=1500, start=None, verbose=True, time
                 val = float((torch.kron(w1t, w2t) + Dt).flatten() @ Gt.T.flatten())
                 hist.append(val)
                 if verbose:
-                    print(f"    фаза {phase} итерация {it}: 𝒯 = {val:.6f} ({time.time() - t0:.0f} с)", flush=True)
+                    print(f"    phase {phase} iteration {it}: 𝒯 = {val:.6f} ({time.time() - t0:.0f} s)", flush=True)
                 if val - last < 1e-6:
                     break
                 last = val
     except Q.SolverFailure:
         return None
-    # доводка: длинный ADMM при финальных операциях — уменьшает остаточную недопустимость, а значит и
-    # потерю 𝒯 в очистке (при d = 6 без неё терялось до 0.42)
+    # polish: a long ADMM at the final operations — reduces the residual infeasibility, and hence the
+    # loss of 𝒯 in the cleanup (at d = 6 without it up to 0.42 was lost)
     polish_res = None
     if polish:
         Gt = GP._t(m.G(A, F, C))

@@ -1,9 +1,9 @@
 """
-T3.1 — проверка и структура свидетеля W*. Определения и прогнозы — PREREGISTRATION_T31.md.
-b: значения игр на Лугано, зеркале, W*; инвариантность игр относительно полной инверсии;
-c: группа G (Z₂⁶ ⋊ (S₃ × Z₂), 768 элементов): симметризация ½(L + gL) и орбитальные смеси;
-d: все детерминированные трёхсторонние функции процесса, симметризуемость некаузальных.
-Результат: results/json/t31.json.
+T3.1 — verification and structure of the witness W*. Definitions and predictions — PREREGISTRATION_T31.md.
+b: game values on Lugano, the mirror and W*; invariance of the games under full inversion;
+c: the group G (Z₂⁶ ⋊ (S₃ × Z₂), 768 elements): symmetrisation ½(L + gL) and orbit mixtures;
+d: all deterministic tripartite process functions, symmetrisability of the non-causal ones.
+Result: results/json/t31.json.
 """
 import itertools
 import json
@@ -25,7 +25,7 @@ BITS3 = TC.BITS3
 IDX = TC.IDX
 FAST = os.environ.get("T31_FAST") == "1"
 
-# ------------------------------------------------------------------ игры (Abbott et al.: входы x,y,z = доходы; выходы a,b,c = исходы)
+# ------------------------------------------------------------------ games (Abbott et al.: inputs x,y,z = incomes; outputs a,b,c = outcomes)
 
 
 def g_bw16(inc, out):
@@ -85,7 +85,7 @@ def causal_max(win, strat):
     return F_(max(sum(1 for k, inc in enumerate(BITS3) if win(inc, t[k])) for t in strat), 8)
 
 
-# ------------------------------------------------------------------ группа G
+# ------------------------------------------------------------------ the group G
 
 def group():
     out = []
@@ -98,7 +98,7 @@ def group():
 
 
 def apply(g, T):
-    """(g·T)[i, o] = T[π(i) ⊕ fI, π(o) ⊕ fO]; затем транспонирование, если tr."""
+    """(g·T)[i, o] = T[π(i) ⊕ fI, π(o) ⊕ fO]; then transposition if tr."""
     fI, fO, perm, tr = g
     R = np.empty_like(T)
     for i in BITS3:
@@ -119,7 +119,7 @@ FORBID = {cls: np.array([[not TC.allowed(TC.type_of(sI, sO), cls) for sO in BITS
 
 
 def member_fast(T):
-    """Точная проверка классов для рациональных T (через целые: T·den)."""
+    """Exact class check for rational T (via integers: T·den)."""
     Tn = np.array([[float(v) for v in row] for row in T])
     C = H8 @ Tn @ H8.T
     col_ok = np.allclose(Tn.sum(axis=0), 1)
@@ -128,7 +128,7 @@ def member_fast(T):
 
 
 def separable_screen(T, cmat):
-    """HiGHS: T ∈ conv(причинных функций)? Точное подтверждение — отдельно (cdd)."""
+    """HiGHS: T ∈ conv(causal functions)? Exact confirmation — separately (cdd)."""
     r = linprog(np.zeros(cmat.shape[1]), A_eq=np.vstack([cmat, np.ones((1, cmat.shape[1]))]),
                 b_eq=np.concatenate([np.array([[float(v) for v in row] for row in T]).reshape(64), [1.0]]),
                 bounds=(0, None), method="highs")
@@ -151,8 +151,8 @@ def main():
     fwd = TC.PERMS.index((0, 2, 1, 3))
     nf = fwd * 576 + fwd * 24 + fwd
 
-    # ---------------- a': неявный прецедент W₃ (1403.7333) и тонкая настройка W*
-    print("a': W3 и семейство qL+(1-q)L̄…", flush=True)
+    # ---------------- a': implicit precedent W₃ (1403.7333) and fine-tuning of W*
+    print("a': W3 and the family qL+(1-q)L̄…", flush=True)
     W3 = np.empty((8, 8), dtype=object)
     for i in range(8):
         for o in range(8):
@@ -168,7 +168,7 @@ def main():
     cons3 = all(sum(W3[IDX[i], IDX[(fA[i[0]], fB[i[1]], fC[i[2]])]] for i in BITS3) == 1
                 for fA, fB, fC in itertools.product(TC.LOCAL_F, repeat=3))
     Sarr0 = np.array([TS.corr_vector(t) for t in strat], float).T
-    # корреляции W₃ при всех тройках TS-операций: есть ли вне причинного многогранника
+    # correlations of W₃ for all TS-operation triples: are any outside the causal polytope
     seen3, outside3 = {}, []
     for n in range(len(TS.OPS)):
         p = tuple(TS.correlations(W3, n))
@@ -192,7 +192,7 @@ def main():
     out["a_W_star_fine_tuning"] = fam
 
     # ---------------- b
-    print("b: игры…", flush=True)
+    print("b: games…", flush=True)
     games = dict(GAMES_QUOTED)
     games["G*"] = (game_from_support(TS.correlations(Ws, nf)), None)
     b = {}
@@ -216,7 +216,7 @@ def main():
     out["b_games"] = b
 
     # ---------------- c
-    print("c: группа…", flush=True)
+    print("c: group…", flush=True)
     G = group()
     stab = [g for g in G if np.array_equal(apply(g, L), L)]
     rows = []
@@ -229,7 +229,7 @@ def main():
                      "gL_equals_L": bool(np.array_equal(gL, L)), "gL_equals_mirror": bool(np.array_equal(gL, Lb)),
                      "membership": mem, "separable": sep})
     working = [r for r in rows if r["membership"]["ISO"] and r["separable"] is False]
-    # точное подтверждение и корреляции для работающих g
+    # exact confirmation and correlations for the working g
     exact = []
     Sarr = np.array([TS.corr_vector(t) for t in strat], float).T
     for r in working:
@@ -252,8 +252,8 @@ def main():
                       "distinct_working_mixtures": len({tuple(map(str, ((L + apply(next(g for g in G if gname(g) == w['g']), L)) / 2).reshape(64)))
                                                         for w in working}),
                       "transpose_alone_in_ISO": next(r["membership"]["ISO"] for r in rows if r["g"] == gname(((0, 0, 0), (0, 0, 0), (0, 1, 2), 1)))}
-    # орбитальные смеси: циклические подгруппы и крупные подгруппы
-    print("c: орбиты…", flush=True)
+    # orbit mixtures: cyclic subgroups and large subgroups
+    print("c: orbits…", flush=True)
     orb = []
     seen = set()
     for g in G:
@@ -286,8 +286,8 @@ def main():
                        "list": orb}
 
     # ---------------- d
-    print("d: перебор функций процесса…", flush=True)
-    tables = list(itertools.product((0, 1), repeat=4))       # ω_X как функция двух чужих выходов
+    print("d: enumerating process functions…", flush=True)
+    tables = list(itertools.product((0, 1), repeat=4))       # ω_X as a function of the two other outputs
     causal_set = {tuple(t[o] for o in BITS3) for t in ctab}
     valid, noncausal = [], []
     for tA, tB, tC in itertools.product(tables, repeat=3):
@@ -298,7 +298,7 @@ def main():
         valid.append(key)
         if key not in causal_set:
             noncausal.append(key)
-    # полнота кандидатов: функции, где вход зависит от собственного выхода, недопустимы (проверка на выборке)
+    # candidate completeness: functions where an input depends on its own output are invalid (checked on a sample)
     rng = np.random.default_rng(11)
     dep_ok = 0
     for _ in range(300):
@@ -307,7 +307,7 @@ def main():
         own = any(om[o][k] != om[tuple(o[j] if j != k else 1 - o[j] for j in range(3))][k] for o in BITS3 for k in range(3))
         if own and TC.valid_det(lambda o, m=om: m[o]):
             dep_ok += 1
-    # классы по Z₂⁶ ⋊ S₃ (без транспонирования: оно выводит из детерминированных процессов)
+    # classes under Z₂⁶ ⋊ S₃ (without transposition: it leads out of the deterministic processes)
     G0 = [g for g in G if g[3] == 0]
     nc_T = {k: TC.det_T(lambda o, m=dict(zip(BITS3, k)): m[o]) for k in noncausal}
     classes, rep_of = [], {}
@@ -323,7 +323,7 @@ def main():
             rep_of[gk] = k
         classes.append({"rep": ["".join(map(str, v)) for v in k], "size": len(orbit & set(noncausal)),
                         "contains_lugano": tuple(TC.lugano(o) for o in BITS3) in orbit})
-    # симметризуемость каждого некаузального
+    # symmetrisability of each non-causal one
     sym = []
     for k in noncausal:
         T = nc_T[k]

@@ -1,22 +1,22 @@
 """
-Общее ядро TSCAUSAL: точная арифметика, фасеты через cdd.gmp и lrs, канонизация.
+Shared TSCAUSAL core: exact arithmetic, facets via cdd.gmp and lrs, canonicalisation.
 
-Соглашения.
-  Точка многогранника — вектор p длины D (координаты перечислены в COORD сценария).
-  Неравенство — пара (c, c0), смысл: c . p <= c0.
-  Равенство аффинной оболочки — пара (e, e0), смысл: e . p == e0.
+Conventions.
+  A point of the polytope is a vector p of length D (the coordinates are listed in the scenario's COORD).
+  An inequality is a pair (c, c0), meaning: c . p <= c0.
+  An affine-hull equality is a pair (e, e0), meaning: e . p == e0.
 
-Канонизация неравенства (c, c0) относительно аффинной оболочки {E p = e0}:
-  1. проекция c на ортогональное дополнение rowspace(E): c' = c - E^T (E E^T)^+ E c,
-     c0' = c0 - e0^T (E E^T)^+ E c  (то же число вычитается из обеих частей, так что
-     на аффинной оболочке неравенство не меняется);
-  2. приведение (c', c0') к примитивному целому вектору (общий знаменатель, деление на НОД);
-  3. лексикографический минимум по орбите группы перестановок координат.
-Шаг 1 корректен для группы, потому что перестановки координат ортогональны и
-сохраняют аффинную оболочку (это проверяется отдельно, см. is_automorphism).
+Canonicalisation of an inequality (c, c0) with respect to the affine hull {E p = e0}:
+  1. projection of c onto the orthogonal complement of rowspace(E): c' = c - E^T (E E^T)^+ E c,
+     c0' = c0 - e0^T (E E^T)^+ E c  (the same number is subtracted from both sides, so that
+     on the affine hull the inequality does not change);
+  2. reduction of (c', c0') to a primitive integer vector (common denominator, division by the GCD);
+  3. lexicographic minimum over the orbit of the group of coordinate permutations.
+Step 1 is correct for the group because coordinate permutations are orthogonal and
+preserve the affine hull (this is checked separately, see is_automorphism).
 
-ВАЖНО про pycddlib 3.x: `import cdd` — это float-бэкенд (Fraction молча превращается
-в float). Точная рациональная арифметика — только `cdd.gmp`. Здесь используется cdd.gmp.
+IMPORTANT about pycddlib 3.x: `import cdd` is the float backend (a Fraction is silently turned
+into a float). Exact rational arithmetic lives only in `cdd.gmp`. Here cdd.gmp is used.
 """
 import os
 import shutil
@@ -35,13 +35,13 @@ def find_lrs():
     for cand in (os.path.join(ROOT, ".env", "bin", "lrs"), shutil.which("lrs")):
         if cand and os.path.exists(cand):
             return cand
-    raise RuntimeError("lrs не найден (ожидается .env/bin/lrs или lrs в PATH)")
+    raise RuntimeError("lrs not found (expected .env/bin/lrs or lrs in PATH)")
 
 
-# ----------------------------------------------------------------- линейная алгебра
+# ----------------------------------------------------------------- linear algebra
 
 def rref(rows):
-    """Приведённый ступенчатый вид над Q. Возвращает (строки, опорные столбцы)."""
+    """Reduced row echelon form over Q. Returns (rows, pivot columns)."""
     M = [[Fraction(x) for x in r] for r in rows]
     piv, r = [], 0
     ncol = len(M[0]) if M else 0
@@ -66,8 +66,8 @@ def rank(rows):
 
 
 def affine_hull(points):
-    """Равенства аффинной оболочки конечного множества точек: список (e, e0), независимых.
-    Считается как нуль-пространство матрицы [1 | p]: вектор (-e0, e) с -e0 + e.p = 0."""
+    """Affine-hull equalities of a finite set of points: a list of independent (e, e0).
+    Computed as the null space of the matrix [1 | p]: the vector (-e0, e) with -e0 + e.p = 0."""
     D = len(points[0])
     R, piv = rref([[1] + list(p) for p in points])
     free = [j for j in range(D + 1) if j not in piv]
@@ -82,15 +82,15 @@ def affine_hull(points):
 
 
 def solve_sym(A, b):
-    """Решение A z = b для невырожденной квадратной A над Q."""
+    """Solves A z = b for a non-singular square A over Q."""
     n = len(A)
     R, piv = rref([list(A[i]) + [b[i]] for i in range(n)])
-    assert piv == list(range(n)), "вырожденная матрица Грама равенств"
+    assert piv == list(range(n)), "singular Gram matrix of the equalities"
     return [R[i][n] for i in range(n)]
 
 
 class Projector:
-    """Ортогональная проекция нормалей на направление аффинной оболочки."""
+    """Orthogonal projection of normals onto the direction of the affine hull."""
 
     def __init__(self, eqs):
         self.E = [[Fraction(x) for x in e] for e, _ in eqs]
@@ -111,7 +111,7 @@ class Projector:
 
 
 def primitive(c, c0):
-    """(c, c0) -> примитивный целый вектор того же направления (знак сохраняется)."""
+    """(c, c0) -> a primitive integer vector of the same direction (the sign is preserved)."""
     vals = [Fraction(x) for x in list(c) + [c0]]
     L = 1
     for v in vals:
@@ -125,10 +125,10 @@ def primitive(c, c0):
     return tuple(ints[:-1]), ints[-1]
 
 
-# ----------------------------------------------------------------- перечисление фасет
+# ----------------------------------------------------------------- facet enumeration
 
 def _parse_hrows(rows, lin):
-    """Строки b + A p >= 0 -> (равенства, неравенства) в форме (c, c0): c.p <= c0."""
+    """Rows b + A p >= 0 -> (equalities, inequalities) in the form (c, c0): c.p <= c0."""
     eqs, ineqs = [], []
     for i, row in enumerate(rows):
         row = [Fraction(x) for x in row]
@@ -138,7 +138,7 @@ def _parse_hrows(rows, lin):
 
 
 def facets_cdd(points):
-    """Точная (GMP) фасетная энумерация через pycddlib 3.x."""
+    """Exact (GMP) facet enumeration via pycddlib 3.x."""
     mat = cddg.matrix_from_array([[Fraction(1)] + [Fraction(x) for x in p] for p in points],
                                  rep_type=cddg.RepType.GENERATOR)
     poly = cddg.polyhedron_from_matrix(mat)
@@ -147,7 +147,7 @@ def facets_cdd(points):
 
 
 def vertices_cdd(eqs, ineqs):
-    """Точная вершинная энумерация H-многогранника {c.p <= c0} ∩ {e.p = e0} (cdd.gmp)."""
+    """Exact vertex enumeration of the H-polytope {c.p <= c0} ∩ {e.p = e0} (cdd.gmp)."""
     rows, lin = [], []
     for e, e0 in eqs:
         lin.append(len(rows))
@@ -159,9 +159,9 @@ def vertices_cdd(eqs, ineqs):
     G = cddg.copy_generators(poly)
     out = []
     for row in G.array:
-        assert Fraction(row[0]) == 1, "неограниченный многогранник (луч) — неожиданно"
+        assert Fraction(row[0]) == 1, "unbounded polyhedron (ray) — unexpected"
         out.append(tuple(Fraction(x) for x in row[1:]))
-    assert not G.lin_set, "у многогранника есть прямые — неожиданно"
+    assert not G.lin_set, "the polyhedron contains lines — unexpected"
     return out
 
 
@@ -171,7 +171,7 @@ def _fmt(x):
 
 
 def facets_lrs(points, workdir=None):
-    """Фасетная энумерация через lrs (точная рациональная арифметика)."""
+    """Facet enumeration via lrs (exact rational arithmetic)."""
     lrs = find_lrs()
     D = len(points[0])
     with tempfile.TemporaryDirectory(dir=workdir) as td:
@@ -194,7 +194,7 @@ def facets_lrs(points, workdir=None):
 
 
 def vertices_lrs(eqs, ineqs, workdir=None):
-    """Точная вершинная энумерация H-многогранника {c.p <= c0} ∩ {e.p = e0} через lrs."""
+    """Exact vertex enumeration of the H-polytope {c.p <= c0} ∩ {e.p = e0} via lrs."""
     lrs = find_lrs()
     rows, lin = [], []
     for e, e0 in eqs:
@@ -216,17 +216,17 @@ def vertices_lrs(eqs, ineqs, workdir=None):
     verts = []
     for s in _last_block(out):
         if s.startswith("linearity"):
-            raise AssertionError("у многогранника есть прямые — неожиданно")
+            raise AssertionError("the polyhedron contains lines — unexpected")
         t = [Fraction(x) for x in s.split()]
-        assert t[0] == 1, "луч в выводе lrs — неожиданно"
+        assert t[0] == 1, "a ray in the lrs output — unexpected"
         verts.append(tuple(t[1:]))
     return verts
 
 
 def _last_block(out):
-    """Строки последнего полного блока begin…end вывода lrs. При переполнении lrs (hybrid
-    arithmetic) перезапускается с большей разрядностью и печатает заголовок/блок заново;
-    берём последний блок. Нечисловая строка внутри блока — ошибка, а не пропуск."""
+    """Rows of the last complete begin…end block of the lrs output. On overflow lrs (hybrid
+    arithmetic) restarts with a larger word size and prints the header/block again;
+    we take the last block. A non-numeric line inside a block is an error, not something to skip."""
     blocks, cur, lin = [], None, None
     for line in out.splitlines():
         s = line.strip()
@@ -239,17 +239,17 @@ def _last_block(out):
             cur, lin = None, None
         elif cur is not None and s and not s.startswith("*****"):
             if s.startswith("lrs:") or s.startswith("*"):
-                cur = None          # перезапуск внутри блока — блок недействителен
+                cur = None          # a restart inside the block — the block is invalid
                 continue
             cur.append(s)
-    assert blocks, "lrs не выдал ни одного полного блока"
+    assert blocks, "lrs produced no complete block"
     return blocks[-1]
 
 
-# ----------------------------------------------------------------- группа и канонизация
+# ----------------------------------------------------------------- group and canonicalisation
 
 class Scenario:
-    """Координаты = список кортежей значений переменных; группа действует на кортежах."""
+    """Coordinates = a list of tuples of variable values; the group acts on the tuples."""
 
     def __init__(self, coords):
         self.coords = list(coords)
@@ -257,14 +257,14 @@ class Scenario:
         self.D = len(self.coords)
 
     def perm_from_map(self, f):
-        """Отображение кортежей t -> f(t) как перестановка индексов; проверка биективности."""
+        """The map of tuples t -> f(t) as a permutation of indices; bijectivity is checked."""
         perm = [self.idx[f(c)] for c in self.coords]
-        assert sorted(perm) == list(range(self.D)), "отображение не биективно на координатах"
+        assert sorted(perm) == list(range(self.D)), "the map is not a bijection on the coordinates"
         return tuple(perm)
 
 
 def act_point(perm, p):
-    """(g p)[perm[i]] = p[i] — перенос массы с кортежа t на g(t)."""
+    """(g p)[perm[i]] = p[i] — transfer of mass from tuple t to g(t)."""
     q = [None] * len(p)
     for i, j in enumerate(perm):
         q[j] = p[i]
@@ -272,12 +272,12 @@ def act_point(perm, p):
 
 
 def act_ineq(perm, c):
-    """Нормаль, для которой (g c).(g p) = c.p."""
+    """The normal for which (g c).(g p) = c.p."""
     return act_point(perm, c)
 
 
 def compose(p1, p2):
-    """Сначала p2, потом p1."""
+    """First p2, then p1."""
     return tuple(p1[p2[i]] for i in range(len(p1)))
 
 
@@ -302,7 +302,7 @@ def is_automorphism(perm, vertex_set):
 
 
 def canonical(c, c0, proj, group):
-    """Канонический представитель класса неравенства: lexmin по группе после проекции."""
+    """Canonical representative of an inequality class: lexmin over the group after projection."""
     cp, c0p = proj(c, c0)
     best = None
     for g in group:
@@ -324,7 +324,7 @@ def max_over(c, vertices):
 
 
 def tight_rank(c, c0, vertices):
-    """Аффинная размерность множества вершин, насыщающих c.p <= c0 (для проверки фасетности)."""
+    """Affine dimension of the set of vertices saturating c.p <= c0 (for the facet check)."""
     T = [v for v in vertices if sum(Fraction(a) * Fraction(b) for a, b in zip(c, v)) == c0]
     if not T:
         return -1
@@ -332,12 +332,12 @@ def tight_rank(c, c0, vertices):
 
 
 def fr(x):
-    """Fraction -> строка для JSON."""
+    """Fraction -> string for JSON."""
     return _fmt(x)
 
 
 def extreme_points(pts):
-    """Крайние точки конечного множества (удаление избыточных образующих, cdd.gmp)."""
+    """Extreme points of a finite set (removal of redundant generators, cdd.gmp)."""
     mat = cddg.matrix_from_array([[Fraction(1)] + list(p) for p in pts],
                                  rep_type=cddg.RepType.GENERATOR)
     cddg.matrix_canonicalize(mat)

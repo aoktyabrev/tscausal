@@ -1,7 +1,7 @@
 """
-RTS stage 0 — финальная точка продолжения (4,4,4,4): очистка сохранённой точки двумя способами (белый шум —
-ломает ОН на уровне шума; пофакторный шум — ОН и ISO точные) и независимый пересчёт 𝒯.
-Результат: results/json/rts_4444_final.json.
+RTS stage 0 — the final point of the (4,4,4,4) continuation: the saved point is cleaned in two ways (white noise,
+which breaks OI at the level of the noise; and per-factor noise, which keeps OI and ISO exact), and 𝒯 is
+recomputed independently. Result: results/json/rts_4444_final.json.
 """
 import json
 import os

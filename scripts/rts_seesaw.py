@@ -1,9 +1,9 @@
 """
-RTS stage 0, R.1 и R.3: see-saw по вещественным сетевым ISO-моделям (D12).
-ω = ω₁ ⊗ ω₂ + Δ,  ω₁ на A⊗B1, ω₂ на B2⊗C (маргиналы каждого — максимально смешанные: канал унитален и сохраняет след),
-Δ ∈ Anti(A⊗B1) ⊗ Anti(B2⊗C) — ровно то, что не видно операционально независимым измерениям (HW26 стр. 67);
-ISO для ω: Tr_{B1B2} Δ = 0, Tr_{AC} Δ = 0. R.1: Δ ≡ 0 (произведения). Операции вещественные симметричные.
-Результат: results/json/rts_seesaw.json.
+RTS stage 0, R.1 and R.3: see-saw over real network ISO models (D12).
+ω = ω₁ ⊗ ω₂ + Δ,  ω₁ on A⊗B1, ω₂ on B2⊗C (each marginal maximally mixed: the channel is unital and trace-preserving),
+Δ ∈ Anti(A⊗B1) ⊗ Anti(B2⊗C) — exactly what is invisible to operationally independent measurements (HW26 p. 67);
+ISO for ω: Tr_{B1B2} Δ = 0, Tr_{AC} Δ = 0. R.1: Δ ≡ 0 (products). The operations are real symmetric.
+Result: results/json/rts_seesaw.json.
 """
 import itertools
 import json
@@ -33,7 +33,7 @@ def antisym_basis(n):
 
 
 def ptr(M, dims, keep):
-    """Частичный след для 4 подсистем (A,B1,B2,C) — оставить подсистемы keep."""
+    """Partial trace for 4 subsystems (A,B1,B2,C) — keep the subsystems listed in keep."""
     T = M.reshape(list(dims) * 2)
     n = 4
     letters = "abcdefgh"
@@ -50,14 +50,14 @@ def ptr(M, dims, keep):
 class Model:
     def __init__(self, dims, cplx=False, delta_basis=True):
         self.dims = dims
-        self.cplx = cplx          # калибровка: комплексный see-saw (эрмитовы переменные) должен находить 6√2
+        self.cplx = cplx          # calibration: the complex see-saw (Hermitian variables) must find 6√2
         dA, dB1, dB2, dC = dims
         self.n1, self.n2 = dA * dB1, dB2 * dC
         self.N = self.n1 * self.n2
-        # Δ = Σ D_kl a_k ⊗ a_l, a_k — элементарный базис Anti. Базис хранится РАЗРЕЖЕННО (4 ненулевых на элемент):
-        # плотный вариант для (4,4,4,4) занимал ~7.5 ГБ и уронил систему 2026-09-22.
+        # Δ = Σ D_kl a_k ⊗ a_l, a_k — elementary Anti basis. The basis is stored SPARSELY (4 nonzeros per element):
+        # the dense variant for (4,4,4,4) took ~7.5 GB and brought the system down on 2026-09-22.
         if not delta_basis:
-            return               # GPU-путь (rts_gpu.py) базис Δ не использует: проекции безбазисные
+            return               # the GPU path (rts_gpu.py) does not use the Δ basis: the projections are basis-free
         self.p1, self.p2 = [(i, j) for i in range(self.n1) for j in range(i + 1, self.n1)], \
                            [(i, j) for i in range(self.n2) for j in range(i + 1, self.n2)]
         rows, cols, vals = [], [], []
@@ -68,13 +68,13 @@ class Model:
                     for (c, d, sc) in ((u, v, 1), (v, u, -1)):
                         rows.append(r); cols.append((a * self.n2 + c) * self.N + (b * self.n2 + d)); vals.append(sa * sc)
         self.Ks = sp.csr_matrix((vals, (rows, cols)), shape=(len(self.p1) * len(self.p2), self.N * self.N))
-        # маргиналы базисных элементов: Tr_B1 a_k (на A), Tr_A a_k (на B1), Tr_B2 a_l (на C), Tr_C a_l (на B2)
+        # marginals of the basis elements: Tr_B1 a_k (on A), Tr_A a_k (on B1), Tr_B2 a_l (on C), Tr_C a_l (on B2)
         self.trB1, self.trA = self._ptr_basis(self.p1, dA, dB1)
         self.trC, self.trB2 = self._ptr_basis(self.p2, dB2, dC)
 
     @staticmethod
     def _ptr_basis(pairs, d1, d2):
-        """Для a = E_ij − E_ji на d1⊗d2: vec(Tr_2 a) (d1²) и vec(Tr_1 a) (d2²) — строки матриц."""
+        """For a = E_ij − E_ji on d1⊗d2: vec(Tr_2 a) (d1²) and vec(Tr_1 a) (d2²) — rows of the matrices."""
         t2, t1 = np.zeros((len(pairs), d1 * d1)), np.zeros((len(pairs), d2 * d2))
         for k, (i, j) in enumerate(pairs):
             (i1, i2), (j1, j2) = divmod(i, d2), divmod(j, d2)
@@ -87,7 +87,7 @@ class Model:
     def delta(self, D):
         return np.reshape(self.Ks.T @ D.reshape(-1), (self.N, self.N))
 
-    # ---- целевой оператор G(A,F,C): 𝒯 = Tr[ω G]
+    # ---- objective operator G(A,F,C): 𝒯 = Tr[ω G]
     def G(self, A, F, C):
         G = np.zeros((self.N, self.N), complex if self.cplx else float)
         for (b, x, z), v in R.COEF.items():
@@ -101,7 +101,7 @@ def rand_orth(d, rng, cplx=False):
 
 
 def rand_proj(d, rng, tr, cplx=False):
-    """Случайный 0 ≤ P ≤ 1 со следом tr (tr может быть полуцелым); вещественный, либо комплексный при cplx."""
+    """Random 0 ≤ P ≤ 1 with trace tr (tr may be half-integer); real, or complex when cplx."""
     Qm = rand_orth(d, rng, cplx)
     k = int(np.floor(tr))
     P_ = Qm[:, :k] @ Qm[:, :k].conj().T
@@ -121,22 +121,22 @@ def random_start(m, rng):
     for z in range(1, 7):
         P_ = rand_proj(dC, rng, dC / 2, m.cplx)
         C[z] = [P_, np.eye(dC) - P_]
-    # Боб: случайный ортонормированный базис, разбитый на 4 равные группы
+    # Bob: a random orthonormal basis split into 4 equal groups
     dB = dB1 * dB2
     Qm = rand_orth(dB, rng, m.cplx)
     g = dB // 4
     F = [Qm[:, k * g:(k + 1) * g] @ Qm[:, k * g:(k + 1) * g].conj().T for k in range(4)]
-    # состояния: максимально запутанные вещественные с маргиналами 1/d (случайный ортогональный поворот)
+    # states: real maximally entangled ones with marginals 1/d (random orthogonal rotation)
     def maxent(d1, d2):
-        """Φ⁺ на общей части размерности d = min(d1,d2), остаток максимально смешан; затем случайные ортогональные
-        повороты с обеих сторон. Оба маргинала — максимально смешанные (ISO)."""
+        """Φ⁺ on the common part of dimension d = min(d1,d2), the remainder maximally mixed; then random orthogonal
+        rotations on both sides. Both marginals are maximally mixed (ISO)."""
         d = min(d1, d2)
         v = np.zeros(d * d)
         for i in range(d):
             v[i * d + i] = 1 / np.sqrt(d)
         core = np.outer(v, v)                                    # (s1, s2), s1,s2 ∈ [d]
         r1, r2 = d1 // d, d2 // d
-        full = np.kron(np.kron(core, np.eye(r1) / r1), np.eye(r2) / r2)   # порядок (s1, s2, e1, e2)
+        full = np.kron(np.kron(core, np.eye(r1) / r1), np.eye(r2) / r2)   # order (s1, s2, e1, e2)
         full = full.reshape([d, d, r1, r2] * 2).transpose([0, 2, 1, 3, 4, 6, 5, 7]).reshape(d1 * d2, d1 * d2)
         O = np.kron(rand_orth(d1, rng, m.cplx), rand_orth(d2, rng, m.cplx))
         return O @ full @ O.conj().T
@@ -148,7 +148,7 @@ def _var(m, d):
 
 
 def solve_ops_A(m, w, F, C, which, n_settings, trace_target):
-    """SDP по POVM одной стороны (A — первая подсистема, C — последняя) при фиксированном ω."""
+    """SDP over the POVM of one party (A — the first subsystem, C — the last) at fixed ω."""
     dA, dB1, dB2, dC = m.dims
     d = dA if which == "A" else dC
     V = {(s, k): _var(m, d) for s in range(1, n_settings + 1) for k in (0, 1)}
@@ -157,14 +157,14 @@ def solve_ops_A(m, w, F, C, which, n_settings, trace_target):
         cons.append(V[(s, 0)] + V[(s, 1)] == np.eye(d))
     for k in (0, 1):
         cons.append(sum(cp.trace(V[(s, k)]) for s in range(1, n_settings + 1)) == trace_target)
-    # эффективные операторы: Tr[ω (O_A ⊗ F ⊗ O_C)]
+    # effective operators: Tr[ω (O_A ⊗ F ⊗ O_C)]
     obj = 0
     T = w.reshape(dA, dB1 * dB2, dC, dA, dB1 * dB2, dC)
     for (b, x, z), v in R.COEF.items():
         Fb = F[R.BOBS.index(b)]
         if which == "A":
             Oc = C[z][0] - C[z][1]
-            E = np.einsum("apcdqf,qp,fc->ad", T, Fb, Oc)       # Tr[ω(O⊗Fb⊗Oc)] = Tr[O E^T]... см. ниже
+            E = np.einsum("apcdqf,qp,fc->ad", T, Fb, Oc)       # Tr[ω(O⊗Fb⊗Oc)] = Tr[O E^T]... see below
             obj += v * cp.sum(cp.multiply(V[(x, 0)] - V[(x, 1)], E.T))
         else:
             Oa = A_cur[x][0] - A_cur[x][1]
@@ -194,10 +194,10 @@ def solve_F(m, w, A, C):
 
 
 def marg_constraints(m, W):
-    """ISO: (A,C)- и (B1,B2)-маргиналы ω максимально смешаны; выражено через cvxpy partial_trace."""
+    """ISO: the (A,C) and (B1,B2) marginals of ω are maximally mixed; expressed via cvxpy partial_trace."""
     dA, dB1, dB2, dC = m.dims
     cons = []
-    # порядок A,B1,B2,C; след по B1,B2 (axis 1 и 2)
+    # order A,B1,B2,C; trace over B1,B2 (axes 1 and 2)
     mAC = cp.partial_trace(cp.partial_trace(W, [dA, dB1, dB2, dC], axis=2), [dA, dB1, dC], axis=1)
     cons.append(mAC == np.eye(dA * dC) / (dA * dC))
     mB = cp.partial_trace(cp.partial_trace(W, [dA, dB1, dB2, dC], axis=3), [dA, dB1, dB2], axis=0)
@@ -206,23 +206,23 @@ def marg_constraints(m, W):
 
 
 def _solve_big(prob):
-    """PSD 256×256 (размерности 4,4,4,4): Clarabel строит плотный KKT ≈ 8.7 ГБ, поэтому только SCS.
-    Допустимость найденной точки затем проверяется и восстанавливается в check() (примесь белого шума)."""
+    """PSD 256×256 (dimensions 4,4,4,4): Clarabel builds a dense KKT ≈ 8.7 GB, so SCS only.
+    The feasibility of the found point is then checked and restored in check() (admixture of white noise)."""
     Q.STATS["solves"] += 1
     try:
-        prob.solve(solver="SCS", eps=1e-8, max_iters=20000)   # 1e5 итераций на Δ-шаге — до 700 с
+        prob.solve(solver="SCS", eps=1e-8, max_iters=20000)   # 1e5 iterations on the Δ step — up to 700 s
     except cp.error.SolverError:
         pass
     Q.STATS.setdefault("scs_inaccurate", 0)
     Q.STATS["scs_inaccurate"] += prob.status == "optimal_inaccurate"
     if prob.status not in ("optimal", "optimal_inaccurate"):
         Q.STATS["failed"] += 1
-        raise Q.SolverFailure(f"SCS: статус {prob.status}")
+        raise Q.SolverFailure(f"SCS: status {prob.status}")
     return prob.value
 
 
 def solve_state(m, G, w1, w2, Dcoef, part, use_delta, direct_scs=False):
-    """part ∈ {'w1','w2','D'} — SDP по соответствующей части ω при фиксированных остальных."""
+    """part ∈ {'w1','w2','D'} — SDP over the corresponding part of ω with the others fixed."""
     dA, dB1, dB2, dC = m.dims
     if part == "w1":
         V = _var(m, m.n1)
@@ -237,7 +237,7 @@ def solve_state(m, G, w1, w2, Dcoef, part, use_delta, direct_scs=False):
                 cp.partial_trace(V, [dB2, dC], axis=1) == np.eye(dB2) / dB2,
                 cp.partial_trace(V, [dB2, dC], axis=0) == np.eye(dC) / dC]
     else:
-        # маргиналы ω₁⊗ω₂ уже ISO; маргиналы Δ: (A,C) — Σ D_kl Tr_B1 a_k ⊗ Tr_B2 a_l = 0, (B1,B2) — аналогично
+        # the ω₁⊗ω₂ marginals are already ISO; Δ marginals: (A,C) — Σ D_kl Tr_B1 a_k ⊗ Tr_B2 a_l = 0, (B1,B2) likewise
         V = cp.Variable((len(m.p1), len(m.p2)))
         W0 = np.kron(w1, w2)
         W = W0 + cp.reshape(m.Ks.T @ cp.vec(V, order="C"), (m.N, m.N), order="C")
@@ -245,8 +245,8 @@ def solve_state(m, G, w1, w2, Dcoef, part, use_delta, direct_scs=False):
         cons = [m.trB1.T @ V @ m.trB2 == 0, m.trA.T @ V @ m.trC == 0, (W + W.T) / 2 >> 0]
         prob = cp.Problem(cp.Maximize(float(np.sum(W0 * G.T)) + cp.sum(cp.multiply(V, gc))), cons)
         if direct_scs:
-            # PSD 256×256: Clarabel строит плотный блок KKT svec(256)² ≈ 8.7 ГБ — только SCS; статус возвращается,
-            # допустимость и значение затем пересчитываются вызывающим кодом
+            # PSD 256×256: Clarabel builds a dense KKT block svec(256)² ≈ 8.7 GB — SCS only; the status is returned,
+            # feasibility and value are then recomputed by the calling code
             prob.solve(solver="SCS", eps=1e-8, max_iters=100000)
             return m.delta(V.value), prob.status, prob.value
         (_solve_big if m.N >= 256 else Q._solve)(prob)
@@ -259,8 +259,8 @@ def solve_state(m, G, w1, w2, Dcoef, part, use_delta, direct_scs=False):
 
 
 def run(m, rng, use_delta, iters=40, tol=1e-7, start=None):
-    """Этап 1: see-saw по произведениям (Δ = 0). Этап 2 (use_delta): чередование Δ и операций при фиксированных
-    маргиналах ω₁, ω₂; обновление ω₁, ω₂ пробуется, при сбое солвера — пропускается (старые значения допустимы)."""
+    """Stage 1: see-saw over products (Δ = 0). Stage 2 (use_delta): alternation of Δ and the operations at fixed
+    marginals ω₁, ω₂; the ω₁, ω₂ update is attempted and skipped on solver failure (the old values stay feasible)."""
     global A_cur
     A, F, C, w1, w2 = random_start(m, rng) if start is None else start
     Dc = np.zeros((m.N, m.N))
@@ -279,7 +279,7 @@ def run(m, rng, use_delta, iters=40, tol=1e-7, start=None):
     last = -np.inf
     stats = {"phase1": None, "delta_steps": 0, "w_skipped": 0}
     try:
-        for it in range(iters):                                  # этап 1
+        for it in range(iters):                                  # stage 1
             ops_step(omega_of(w1, w2, Dc))
             G = m.G(A, F, C)
             w1 = solve_state(m, G, w1, w2, Dc, "w1", False)
@@ -291,7 +291,7 @@ def run(m, rng, use_delta, iters=40, tol=1e-7, start=None):
         stats["phase1"] = last
         if use_delta:
             last = -np.inf
-            for it in range(iters):                              # этап 2
+            for it in range(iters):                              # stage 2
                 ops_step(omega_of(w1, w2, Dc))
                 G = m.G(A, F, C)
                 Dc = solve_state(m, G, w1, w2, Dc, "D", True)
@@ -319,7 +319,7 @@ RUN_STATS = []
 
 
 def check(m, omega, A, F, C, rng):
-    """Независимая проверка найденной точки: положительность, маргиналы ISO, операциональная независимость, значение."""
+    """Independent check of the found point: positivity, ISO marginals, operational independence, value."""
     Tval = R.T_value(omega, A, F, C)
     lam = float(np.linalg.eigvalsh((omega + omega.T) / 2).min())
     p_fix = max(0.0, -lam / (-lam + 1 / m.N))
@@ -335,7 +335,7 @@ def check(m, omega, A, F, C, rng):
 
 
 def limit_memory(gb):
-    """Жёсткий потолок адресного пространства процесса: при превышении — MemoryError, а не падение системы."""
+    """Hard cap on the process address space: exceeding it raises MemoryError instead of crashing the system."""
     import resource
     resource.setrlimit(resource.RLIMIT_AS, (int(gb * 2 ** 30), int(gb * 2 ** 30)))
 
@@ -349,7 +349,7 @@ def main():
                ("R1_product", (4, 2, 2, 4), False, 3 if FAST else 20),
                ("R3_delta", (4, 2, 2, 4), True, 3 if FAST else 20),
                ("R3_delta", (2, 4, 4, 2), True, 2 if FAST else 10),
-               ]  # (4,4,4,4) с Δ — только точный SDP при операциях HW (rts_struct.py): в see-saw PSD 256×256 требует плотный KKT Clarabel ≈ 8.7 ГБ
+               ]  # (4,4,4,4) with Δ — exact SDP at HW ops only (rts_struct.py): in see-saw PSD 256×256 needs a dense Clarabel KKT ≈ 8.7 GB
     for name, dims, use_delta, nst in configs:
         m = Model(dims)
         vals, best, failed = [], None, 0
@@ -362,7 +362,7 @@ def main():
             vals.append(r[0])
             if best is None or r[0] > best[0]:
                 best = r
-            print(f"  {name} {dims} старт {s}: {r[0]:.6f}", flush=True)
+            print(f"  {name} {dims} start {s}: {r[0]:.6f}", flush=True)
         rec = {"values_sorted": sorted(vals, reverse=True), "failed": failed, "seconds": round(time.time() - t1, 1)}
         if best is not None:
             rec["best"] = best[0]

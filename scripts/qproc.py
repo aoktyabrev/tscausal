@@ -1,9 +1,9 @@
 """
-Квантовое ядро Stage C: процесс-матрицы на A_I ⊗ A_O ⊗ B_I ⊗ B_O (порядок подсистем
-0,1,2,3), буквальные ограничения MH24 (Wcons, vcons, ucons) и B15/OCB (valid_W),
-TS- и OCB-инструменты, see-saw (cvxpy).
+The quantum core of Stage C: process matrices on A_I ⊗ A_O ⊗ B_I ⊗ B_O (subsystem order
+0,1,2,3), the literal MH24 constraints (Wcons, vcons, ucons) and B15/OCB (valid_W),
+TS and OCB instruments, and the see-saw (cvxpy).
 
-Отображение «trace-and-replace» (MH-24, B15-8): _X W = (1/d_X) 1^X ⊗ Tr_X W, _[1-X] W = W - _X W.
+The "trace-and-replace" map (MH-24, B15-8): _X W = (1/d_X) 1^X ⊗ Tr_X W, _[1-X] W = W - _X W.
 """
 import itertools
 
@@ -14,10 +14,10 @@ AI, AO, BI, BO = 0, 1, 2, 3
 NAMES = ("A_I", "A_O", "B_I", "B_O")
 
 
-# ------------------------------------------------------------------ базис и отображения
+# ------------------------------------------------------------------ basis and maps
 
 def gellmann(d):
-    """Эрмитов базис {σ_μ}: σ_0 = 1, Tr σ_i = 0, Tr σ_μ σ_ν = d δ (нормировка MH24, Sec. 3.2)."""
+    """A Hermitian basis {σ_μ}: σ_0 = 1, Tr σ_i = 0, Tr σ_μ σ_ν = d δ (the MH24 normalisation, Sec. 3.2)."""
     mats = [np.eye(d, dtype=complex)]
     for j in range(d):
         for k in range(j + 1, d):
@@ -41,7 +41,7 @@ def kron(*ms):
 
 
 def ptrace(W, d, keep_out):
-    """Частичный след по подсистемам keep_out (список индексов) для 4 подсистем размерности d."""
+    """A partial trace over the subsystems keep_out (a list of indices) for 4 subsystems of dimension d."""
     T = W.reshape([d] * 8)
     for k in sorted(keep_out, reverse=True):
         n = T.ndim // 2
@@ -50,9 +50,9 @@ def ptrace(W, d, keep_out):
 
 
 def tr_replace(W, d, X):
-    """_X W для подсистемы X ∈ {0..3} (буквально по MH-24)."""
+    """_X W for the subsystem X ∈ {0..3} (literally as in MH-24)."""
     T = W.reshape([d] * 8)
-    tr = np.trace(T, axis1=X, axis2=X + 4)                 # 6 индексов: 3 row, 3 col
+    tr = np.trace(T, axis1=X, axis2=X + 4)                 # 6 indices: 3 row, 3 col
     rows = [i for i in range(4) if i != X]
     idx_in = "".join("abcd"[i] for i in rows) + "".join("efgh"[i] for i in rows)
     out = np.einsum(idx_in + ",xy->" + "abcd".replace("abcd"[X], "x") + "efgh".replace("efgh"[X], "y"),
@@ -61,8 +61,8 @@ def tr_replace(W, d, X):
 
 
 def op(W, d, word):
-    """Композиция отображений по слову, напр. [('t',AI),('n',BO)] = _{A_I[1-B_O]}W
-    ('t' — след-и-замена, 'n' — бесследовая часть)."""
+    """A composition of maps given by a word, e.g. [('t',AI),('n',BO)] = _{A_I[1-B_O]}W
+    ('t' is trace-and-replace, 'n' is the traceless part)."""
     R = W
     for kind, X in word:
         R = tr_replace(R, d, X) if kind == "t" else R - tr_replace(R, d, X)
@@ -70,8 +70,8 @@ def op(W, d, word):
 
 
 def mh_constraints(d, pre_marg=True, post_marg=True):
-    """Слова отображений из MH24: Wcons2–4 (всегда), vcons1–3 (если v маргинализовано),
-    ucons1–3 (если u маргинализовано). Каждое должно давать 0."""
+    """The map words from MH24: Wcons2–4 (always), vcons1–3 (if v is marginalised),
+    ucons1–3 (if u is marginalised). Each of them must give 0."""
     t, n = "t", "n"
     words = {"Wcons2": [(t, BI), (t, BO), (n, AI), (n, AO)],
              "Wcons3": [(t, AI), (t, AO), (n, BI), (n, BO)],
@@ -86,7 +86,7 @@ def mh_constraints(d, pre_marg=True, post_marg=True):
 
 
 def ocb_constraints(d):
-    """B15-8 (valid_W) в виде слов/комбинаций, каждое = 0 для допустимого W."""
+    """B15-8 (valid_W) as words/combinations, each of which is 0 for a feasible W."""
     def c1(W):
         return op(W, d, [("t", BI), ("t", BO)]) - op(W, d, [("t", AO), ("t", BI), ("t", BO)])
 
@@ -105,8 +105,8 @@ def product_basis(d):
 
 
 def classify_basis(d, maps):
-    """Для каждого базисного элемента σ_{μνab}: проверка, что каждое отображение переводит его
-    в кратное себе (диагональность) и обнуляет ли. Возвращает разрешённые индексы."""
+    """For every basis element σ_{μνab}: check that each map sends it to a multiple of itself
+    (diagonality) and whether it annihilates it. Returns the allowed indices."""
     allowed, nondiag = [], 0
     for idx, B in product_basis(d):
         ok = True
@@ -131,10 +131,10 @@ def types_of(allowed):
     return sorted({tuple(NAMES[i] for i in range(4) if idx[i] > 0) for idx in allowed})
 
 
-# ------------------------------------------------------------------ процессы по типам
+# ------------------------------------------------------------------ processes by type
 
 class ProcessFamily:
-    """W = (1/(d_A d_B)) (1 + Σ_k w_k B_k) по списку разрешённых неединичных базисных элементов."""
+    """W = (1/(d_A d_B)) (1 + Σ_k w_k B_k) over the list of allowed non-identity basis elements."""
 
     def __init__(self, d, allowed):
         self.d = d
@@ -147,7 +147,7 @@ class ProcessFamily:
         return self.W0 + sum(wk * Bk for wk, Bk in zip(w, self.B))
 
 
-# ------------------------------------------------------------------ инструменты
+# ------------------------------------------------------------------ instruments
 
 def rand_psd(n, rng):
     X = rng.normal(size=(n, n)) + 1j * rng.normal(size=(n, n))
@@ -155,14 +155,14 @@ def rand_psd(n, rng):
 
 
 def ptrace_AB(M, d, axis):
-    """Частичный след двухчастичного оператора (d×d ⊗ d×d) по подсистеме axis (0 — вход, 1 — выход)."""
+    """A partial trace of a bipartite operator (d×d ⊗ d×d) over the subsystem axis (0 is input, 1 is output)."""
     T = M.reshape(d, d, d, d)
     return np.trace(T, axis1=axis, axis2=axis + 2)
 
 
 def random_ts_instrument(d, rng, iters=200):
-    """Случайная TS-операция (MH-1) — проекцией чередованием (Sinkhorn-подобно)
-    из случайных PSD. Точную допустимость потом обеспечивает SDP-шаг; здесь нужен старт."""
+    """A random TS operation (MH-1), obtained by alternating projections (Sinkhorn-like)
+    from random PSD matrices. Exact feasibility is provided later by the SDP step; all we need here is a start."""
     M = {(a, x): rand_psd(d * d, rng) for a in (0, 1) for x in (0, 1)}
     for _ in range(iters):
         for a in (0, 1):                       # Tr_{out} Σ_x M_{a,x} = 1_in
@@ -194,7 +194,7 @@ def ts_instrument_residual(M, d):
     return r, mineig
 
 
-# ------------------------------------------------------------------ вероятности
+# ------------------------------------------------------------------ probabilities
 
 def probs_ts(W, MA, MB, d):
     """p(a,b,x,y) = (1/4) Tr[W (M_{a,x} ⊗ M_{b,y})] (D5)."""
@@ -221,14 +221,14 @@ class SolverFailure(RuntimeError):
 
 
 def _solve(prob):
-    """Принимается только статус optimal. При optimal_inaccurate — повтор через SCS (eps 1e-9);
-    если и он не optimal — SolverFailure (старт see-saw отбрасывается)."""
+    """Only the status optimal is accepted. On optimal_inaccurate the problem is retried with SCS (eps 1e-9);
+    if that is not optimal either — SolverFailure (the see-saw start is discarded)."""
     STATS["solves"] += 1
     try:
         prob.solve(solver=SOLVER)
     except cp.error.SolverError:
         pass
-    except BaseException as e:                       # Clarabel (Rust) может упасть паникой: PanicException
+    except BaseException as e:                       # Clarabel (Rust) can die with a panic: PanicException
         if isinstance(e, KeyboardInterrupt):
             raise
         STATS.setdefault("panics", 0)
@@ -237,7 +237,7 @@ def _solve(prob):
         return prob.value
     if prob.status in ("infeasible", "unbounded", "infeasible_inaccurate", "unbounded_inaccurate"):
         STATS["failed"] += 1
-        raise SolverFailure(f"солвер: статус {prob.status}")
+        raise SolverFailure(f"solver: status {prob.status}")
     STATS["fallback_scs"] += 1
     try:
         prob.solve(solver="SCS", eps=1e-9, max_iters=200000)
@@ -248,12 +248,12 @@ def _solve(prob):
             raise
     if prob.status != "optimal":
         STATS["failed"] += 1
-        raise SolverFailure(f"солвер: статус {prob.status} (после SCS)")
+        raise SolverFailure(f"solver: status {prob.status} (after SCS)")
     return prob.value
 
 
 def w_step(fam, MA, MB, weights, d, extra=None):
-    """max по W в семействе fam при фиксированных инструментах."""
+    """The max over W in the family fam with the instruments held fixed."""
     G = sum(weights[(a, b, x, y)] * 0.25 * np.kron(MA[(a, x)], MB[(b, y)])
             for (a, b, x, y) in weights if weights[(a, b, x, y)] != 0)
     c = np.array([np.trace(Bk @ G).real for Bk in fam.B])
@@ -267,8 +267,8 @@ def w_step(fam, MA, MB, weights, d, extra=None):
 
 
 def instrument_step(W, Mother, weights, d, party, kind="TS"):
-    """max по инструментам одной стороны. party='A' или 'B'. kind: 'TS' (MH-1) или 'OCB' (B15-8,
-    вход — второй индекс ключа: M[(a,x)] в OCB-смысле означает исход a при входе x)."""
+    """The max over the instruments of one party. party='A' or 'B'. kind: 'TS' (MH-1) or 'OCB' (B15-8,
+    where the input is the second index of the key: M[(a,x)] in the OCB sense means outcome a for input x)."""
     n = d * d
     K = {}
     for key in itertools.product((0, 1), repeat=2):
@@ -291,7 +291,7 @@ def instrument_step(W, Mother, weights, d, party, kind="TS"):
         for x in (0, 1):
             cons.append(cp.partial_trace(V[(0, x)] + V[(1, x)], [d, d], axis=0) == np.eye(d))
     elif kind == "FWD":
-        # только прямая нормировка (MH-1, первое условие): Tr_out Σ_x M_{a,x} = 1 для каждого дохода a
+        # forward normalisation only (MH-1, the first condition): Tr_out Σ_x M_{a,x} = 1 for every income a
         for a in (0, 1):
             cons.append(cp.partial_trace(V[(a, 0)] + V[(a, 1)], [d, d], axis=1) == np.eye(d))
     elif kind == "OCB":
@@ -306,7 +306,7 @@ def instrument_step(W, Mother, weights, d, party, kind="TS"):
 
 
 def _eff_A(W, MB, n):
-    """E = Tr_B[W (1_A ⊗ M_B)] так, что Tr[W (M_A⊗M_B)] = Tr[M_A E]."""
+    """E = Tr_B[W (1_A ⊗ M_B)], so that Tr[W (M_A⊗M_B)] = Tr[M_A E]."""
     Wt = W.reshape(n, n, n, n)          # W[(iA,iB),(jA,jB)]
     # Tr[W (MA⊗MB)] = Σ W[iA iB, jA jB] MA[jA,iA] MB[jB,iB] -> E[jA,iA] = Σ W[iA iB, jA jB] MB[jB,iB]
     return np.einsum("pqrs,sq->pr", Wt, MB)
@@ -318,8 +318,8 @@ def _eff_B(W, MA, n):
 
 
 def seesaw(fam, weights, d, rng, iters=60, tol=1e-9, kind="TS", fixed_W=None):
-    """Возвращает (значение, W, MA, MB) либо None, если старт упал (SolverFailure).
-    fixed_W — оптимизация только по инструментам."""
+    """Returns (value, W, MA, MB), or None if the start failed (SolverFailure).
+    fixed_W — optimise over the instruments only."""
     try:
         return _seesaw(fam, weights, d, rng, iters, tol, kind, fixed_W)
     except SolverFailure:
@@ -345,7 +345,7 @@ def _seesaw(fam, weights, d, rng, iters, tol, kind, fixed_W):
 
 
 def random_fwd_instrument(d, rng):
-    """Случайная операция только с прямой нормировкой: для каждого дохода a — инструмент по исходам x."""
+    """A random operation with forward normalisation only: for every income a, an instrument over the outcomes x."""
     M = {}
     for a in (0, 1):
         P = [rand_psd(d * d, rng) for _ in (0, 1)]
@@ -368,7 +368,7 @@ def random_ocb_instrument(d, rng):
 
 
 def probs_ocb(W, MA, MB):
-    """B15-8: p(a,b|x,y) = Tr[(M_{a|x} ⊗ M_{b|y}) W]; ключ (a,b,x,y) — выходы a,b, входы x,y (нотация B15)."""
+    """B15-8: p(a,b|x,y) = Tr[(M_{a|x} ⊗ M_{b|y}) W]; key (a,b,x,y) = outputs a,b and inputs x,y (B15 notation)."""
     p = {}
     for a, b, x, y in itertools.product((0, 1), repeat=4):
         p[(a, b, x, y)] = np.trace(W @ np.kron(MA[(a, x)], MB[(b, y)])).real

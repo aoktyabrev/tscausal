@@ -1,7 +1,7 @@
 """
-Stage B.2 — приписываемость, происхождение вершин, чувствительность к равномерности,
-замыкание классических схем. Определения — PREREGISTRATION_B2.md, цитаты — SOURCES.md
-(MH-15…MH-21, D4). Результат: results/json/stage_b2.json.
+Stage B.2 — attributability, origin of the vertices, sensitivity to uniformity,
+closure of the classical circuits. Definitions — PREREGISTRATION_B2.md, citations — SOURCES.md
+(MH-15…MH-21, D4). Result: results/json/stage_b2.json.
 """
 import itertools
 import json
@@ -40,7 +40,7 @@ def hull_of(*vsets):
 
 
 def build(u):
-    """Все многогранники при данном условии равномерности."""
+    """All polytopes for the given uniformity condition."""
     base = B.NORM + U[u]
     V = {k: verts(base + e) for k, e in (("AB", B.EQ3 + B.EQ4), ("BA", B.EQ5 + B.EQ6),
                                          ("F_AB", B.EQ3), ("F_BA", B.EQ5),
@@ -50,7 +50,7 @@ def build(u):
 
 
 def facets(V):
-    """Фасеты (cdd.gmp) с проверкой lrs; проекция на aff(V)."""
+    """Facets (cdd.gmp) with an lrs check; projection onto aff(V)."""
     hull = P.affine_hull(V)
     proj = P.Projector(hull)
     _, ic = P.facets_cdd(V)
@@ -77,7 +77,7 @@ def classes_of(fs, proj, group):
 
 
 def K_by_reading(proj):
-    """K_fwd / K_bwd по отдельности (как в stage_b.branciard_K)."""
+    """K_fwd / K_bwd separately (as in stage_b.branciard_K)."""
     import causal_polytope_calib as calib
     Vb = [tuple(F(x) for x in v) for v in calib.causal_vertices()]
     _, ineqs = P.facets_cdd(Vb)
@@ -93,7 +93,7 @@ def fr(x):
     return P.fr(x)
 
 
-# ------------------------------------------------------------------ замыкание классических схем
+# ------------------------------------------------------------------ closure of the classical circuits
 
 TYPES = list(itertools.product(BITS, repeat=2))
 PAIRS = list(itertools.product(TYPES, TYPES))
@@ -117,23 +117,23 @@ def closure_AB():
 
 
 def simulate_mu(mu):
-    """Явная схема A≼B для рациональной μ: dA = dB = N, биекции строятся по построению,
-    распределение считается прямым прогоном биекций (независимо от mu_image)."""
+    """Explicit A≼B circuit for a rational μ: dA = dB = N, the bijections are built by construction,
+    the distribution is computed by running the bijections directly (independently of mu_image)."""
     N = lcm(*[m.denominator for m in mu if m])
     cells = []
     for m, pair in zip(mu, PAIRS):
         cells += [pair] * int(m * N)
     assert len(cells) == N
-    # Алиса: (a, i) -> (x, o), a = tA(o)[x]
+    # Alice: (a, i) -> (x, o), a = tA(o)[x]
     pre = {a: [(x, o) for o in range(N) for x in BITS if cells[o][0][x] == a] for a in BITS}
-    assert all(len(pre[a]) == N for a in BITS), "h не сбалансирована"
+    assert all(len(pre[a]) == N for a in BITS), "h is not balanced"
     piA = {(a, i): pre[a][i] for a in BITS for i in range(N)}
-    assert len(set(piA.values())) == 2 * N, "π_A не биекция"
-    # Боб: (b, i_B) -> (y, o_B), y = tB(i_B)[b]; канал i_B = o
+    assert len(set(piA.values())) == 2 * N, "π_A is not a bijection"
+    # Bob: (b, i_B) -> (y, o_B), y = tB(i_B)[b]; channel i_B = o
     preB = {y: [(b, i) for i in range(N) for b in BITS if cells[i][1][b] == y] for y in BITS}
-    assert all(len(preB[y]) == N for y in BITS), "g не сбалансирована"
+    assert all(len(preB[y]) == N for y in BITS), "g is not balanced"
     piB = {bi: (y, k) for y in BITS for k, bi in enumerate(preB[y])}
-    assert len(set(piB.values())) == 2 * N, "π_B не биекция"
+    assert len(set(piB.values())) == 2 * N, "π_B is not a bijection"
     p = [F(0)] * D
     w = F(1, 4 * N)
     for a, b, i in itertools.product(BITS, BITS, range(N)):
@@ -152,7 +152,7 @@ def main():
     S = polys["U2"]
     V_TS = S["TS"]
 
-    # ============================================================ п. 2 происхождение вершин
+    # ============================================================ item 2 origin of the vertices
     stageB = [tuple(F(x) for x in v) for v in
               json.load(open(os.path.join(P.ROOT, "results", "json", "stage_b_facets.json")))["vertices"]]
     lrs_AB = set(P.vertices_lrs(S["base"] + B.EQ3 + B.EQ4, B.POS))
@@ -172,7 +172,7 @@ def main():
     }
     out["item2"]["pass"] = out["item2"]["cdd_equals_lrs"] and out["item2"]["union_equals_stage_B_vertices"]
 
-    # ============================================================ п. 1 приписываемость (U2)
+    # ============================================================ item 1 attributability (U2)
     VF, VB = S["F"], S["B"]
     fs, proj, hull, agree = facets(V_TS)
     eqF, inF = P.facets_cdd(VF)
@@ -196,7 +196,7 @@ def main():
              "in_F_AB": P.in_H(Z, S["base"] + B.EQ3, B.POS), "in_F_BA": P.in_H(Z, S["base"] + B.EQ5, B.POS),
              "in_B_AB": P.in_H(Z, S["base"] + B.EQ4, B.POS), "in_B_BA": P.in_H(Z, S["base"] + B.EQ6, B.POS),
              "in_TS": all(P.dot(f[:-1], Z) <= f[-1] for f in fs), "vertex_of_F_cap_B": Z in set(V_FB)}
-    # калибровка теста
+    # calibration of the test
     Kf, Kb = K_by_reading(proj)
     kf_cls = [classify(k, VF, VB)[0] for k in Kf]
     trK = []
@@ -216,7 +216,7 @@ def main():
              "LGYNI_fwd": {"kind": lg[0], "max_F": fr(lg[1]), "max_B": fr(lg[2])}}
     calib["pass"] = (calib["K_fwd_all_hold_on_F"] and calib["K_fwd_forward_directional_exists"]
                      and calib["TR_images_backward"] and pos_kind == "общее")
-    # классы TS
+    # TS classes
     cls = []
     for rep, mem in classes_of(fs, proj, G):
         kinds = [classify(m, VF, VB) for m in mem]
@@ -243,7 +243,7 @@ def main():
         "z": zinfo, "calibration": calib, "classes": cls,
     }
 
-    # ============================================================ п. 3 чувствительность
+    # ============================================================ item 3 sensitivity
     item3 = {}
     N_forms = {i: tuple(c["canonical"]) for i, c in enumerate(cls) if not c["positivity"]}
     for u in ("U1", "U0"):
@@ -252,10 +252,10 @@ def main():
         Gu = [g for g in G if P.is_automorphism(g, Su["TS"])]
         gens_u = {k: P.is_automorphism(g, Su["TS"]) for k, g in B.GENS.items()}
         clu = classes_of(fsu, proju, Gu)
-        # выживание классов U2: U2-каноническая форма фасет U_u
+        # survival of the U2 classes: the U2 canonical form of the U_u facets
         u2forms = {}
         for f in fsu:
-            # фасета U_u валидна на TS_U2 (TS_U2 ⊂ TS_Uu); её U2-канонический вид
+            # a U_u facet is valid on TS_U2 (TS_U2 ⊂ TS_Uu); its U2 canonical form
             u2forms.setdefault(P.canonical(f[:-1], f[-1], proj, G), []).append(f)
         surv = {}
         for i, form in N_forms.items():
@@ -276,7 +276,7 @@ def main():
                     "mixed_classes": sum(1 for c in ukinds if c["kinds"] == ["смешанное"]),
                     "survival_of_U2_new_classes": surv,
                     "z_in_TS": all(P.dot(f[:-1], Z) <= f[-1] for f in fsu)}
-    # (8) и (10) в условной форме
+    # (8) and (10) in conditional form
     rng = random.Random(1508)
     V1 = sorted(set(polys["U0"]["V"]["AB"]) | set(polys["U0"]["V"]["BA"]))
     best = F(0)
@@ -314,7 +314,7 @@ def main():
     item3["U1"]["eq10_violated"] = b10 > F(1, 2)
     out["item3"] = item3
 
-    # ============================================================ п. 4 замыкание
+    # ============================================================ item 4 closure
     Mv, extAB = closure_AB()
     swap = B.GENS["swap"]
     V_cl = P.extreme_points(sorted(set(extAB) | {P.act_point(swap, p) for p in extAB}))
@@ -350,7 +350,7 @@ def main():
                                                 for i, form in N_forms.items()},
     }
 
-    # ============================================================ исход
+    # ============================================================ outcome
     rows = []
     for i, form in N_forms.items():
         name = f"class_{i + 1}_size{cls[i]['size']}"

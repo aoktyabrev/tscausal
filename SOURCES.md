@@ -1,215 +1,215 @@
-# SOURCES — дословные цитаты
+# SOURCES — verbatim quotations
 
-Правило 0: каждое внешнее число, определение или формула ниже подтверждено дословной
-цитатой из выгруженного источника. Выгрузки лежат в `sources/<arXiv-id>/`
-(`src/` — LaTeX-исходник из `https://arxiv.org/e-print/<id>`, `paper.pdf` и `paper.txt` —
-PDF и его текст, `abs.html` — страница аннотации). Цитаты взяты из LaTeX-исходника
-(это авторский текст); номера уравнений сверены с PDF (`paper.txt`).
+Rule 0: every external number, definition or formula below is backed by a verbatim
+quotation from a dumped source. The dumps live in `sources/<arXiv-id>/`
+(`src/` — the LaTeX source from `https://arxiv.org/e-print/<id>`, `paper.pdf` and `paper.txt` —
+the PDF and its text, `abs.html` — the abstract page). The quotations are taken from the LaTeX source
+(that is the authors' text); equation numbers are checked against the PDF (`paper.txt`).
 
 ---
 
 ## [B15] Branciard, Araújo, Feix, Costa, Brukner — arXiv:1508.01704
 
 `abs.html`: `citation_title` = "The simplest causal inequalities and their violation";
-авторы Branciard, Cyril; Araújo, Mateus; Feix, Adrien; Costa, Fabio; Brukner, Časlav.
-Выгружена версия v1 (e-print от 10.08.2015). Нотация B15: входы `x, y`, выходы `a, b`,
-координаты `p(a,b|x,y)` — **противоположна** нотации Mrini–Hardy (там `a, b` — доходы,
-`x, y` — исходы).
+authors Branciard, Cyril; Araújo, Mateus; Feix, Adrien; Costa, Fabio; Brukner, Časlav.
+Version v1 was dumped (e-print of 10.08.2015). B15 notation: inputs `x, y`, outputs `a, b`,
+coordinates `p(a,b|x,y)` — **opposite** to the Mrini–Hardy notation (there `a, b` are incomes,
+`x, y` are outcomes).
 
-**B15-1 (число вершин и фасет), Sec. III A, `causal_polytope.tex` стр. 114:**
+**B15-1 (number of vertices and facets), Sec. III A, `causal_polytope.tex` line 114:**
 > We generated the list of its $112$ deterministic vertices (see Appendix~\ref{app:characterization}), and enumerated its $48$ facets using the software \texttt{lrs}~\cite{lrs}.
 
-**B15-2 (тривиальные и два семейства), стр. 116–117:**
+**B15-2 (trivial facets and two families), lines 116–117:**
 > 16 of these facets are trivial, corresponding to the nonnegativity constraints $p(ab|xy) \ge 0$.
 > By relabeling the inputs and outputs, the 32 remaining, non-trivial facets can be grouped in two non-equivalent families of causal inequalities: 16 facets are relabelings of the inequality
 
-**B15-3 (GYNI), ур. (4) в PDF (`\label{eq:gyni0}`):**
+**B15-3 (GYNI), Eq. (4) in the PDF (`\label{eq:gyni0}`):**
 > \frac{1}{4} \sum_{x,y,a,b} \delta_{a,y} \, \delta_{b,x}\ p(a,b|x,y) \ \le \ \frac12 \,,
 
-**B15-4 (LGYNI), ур. (5) в PDF (`\label{eq:LGYNI0}`):**
+**B15-4 (LGYNI), Eq. (5) in the PDF (`\label{eq:LGYNI0}`):**
 > while the last 16 facets are relabelings of the inequality
 > \frac{1}{4} \sum_{x,y,a,b} \delta_{x(a \oplus y),0} \, \delta_{y(b \oplus x),0}\ p(a,b|x,y) \ \le \ \frac34 \,,
 
-**B15-5 (три семейства и явный вид переименований), App. A, стр. 379–390:**
+**B15-5 (three families and the explicit form of the relabelings), App. A, lines 379–390:**
 > we obtained 48 facets, which can be grouped into 3 families of equivalent facets (up to relabelings of inputs and outputs). Explicitly, these are
 > \item 16 trivial facets of the form $p(a,b|x,y) \ge 0$ for all $x,y,a,b = 0,1$;
 > \item 16 facets of the GYNI type, [...] $p(a \oplus \alpha_1 x \oplus \alpha_0 = y, b \oplus \beta_1 y \oplus \beta_0 = x) \ \le \ \frac{1}{2}$, for all $\alpha_0, \alpha_1, \beta_0, \beta_1 = 0,1$;
 > \item 16 facets of the LGYNI type, [...] $p \big( (x \oplus \alpha_1)(a \oplus \alpha_0 \oplus y)=0, (y \oplus \beta_1)(b \oplus \beta_0 \oplus x) = 0 \big) \, \le \, \frac{3}{4}$, for all $\alpha_0, \alpha_1, \beta_0, \beta_1 = 0,1$.
 
-(`[...]` — опущен вставной оборот "which can be written (in the same form as~\eqref{eq:gyni}, implicitly assuming uniform input bits) as".)
+(`[...]` — the inserted phrase "which can be written (in the same form as~\eqref{eq:gyni}, implicitly assuming uniform input bits) as" is omitted.)
 
-**B15-6 (112 = 64 + 64 − 16), App. A, стр. 377:**
+**B15-6 (112 = 64 + 64 − 16), App. A, line 377:**
 > The 12-dimensional causal polytope thus has $64 + 64 - 16 = 112$ different vertices.
 
-Вывод для Stage A.2: у B15 для сценария «2 входа, 2 выхода, всё бинарное» —
-**32 нетривиальные фасеты, 2 нетривиальных класса (3 с классом положительности)**.
-Наши «36 сырых» — это 32 нетривиальные + 4 замаскированные неравенства положительности
-(см. RESULTS.md, Stage A). **Подтверждено цитатой.**
+Conclusion for Stage A.2: in B15, for the scenario "2 inputs, 2 outputs, everything binary" —
+**32 non-trivial facets, 2 non-trivial classes (3 counting the positivity class)**.
+Our "36 raw" ones are the 32 non-trivial facets + 4 disguised positivity inequalities
+(see RESULTS.md, Stage A). **Confirmed by quotation.**
 
 ---
 
 ## [MH24] Mrini, Hardy — arXiv:2406.18489
 
 `abs.html`: `citation_title` = "Indefinite Causal Structure and Causal Inequalities with
-Time-Symmetry"; авторы Mrini, Luke; Hardy, Lucien. Выгружена версия v1 (e-print от 27.06.2024).
-Нотация: `a, b` — доходы (incomes), `x, y` — исходы (outcomes), `α, β` — настройки,
-`u, v` — пред- и постселекция.
+Time-Symmetry"; authors Mrini, Luke; Hardy, Lucien. Version v1 was dumped (e-print of 27.06.2024).
+Notation: `a, b` are incomes, `x, y` are outcomes, `α, β` are settings,
+`u, v` are pre- and postselection.
 
-**MH-1 (двойная причинность), ур. (2):**
+**MH-1 (double causality), Eq. (2):**
 > \Tr_{A_O}\sum_x M_{a,x}^{A_IA_O} = \mathbb{1}^{A_I}, \qquad \frac{1}{N_a}\Tr_{A_I}\sum_aM_{a,x}^{A_IA_O} = \frac{1}{N_x}\mathbb{1}^{A_O}.
 >
 > We call the first condition here \emph{forward causality}, and the second \emph{backward causality}.
 
-**MH-2 (R-боксы: равномерность), текст перед Fig. 3:**
+**MH-2 (R-boxes: uniformity), text before Fig. 3:**
 > The boxes labeled with an `$\mathsf{R}$' indicate the transmission of random information such that each possible value for the classical variable is equally probable. In particular, a readout box $x$ sandwiched between two $\mathsf{R}$ boxes (see Fig.~\ref{readsan}) results in a circuit with a constant probability $1/N_x$.
 
-(Рисунок `abprocess.png`, Fig. «The most general process where $B$ is in the causal future of
-$A$ ($A \preceq B$)»: каждый провод `a, b, x, y, u, v` заканчивается R-боксом.)
+(Figure `abprocess.png`, Fig. "The most general process where $B$ is in the causal future of
+$A$ ($A \preceq B$)": every wire `a, b, x, y, u, v` terminates in an R-box.)
 
-**MH-3 (порядок A ≼ B, вперёд), ур. (3):**
+**MH-3 (order A ≼ B, forward), Eq. (3):**
 > p^{A\preceq B}(a,b,x,u|\alpha,\beta) = \frac{1}{N_b}p^{A\preceq B}(a,x,u|\alpha), \qquad \forall a,b,x,u,\alpha,\beta.
 
-**MH-4 (порядок A ≼ B, назад), ур. (4):**
+**MH-4 (order A ≼ B, backward), Eq. (4):**
 > p^{A\preceq B}(b,x,y,v|\alpha,\beta) = \frac{1}{N_x}p^{A\preceq B}(b,y,v|\beta), \qquad \forall b,x,y,v,\alpha,\beta.
 
-**MH-5 (порядок B ≼ A, вперёд), ур. (5):**
+**MH-5 (order B ≼ A, forward), Eq. (5):**
 > p^{B\preceq A}(a,b,y,u|\alpha,\beta) = \frac{1}{N_a}p^{B\preceq A}(b,y,u|\beta), \qquad \forall a,b,y,u,\alpha,\beta,
 
-**MH-6 (порядок B ≼ A, назад), ур. (6):**
+**MH-6 (order B ≼ A, backward), Eq. (6):**
 > p^{B\preceq A}(a,x,y,v|\alpha,\beta) = \frac{1}{N_y}p^{B\preceq A}(a,x,v|\alpha), \qquad \forall a,x,y,v,\alpha,\beta,
 
-**MH-7 (причинная разделимость), ур. (7):**
+**MH-7 (causal separability), Eq. (7):**
 > p(a,b,x,y,u,v|\alpha,\beta) &= q\, p^{A\preceq B}(a,b,x,y,u,v|\alpha,\beta) \nonumber \\ &\qquad + (1-q)\, p^{B\preceq A}(a,b,x,y,u,v|\alpha,\beta)
 
-**MH-8 (GYNI), ур. (8):**
+**MH-8 (GYNI), Eq. (8):**
 > \frac{1}{N_aN_b}\sum_{a,b,x,y}\delta_{x,b}\,\delta_{y,a}\,p(x,y|\alpha,\beta,a,b,u,v) \leq \frac{1}{2}.
 
-**MH-9 (LGYNI), ур. (9):**
+**MH-9 (LGYNI), Eq. (9):**
 > \frac{1}{N_\alpha N_\beta N_a N_b}\sum_{\alpha,\beta, a,b,x,y}\delta_{\alpha(y\oplus a),0}\,\delta_{\beta(x\oplus b),0}\,p(x,y|\alpha,\beta,a,b,u,v) \leq \frac{3}{4}.
 >
 > [...] a modified game where a player is only required to guess their neighbor's income if their own setting is equal to one, otherwise they are free to produce any outcome they desire.
 
-**MH-10 (обращённое GYNI), ур. (10):**
+**MH-10 (reversed GYNI), Eq. (10):**
 > \frac{1}{N_xN_y}\sum_{a,b,x,y}\delta_{x,b}\,\delta_{y,a}\,p(a,b|\alpha,\beta,x,y,u,v) \leq \frac{1}{2},
 
-**MH-11 (обращённое LGYNI), ур. (11):**
+**MH-11 (reversed LGYNI), Eq. (11):**
 > \frac{1}{N_\alpha N_\beta N_x N_y}\sum_{\alpha,\beta, a,b,x,y}\delta_{\beta(y\oplus a),0}\,\delta_{\alpha(x\oplus b),0}\,p(a,b|\alpha,\beta,x,y,u,v) \leq \frac{3}{4}.
 
-**MH-12 (оговорка о настройках), после ур. (11):**
+**MH-12 (caveat about settings), after Eq. (11):**
 > Note that Eqn.~(\ref{LGYNI}) and Eqn.~(\ref{LGYNIr}) are valid in these forms only up to two settings each, i.e. $1\leq N_\alpha, N_\beta \leq 2$.
 
-**MH-13 (открытый вопрос), Sec. Discussion:**
+**MH-13 (open question), Sec. Discussion:**
 > It would also be interesting to computationally generate an exhaustive list characterizing the facets of the causal polytope \cite{Giarmatzi2019} determined by Eqns.~(\ref{ABforward}-\ref{convex}). There may exist exotic causal inequalities beyond those presented here, perhaps some that cannot naturally be associated to a particular time direction but rather mix the forward and backward directions.
 
-**MH-14 (ICOTD), аннотация и Sec. 3:**
+**MH-14 (ICOTD), abstract and Sec. 3:**
 > Chiribella and Liu study this same class of processes in Appendix D of Ref.~\cite{liu2024tsirelson}, referrring to them as processes with ``Indefinite Causal Order and Time Direction'' (ICOTD). [...] In particular, they show that these classical ICOTD processes can achieve the algebraic maximum of every causal inequality.
 
 ---
 
-## Что НЕ является цитатой (наши выводы и переводы — помечены явно)
+## What is NOT a quotation (our derivations and translations — explicitly marked)
 
-**D1. Равномерность маргиналов доходов и исходов при маргинализованных u, v.**
-В MH24 нет отдельного уравнения `p(a,b) = 1/(N_a N_b)`. Мы выводим его теми же
-правилами, которыми MH24 выводят ур. (3): в схеме Fig. `abprocess` при суммировании по
-`v, y, x, u` верхний блок, Боб и Алиса по прямой причинности (MH-1, первое условие)
-сводятся к R-боксам на проводах `a`, `b` и I-боксам, а «readout box sandwiched between two
-R boxes» даёт `1/N` (MH-2). Итог: `p(a,b) = 1/4`. Симметрично (обратная причинность,
-суммирование по `u, a, b, v`): `p(x,y) = 1/4`. Это выполняется в обоих порядках.
-Без D1 условные формы (8)–(11) нелинейны по `p(a,b,x,y)`; проверка того, что без D1
-смесь порядков нарушает (8), вынесена в Stage B как контроль чувствительности.
+**D1. Uniformity of the income and outcome marginals when u, v are marginalized.**
+MH24 has no separate equation `p(a,b) = 1/(N_a N_b)`. We derive it by the same
+rules by which MH24 derive Eq. (3): in the circuit of Fig. `abprocess`, summing over
+`v, y, x, u`, the upper block, Bob and Alice reduce, by forward causality (MH-1, first condition),
+to R-boxes on the wires `a`, `b` and to I-boxes, while a "readout box sandwiched between two
+R boxes" gives `1/N` (MH-2). Result: `p(a,b) = 1/4`. Symmetrically (backward causality,
+summing over `u, a, b, v`): `p(x,y) = 1/4`. This holds in both orders.
+Without D1 the conditional forms (8)–(11) are non-linear in `p(a,b,x,y)`; the check that without D1
+a mixture of orders violates (8) is deferred to Stage B as a sensitivity control.
 
-**D2. LGYNI без настроек.** При `N_α = N_β = 1` формы MH-9/MH-11 вырождены: если
-единственное значение настройки 0, левая часть тождественно равна 1 (> 3/4, неравенство
-ложно); если 1, получается GYNI с нежёсткой границей 3/4. Поэтому «LGYNI» и «обратное
-LGYNI» в сценарии без настроек мы берём в форме B15-4, где роль входов B15 играют доходы
-(вперёд) или исходы (назад):
-- LGYNI_fwd: `Σ p(a,b,x,y) [a(x⊕b)=0 ∧ b(y⊕a)=0] ≤ 3/4` — B15-4 при замене
-  (B15: x→a, y→b, a→x, b→y); совпадает с функционалом в `causal_polytope_calib.py`;
-- LGYNI_bwd: образ LGYNI_fwd при обращении времени a↔x, b↔y:
+**D2. LGYNI without settings.** For `N_α = N_β = 1` the forms MH-9/MH-11 degenerate: if
+the single value of the setting is 0, the left-hand side is identically 1 (> 3/4, the inequality
+is false); if it is 1, one gets GYNI with the non-tight bound 3/4. We therefore take "LGYNI" and "reversed
+LGYNI" in the scenario without settings in the form B15-4, where the role of the B15 inputs is played by the incomes
+(forward) or by the outcomes (backward):
+- LGYNI_fwd: `Σ p(a,b,x,y) [a(x⊕b)=0 ∧ b(y⊕a)=0] ≤ 3/4` — B15-4 under the substitution
+  (B15: x→a, y→b, a→x, b→y); it coincides with the functional in `causal_polytope_calib.py`;
+- LGYNI_bwd: the image of LGYNI_fwd under time reversal a↔x, b↔y:
   `Σ p [x(a⊕y)=0 ∧ y(b⊕x)=0] ≤ 3/4`.
-Это перевод, а не цитата.
+This is a translation, not a quotation.
 
-**D3. GYNI и обратное GYNI как линейные функционалы.** При D1 имеем
-`p(x,y|a,b) = 4 p(a,b,x,y)` и `p(a,b|x,y) = 4 p(a,b,x,y)`, поэтому левые части (8) и (10)
-обе равны `Σ_{x=b, y=a} p(a,b,x,y)`. В сценарии без настроек GYNI и обратное GYNI —
-**один и тот же** функционал (условие `x=b, y=a` инвариантно относительно a↔x, b↔y).
-Следствие алгебры, не цитата.
+**D3. GYNI and reversed GYNI as linear functionals.** Under D1 we have
+`p(x,y|a,b) = 4 p(a,b,x,y)` and `p(a,b|x,y) = 4 p(a,b,x,y)`, so the left-hand sides of (8) and (10)
+are both equal to `Σ_{x=b, y=a} p(a,b,x,y)`. In the scenario without settings, GYNI and reversed GYNI are
+**one and the same** functional (the condition `x=b, y=a` is invariant under a↔x, b↔y).
+A consequence of the algebra, not a quotation.
 
 ---
 
-## Stage B.2: какие из ур. (3)–(6) MH24 выражают прямую, а какие обратную причинность
+## Stage B.2: which of MH24's Eqs. (3)–(6) express forward and which express backward causality
 
-**MH-15 (вывод ур. (3): маргинализация постселекции и исхода Боба), текст перед ур. (3):**
+**MH-15 (derivation of Eq. (3): marginalizing the postselection and Bob's outcome), text before Eq. (3):**
 > Marginalizing over the post-selection variable $v$ and Bob's outcome $y$, the circuit reduces to that of Fig.~\ref{marg} (i). This computation goes through by applying the identity of Fig.~\ref{sumread}, followed by the identity Fig.~\ref{readsan}, and finally by applying double causality Fig.~\ref{dubcausbox} twice.
 
-**MH-16 (смысл ур. (3)), после ур. (3):**
+**MH-16 (meaning of Eq. (3)), after Eq. (3):**
 > This equation states that Bob cannot signal to Alice unless there is post-selection---either in the post-selection variable $v$ or in Bob's outcome $y$.
 
-**MH-17 (ур. (4) — обращение (3)), после ур. (4):**
+**MH-17 (Eq. (4) is the reversal of (3)), after Eq. (4):**
 > Now, we repeat the analysis by marginalizing over the pre-selection variable $u$ and Alice's income $a$. [...]
 > This constraint is the time-reversal of Eqn.~(\ref{ABforward}), stating that Alice cannot signal to Bob unless there is pre-selection---either in the pre-selection variable $u$ or in Alice's income $a$. This inability to signal forward in time seems unfamiliar, [...]
 
-**MH-18 (ур. (5) и (6)), после каждого из них:**
+**MH-18 (Eqs. (5) and (6)), after each of them:**
 > stating no-signalling from Alice to Bob without post-selection, and
 >
 > stating no-signalling from Bob to Alice without pre-selection.
 
-**MH-19 (прямые неравенства опираются только на прямую причинность), перед ур. (8):**
+**MH-19 (the forward inequalities rely only on forward causality), before Eq. (8):**
 > Following the analysis of Branciard et al. Ref.~\cite{Branciard_2016}, we arrive at a set of causal inequalities that are necessarily satisfied by causally separable correlations. This derivation relies only on forward causality (the first condition in Fig.~\ref{dubcausbox}) and is therefore associated with the time-forward perspective.
 
-**MH-20 (обратные неравенства — только обратная причинность), после ур. (9):**
+**MH-20 (the backward inequalities rely only on backward causality), after Eq. (9):**
 > With time-symmetry, there is automatically a time-reversed counterpart for each of the causal inequalities. They are derived using only backwards causality (the second condition in Fig.~\ref{dubcausbox}) and are associated to the time-backward perspective.
 
-**MH-21 (приложение, Fig. `nops`):**
+**MH-21 (appendix, Fig. `nops`):**
 > With $v$ and $y$ marginalized, Bob cannot signal backward in time to Alice. In either definite causal order, $A\preceq B$ or $B\preceq A$, applying the double causality rules shows that Alice's output must be ignored.
 
-**B15-7 (вершины временно-прямых многогранников детерминированные), arXiv:1508.01704, Sec. II:**
+**B15-7 (the vertices of the time-forward polytopes are deterministic), arXiv:1508.01704, Sec. II:**
 > in Appendix~\ref{app:characterization} we show that these correspond to deterministic correlations compatible with either causal order (or both, in the case of nonsignaling correlations).
 
-### D4. Приписывание (вывод, не цитата)
-Одной фразой вида «ур. (3) следует из прямой причинности» в статье это не сказано. Приписывание
-выведено из цитат и рисунков:
-- ур. (3) и (5) получаются маргинализацией **будущих** переменных: постселекции `v` и исхода
-  (MH-15, MH-18: «without post-selection»). На Fig. `marg`(i) (`abreduction.png`) это делается
-  правилом, где I-бокс стоит на выходе и R-бокс на исходе. Это левое условие Fig. `dubcausbox`,
-  которое MH-1 называет *forward causality*;
-- ур. (4) и (6) получаются маргинализацией **прошлых** переменных: предселекции `u` и дохода
-  (MH-17, MH-18: «without pre-selection»). На Fig. `marg`(ii) это правое условие, *backward causality*;
-- согласованность: прямые неравенства (8), (9), выводимые по B15 из запрета сигнала в
-  прошлое, «relies only on forward causality» (MH-19).
+### D4. Attribution (derivation, not a quotation)
+The paper nowhere says in a single phrase such as "Eq. (3) follows from forward causality". The attribution
+is derived from the quotations and the figures:
+- Eqs. (3) and (5) are obtained by marginalizing the **future** variables: the postselection `v` and the outcome
+  (MH-15, MH-18: "without post-selection"). In Fig. `marg`(i) (`abreduction.png`) this is done
+  by the rule where an I-box sits on the output and an R-box on the outcome. This is the left-hand condition of Fig. `dubcausbox`,
+  which MH-1 calls *forward causality*;
+- Eqs. (4) and (6) are obtained by marginalizing the **past** variables: the preselection `u` and the income
+  (MH-17, MH-18: "without pre-selection"). In Fig. `marg`(ii) this is the right-hand condition, *backward causality*;
+- consistency: the forward inequalities (8), (9), derived following B15 from the prohibition of signalling into
+  the past, "relies only on forward causality" (MH-19).
 
-Итог: **F ← {(3), (5)}**, **B ← {(4), (6)}**. Ловушка терминологии: ур. (3) запрещает сигнал
-**назад** во времени (MH-16, MH-21), но выводится из **прямой** причинности. «F» здесь
-означает условия, следующие из прямой причинности, то есть временно-прямую картину B15/OCB.
+Result: **F ← {(3), (5)}**, **B ← {(4), (6)}**. A terminological trap: Eq. (3) forbids signalling
+**backward** in time (MH-16, MH-21), but is derived from **forward** causality. "F" here
+denotes the conditions that follow from forward causality, i.e. the time-forward picture of B15/OCB.
 
 ---
 
-## Stage C: формализм временно-симметричных процесс-матриц (MH24, Sec. 3–4) и OCB (B15, Sec. IV)
+## Stage C: the formalism of time-symmetric process matrices (MH24, Sec. 3–4) and OCB (B15, Sec. IV)
 
-**MH-22 (лаборатория: доход, исход, настройка), Sec. 1:**
+**MH-22 (the laboratory: income, outcome, setting), Sec. 1:**
 > In the TSOPT developed in \cite{Hardy:2021fqs}, an additional classical variable called an ``income''---the time-reversed counterpart of an outcome---is available before the operation is performed. An income may be interpreted as the initial state of a measuring apparatus or the initial value of a classical ancilla.
 >
 > An income is distinguished from a \emph{setting}, which is some classical information that the agent, Alice, has free choice to determine at the time of the operation, independent of any external influences.
 
-**MH-23 (u, v и процесс-матрица), Sec. 3.1:**
+**MH-23 (u, v and the process matrix), Sec. 3.1:**
 > The classical variables $u$ ad $v$, which we call the \emph{pre-selection and post-selection variables}, represent information that is available before and after the experiment. The process matrix can be thought of as a generalization of a density matrix since it determines probabilities in an analogous way
 > p(a,b,x,y,u,v) = \Tr_{A_IA_OB_IB_O}[W_{u,v}^{A_IA_OB_IB_O}\cdot(M_{a,x}^{A_IA_O}\otimes M_{b,y}^{B_IB_O}) ].
 
-**MH-24 (положительность и нормировка), ур. (positiveW), (sumtoone), (Wcons1)–(Wcons4):**
+**MH-24 (positivity and normalization), Eqs. (positiveW), (sumtoone), (Wcons1)–(Wcons4):**
 > W_{u,v}^{A_IA_OB_IB_O} \geq 0 \qquad \forall u,v.
 >
 > \sum_{u,v}\Tr_{A_IA_OB_IB_O}[W_{u,v}] &= d_Ad_B, [...] \sum_{u,v}{}_{B_IB_O[1-A_I][1-A_O]}W_{u,v}&=0, [...] \sum_{u,v}{}_{A_IA_O[1-B_I][1-B_O]}W_{u,v}&=0, [...] \sum_{u,v}{}_{[1-A_I][1-A_O][1-B_I][1-B_O]}W_{u,v}&=0.
 >
 > We adopt the notation of Ref.~\cite{Branciard_2016} to write ${}_{X}W \coloneq \frac{1}{d_X}\mathds{1}^X\otimes\Tr_X[W]$ as the ``trace part'' of an operator $W\in \mathcal{L}(\mathcal{H}^X)$. We also use ${}_{[1-X]}W \coloneq W - {}_{X}W$ to denote the ``traceless part'' of $W$.
 
-**MH-25 (без постселекции / без предселекции), ур. (vcons1)–(ucons3):**
+**MH-25 (without postselection / without preselection), Eqs. (vcons1)–(ucons3):**
 > Process matrices with the post-selection variable marginalized satisfy additional no-signalling constraints:
 > \sum_v {}_{A_I[1-B_O]}W_{u,v} &= 0, [...] \sum_v {}_{B_I[1-A_O]}W_{u,v} &= 0, [...] \sum_v {}_{[1-A_O]}{}_{[1-B_O]}W_{u,v}&=0.
 >
 > Similarly, there are three constraints for a process matrix with the pre-selection variable marginalized:
 > \sum_u {}_{A_O[1-B_I]}W_{u,v} &= 0, [...] \sum_u {}_{B_O[1-A_I]}W_{u,v} &= 0, [...] \sum_u {}_{[1-A_I]}{}_{[1-B_I]}W_{u,v}&=0.
 
-**MH-26 (общий вид процесса и свойства слагаемых), ур. (genproc), (sigmaops) и текст:**
+**MH-26 (the general form of a process and the properties of its terms), Eqs. (genproc), (sigmaops) and text:**
 > The most general, physical bipartite process matrix can be written as a sum
 > W_{u,v}^{A_IA_OB_IB_O} = \frac{1}{d_Ad_B}\bigg(p_0(u,v)\mathbb{1}^{A_IA_OB_IB_O} + \sigma_{u,v}^{TS} + \sigma_{u,v}^{TF} + \sigma_{u,v}^{TB} + \sigma_{u,v}^{ISO} \bigg)
 >
@@ -221,13 +221,13 @@ LGYNI» в сценарии без настроек мы берём в форм�
 >
 > The final operator $\sigma_{u,v}^{ISO}$ represents terms which may be found in an isolated process, that is, one that does not require pre-selection or post-selection.
 
-**MH-27 (иерархия классов):**
+**MH-27 (hierarchy of classes):**
 > A sub-class (TF) is formed by the time-forward processes---those that do not involve post-selection. These processes may contain terms from $\sigma_{u,v}^{TF}$ and $\sigma_{u,v}^{ISO}$ and coincide with the known set of bipartite process matrices studied by Oreshkov, Costa, and Brukner \cite{Oreshkov:2011er}. [...] Finally, the smallest sub-class (ISO) is formed by the isolated processes. These lie at the intersection of the time-forward and time-backward processes and contain terms only from $\sigma_{u,v}^{ISO}$.
 
-**MH-28 (TS-операция в базисе), Sec. 3.2:**
+**MH-28 (a TS operation in a basis), Sec. 3.2:**
 > M^{X_IX_O} = \frac{1}{d_X}\bigg( \mathbb{1}^{X_IX_O} + \sum_{ij>0}\mathcal{X}_{ij}\sigma_i^{X_I}\sigma_j^{X_O}\bigg).
 
-**MH-29 (пример MH24: процесс, операции, значения), Sec. 4.1, ур. (exampleW), (aliceop), (bobop):**
+**MH-29 (the MH24 example: process, operations, values), Sec. 4.1, Eqs. (exampleW), (aliceop), (bobop):**
 > W^{A_IA_OB_IB_O} = \frac{1}{4}\bigg[ \mathds{1}^{A_IA_OB_IB_O} + \frac{1}{\sqrt{2}}\bigg( \sigma_z^{A_O}\sigma_z^{B_I} + \sigma_z^{A_I}\sigma_x^{B_I}\sigma_z^{B_O}\bigg)\bigg],
 >
 > This process matrix requires pre-selection, but not post-selection.
@@ -238,17 +238,17 @@ LGYNI» в сценарии без настроек мы берём в форм�
 >
 > p_\text{LGYNI} = \frac{2+\sqrt{2}}{4} > \frac{3}{4} [...] \tilde{p}_\text{LGYNI} = \frac{1}{2} < \frac{3}{4},
 
-**MH-30 (обращение времени процесса):**
+**MH-30 (time reversal of a process):**
 > To take the time-reversal of a process matrix, one must swap operators on the following Hilbert spaces: $A_O \leftrightarrow B_I$ and $A_I \leftrightarrow B_O$.
 
-**B15-8 (OCB: инструменты, вероятности, допустимость W), Sec. IV A, ур. (eq:valid_instrument), (eq:probw), (eq:valid_W):**
+**B15-8 (OCB: instruments, probabilities, validity of W), Sec. IV A, Eqs. (eq:valid_instrument), (eq:probw), (eq:valid_W):**
 > M_{a|x}^{A_IA_O} \geq 0 \quad \forall \, a \mathand \tr_{A_O} \sum_a M_{a|x}^{A_IA_O} = \id^{A_I}
 >
 > p(a,b|x,y) = \tr\big[ (M_{a|x}^{A_IA_O} \otimes M_{b|y}^{B_IB_O}) \cdot W\big]
 >
 > W \ge 0 \, , [...] \tr W = d_{A_O} \, d_{B_O} \, , [...] {}_{B_IB_O}W = {}_{A_OB_IB_O}W \, , [...] {}_{A_IA_O}W = {}_{A_IA_OB_O}W \, , [...] W = {}_{B_O}W + {}_{A_O}W - {}_{A_OB_O}W \, ,
 
-**B15-9 (явный пример и see-saw-максимумы для кубитов), Sec. IV B и App. C:**
+**B15-9 (an explicit example and see-saw maxima for qubits), Sec. IV B and App. C:**
 > W = \frac{1}{4} \left[ \id^{\otimes 4} + \frac{Z^{A_I} Z^{A_O} Z^{B_I} \id^{B_O} + Z^{A_I} \id^{A_O} X^{B_I} X^{B_O}}{\sqrt{2}} \right] \, ,
 >
 > M_{0|0}^{A_IA_O} &= M_{0|0}^{B_IB_O} = 0 \, , [...] M_{1|0}^{A_IA_O} &= M_{1|0}^{B_IB_O} = 2 \, \proj{\Phi^+} \, , [...] M_{0|1}^{A_IA_O} &= M_{0|1}^{B_IB_O} = \proj{0} \otimes \proj{0} \, , [...] M_{1|1}^{A_IA_O} &= M_{1|1}^{B_IB_O} = \proj{1} \otimes \proj{0} \, ,
@@ -261,146 +261,146 @@ LGYNI» в сценарии без настроек мы берём в форм�
 > our maximal probability $p_{\text{GYNI}}^{\text{max}, d=2}$ of winning the GYNI game with qubits is then found to be the smallest real root of the polynomial
 > 1\,769\,472 \,x^4 - 2\,884\,032 \,x^3 + 1\,630\,800 \,x^2 - 380\,052 \,x + 34\,087,
 
-(B15-9: see-saw — нижние оценки, авторы называют их гипотезой: «we thus conjecture».)
+(B15-9: the see-saw values are lower bounds; the authors call them a conjecture: "we thus conjecture".)
 
-### D5. Совместная вероятность в сценарии без настроек (вывод, не цитата)
-По MH-23 `p = Tr[W (M⊗M)]`, а по MH-1 для каждого дохода `Tr_{A_O} Σ_x M_{a,x} = 1^{A_I}`.
-Тогда при `Tr W = d_A d_B` сумма `Σ_{a,b,x,y} Tr[W(M⊗M)] = N_a N_b`, а не 1. Нормировку восстанавливает
-множитель R-боксов на проводах доходов (MH-2): `p(a,b,x,y) = (1/(N_a N_b)) Tr[W (M_{a,x}⊗M_{b,y})]`.
-Проверка: с этим множителем пример MH-29 должен дать `(2+√2)/4`. Это калибровка C.1.
+### D5. The joint probability in the scenario without settings (derivation, not a quotation)
+By MH-23, `p = Tr[W (M⊗M)]`, and by MH-1, for every income `Tr_{A_O} Σ_x M_{a,x} = 1^{A_I}`.
+Then, with `Tr W = d_A d_B`, the sum `Σ_{a,b,x,y} Tr[W(M⊗M)] = N_a N_b`, not 1. The normalization is restored by
+the factor from the R-boxes on the income wires (MH-2): `p(a,b,x,y) = (1/(N_a N_b)) Tr[W (M_{a,x}⊗M_{b,y})]`.
+Check: with this factor the MH-29 example must give `(2+√2)/4`. This is calibration C.1.
 
-### D6. Лемма об изолированных процессах (вывод, не цитата; доказательство — в PREREGISTRATION_C.md)
-При маргинализованных `u, v` статистика задаётся матрицей `Σ_{u,v} W_{u,v}`. По MH-26 в ней
-обнуляются σ^TS, σ^TF и σ^TB и остаётся `(1/(d_A d_B))(1 + σ^ISO)`. σ^ISO содержит только
-двухчастичные члены типов `A_I B_O` и `A_O B_I`, и такая матрица — выпуклая смесь одностороннего
-канала A→B и одностороннего канала B→A.
+### D6. Lemma on isolated processes (derivation, not a quotation; the proof is in PREREGISTRATION_C.md)
+With `u, v` marginalized, the statistics are given by the matrix `Σ_{u,v} W_{u,v}`. By MH-26,
+σ^TS, σ^TF and σ^TB vanish in it and `(1/(d_A d_B))(1 + σ^ISO)` remains. σ^ISO contains only
+bipartite terms of the types `A_I B_O` and `A_O B_I`, and such a matrix is a convex mixture of a one-way
+channel A→B and a one-way channel B→A.
 
 ---
 
-## Stage D: литчек и калибровочные источники (выгрузки — `sources/litcheck_D/<id>/`)
+## Stage D: literature check and calibration sources (dumps — `sources/litcheck_D/<id>/`)
 
-**MH-31 (MH24, пример ISO-процесса), `main.tex` стр. 393:**
+**MH-31 (MH24, an example of an ISO process), `main.tex` line 393:**
 > For example, a process like the example in the ISO category in Fig.~\ref{hier} can be obtained by choosing some of the $t_{ij}$ in Eqn.~(\ref{sigmaops}) to be non-zero. The interpretation of this process is a single quantum channel from Alice to Bob with no pre-selection or post-selection.
 
-Утверждения «каждый ISO-процесс причинно разделим» в MH24 нет (литчек D, п. 1). Лемма D6 — наш вывод.
+The statement "every ISO process is causally separable" is not in MH24 (literature check D, item 1). Lemma D6 is our own derivation.
 
-**AB26 (arXiv:2602.00856, Apadula, Bisio, Chiribella, Perinotti, Simonov), `main.tex` стр. 521–533 — однослотовый аналог D6:**
+**AB26 (arXiv:2602.00856, Apadula, Bisio, Chiribella, Perinotti, Simonov), `main.tex` lines 521–533 — the single-slot analogue of D6:**
 > Let $R \in\mathsf{T}_1((\hat{A} \rightarrow \hat{B}) \rightarrow I)$. Then there exist $p \in [0,1]$ and density operators $\rho_A$ on $A$ and $\sigma_B$ on $B$ such that
 > R = p \rho_A \otimes \mathds{1}_B + (1-p) \mathds{1}_A \otimes \sigma_B.
 >
 > This result shows that any deterministic functional on a bistochastic channel yields probabilities by classically selecting whether the device is used in the $A\rightarrow B$ or $B\rightarrow A$ direction \cite{Guo2024}.
 
-**FR10 (arXiv:1005.3421, Fritz), аннотация:**
+**FR10 (arXiv:1005.3421, Fritz), abstract:**
 > One result is that a set of correlators can appear in the temporal CHSH scenario if and only if it can appear in the usual spatial CHSH scenario. In particular, we derive the validity of the Tsirelson bound and the impossibility of PR-box behavior.
 
-**BTCV04 (quant-ph/0402127, Brukner, Taylor, Cheung, Vedral), `Entanglementintime.tex` стр. 219–253:**
+**BTCV04 (quant-ph/0402127, Brukner, Taylor, Cheung, Vedral), `Entanglementintime.tex` lines 219–253:**
 > [...] and is equal to $2\sqrt{2}$. This can be called the temporal Cirel'son bound
 >
 > It should be noted that the temporal correlation as given by Eq. (\ref{eqm}) (with a minus sign in front) can also be obtained for results of the consecutive measurements of two qubits that are in the maximally entangled state (singlet).
 
-**NPA08 (arXiv:0803.4290, Navascués, Pironio, Acín), `covariance_stuff_21.tex` (Sec. «Examples», текст после Table 1):**
+**NPA08 (arXiv:0803.4290, Navascués, Pironio, Acín), `covariance_stuff_21.tex` (Sec. "Examples", text after Table 1):**
 > Note first, that in the case $d=2$ (CHSH) the first certificate already provides the actual quantum value, which is equal to the Tsirelson bound. For $d$ larger than $2$, the quantum value is recovered at the successive step corresponding to the certificate $\Gamma^{1+AB}$.
 
-и определение уровня 1+AB:
+and the definition of level 1+AB:
 > $\mathcal{S}_{1+AB}=\mathcal{S}_1\cup \{E_aE_b ,:\,a\in \tilde A, b\in \tilde B\}$ consisting of $\mathcal{S}_1$ together with all products of one operator of Alice and one for Bob
 
-### D9. Опечатка в примере MH24 (вывод, не цитата; проверено в Stage C, C.1.1)
-В (bobop, MH-29) слагаемое при β = 1 записано как `½ β [1+(−1)^y σ_z]^{B_I} ⊗ 1^{B_O}`. Сумма по y
-этого слагаемого равна `1^{B_I} ⊗ 1^{B_O}`, её след по B_O равен `2·1^{B_I}`, что нарушает прямую
-причинность MH-1 (`Tr_{B_O} Σ_y M = 1`). Численная невязка — 1.0 (results/json/stage_c.json,
-`C1.mh_example.literal_bobop`). Текст статьи говорит, что Боб «prepares the maximally mixed state»;
-этому соответствует множитель ¼: `|y⟩⟨y| ⊗ 1/2`, невязка 0. Значения игры от этого множителя не
-зависят (условная форма делит на p(a,b)), так что опечатка не влияет на числа статьи. Их числа
-воспроизводятся только при прочтении игры, отличном от напечатанных ур. (9) и (11) (Stage C, C.1.1).
+### D9. A typo in the MH24 example (derivation, not a quotation; checked in Stage C, C.1.1)
+In (bobop, MH-29) the term at β = 1 is written as `½ β [1+(−1)^y σ_z]^{B_I} ⊗ 1^{B_O}`. The sum over y
+of this term equals `1^{B_I} ⊗ 1^{B_O}`, and its trace over B_O equals `2·1^{B_I}`, which violates the forward
+causality of MH-1 (`Tr_{B_O} Σ_y M = 1`). The numerical residual is 1.0 (results/json/stage_c.json,
+`C1.mh_example.literal_bobop`). The text of the paper says that Bob "prepares the maximally mixed state";
+this corresponds to the factor ¼: `|y⟩⟨y| ⊗ 1/2`, with residual 0. The values of the game do not depend
+on this factor (the conditional form divides by p(a,b)), so the typo does not affect the paper's numbers. Their numbers
+are reproduced only under a reading of the game different from the printed Eqs. (9) and (11) (Stage C, C.1.1).
 
 ---
 
-## T3.0: три стороны (выгрузки — `sources/litcheck_T3/<id>/`)
+## T3.0: three parties (dumps — `sources/litcheck_T3/<id>/`)
 
-**BW16 (arXiv:1507.01714, Baumeler, Wolf, NJP 18, 013036), `arxiv.tex` стр. 1152 — процесс Лугано (Araújo–Feix):**
+**BW16 (arXiv:1507.01714, Baumeler, Wolf, NJP 18, 013036), `arxiv.tex` line 1152 — the Lugano process (Araújo–Feix):**
 > I_A=\bar O_BO_C\,,\quad I_B=O_A\bar O_C\,,\quad I_C=\bar O_AO_B
 
-**BW16, пример 2, стр. 1325–1337 — игра, граница, значение:**
+**BW16, example 2, lines 1325–1337 — the game, the bound, the value:**
 > p_\text{succ}^\text{ex2}=\frac{1}{2}(&\Pr(X=C,Y=A,Z=B\,|\,\mathrm{maj}(A,B,C)=0)\notag\\ +\Pr&(X=\bar B,Y=\bar C,Z=\bar A\,|\,\mathrm{maj}(A,B,C)=1))
 >
 > The success probability of winning this game in a world with a predefined causal order is upper bounded by~$3/4$.
 >
 > [...] can be won perfectly. The parties simply forward their inputs to the environment and use the bits obtained from the environment as the guesses.
 
-(В BW16 «input» A,B,C — свободные биты сторон; в нашем сценарии без настроек их роль играют доходы a,b,c, а «guesses» X,Y,Z — исходы x,y,z. Перенос — вывод D11.)
+(In BW16 the "input" A,B,C are the parties' free bits; in our scenario without settings their role is played by the incomes a,b,c, and the "guesses" X,Y,Z by the outcomes x,y,z. The transfer is derivation D11.)
 
-**WBO23 (arXiv:2201.11832, Wechs, Branciard, Oreshkov), `main_OO.tex` стр. 391–397, ур. (eq:pm_bw) — обратимое (унитарное) расширение:**
+**WBO23 (arXiv:2201.11832, Wechs, Branciard, Oreshkov), `main_OO.tex` lines 391–397, Eq. (eq:pm_bw) — the reversible (unitary) extension:**
 > It was then shown by Baumeler and Wolf~\cite{baumeler17} (cf. also Refs.~\cite{araujo17,araujo17a}) that $W_{\text{AF}}$ has a unitary extension $W_{\text{BW}} = \dketbra{U_{\text{BW}}}$, with
 > \dket{U_{\text{BW}}} &= \sum_{\substack{a_O b_O c_O\\p_1 p_2 p_3}} \ket{p_1,p_2,p_3}^{P_1 P_2 P_3} \otimes \ket{p_1 \oplus \neg b_O \land c_O, p_2 \oplus \neg c_O \land a_O, p_3 \oplus \neg a_O \land b_O}^{A_I B_I C_I} \notag \\[-4mm] &\hspace{75mm}\otimes \ket{a_O,b_O,c_O}^{A_OB_OC_O} \otimes \ket{a_O,b_O,c_O}^{F_1 F_2 F_3}
 >
 > $W_{\text{AF}}$ is recovered from $\dketbra{U_{\text{BW}}}$ when the global past party prepares the state $\ketbra{0,0,0}{0,0,0}^{P_1 P_2 P_3}$, and the global future party is traced out.
 
 
-**WBO23, стр. 235–244 — общее определение расширения:**
+**WBO23, lines 235–244 — the general definition of an extension:**
 > such that the original process matrix $W$ is recovered when $P$ prepares some fixed state and $F$ is traced out
 
-**BCRWZ19 (arXiv:1703.00779, Baumeler, Costa, Ralph, Wolf, Zych), `manuscript.tex` стр. 504–517 — согласованность при любом состоянии источника:**
+**BCRWZ19 (arXiv:1703.00779, Baumeler, Costa, Ralph, Wolf, Zych), `manuscript.tex` lines 504–517 — consistency for any state of the source:**
 > which should be satisfied for every $f\in \mathcal{D}$ and $e\in \mathcal{O}_{\source}$. This is true because $f_R\circ T_R^{e_R}$ is a local operation and, as $w$ is a process function, a fixed point $o\in \mathcal{O}$ exists for every local operation.
 
-**BCRWZ19, стр. 241–250 — критерий допустимости детерминированного процесса:**
+**BCRWZ19, lines 241–250 — the validity criterion for a deterministic process:**
 > In other words, if $w$ is a process function, then $w\circ f$ has a fixed point for every local operation $f$. [...] Given a function $w:\mathcal{O}\rightarrow \mathcal{I}$ that satisfies condition~(fixedpoint), the fixed point of $w\circ f$ is unique for every set of local operations
 
-**BCRWZ19, стр. 280 — причинно упорядоченная функция процесса:**
+**BCRWZ19, line 280 — a causally ordered process function:**
 > A process function is compatible with such a structure if signalling is only possible from a region to its causal future. We call such a process function causally ordered.
 
-**ABCFGB15 (arXiv:1506.03776, Araújo et al.), стр. 1121–1123 — допустимость (OCB) для трёх сторон:**
+**ABCFGB15 (arXiv:1506.03776, Araújo et al.), lines 1121–1123 — validity (OCB) for three parties:**
 > L_V(W) = {}_{[1 - (1 - A_O + A_I A_O)(1 - B_O + B_I B_O)(1 - C_O + C_I C_O) + A_I A_O B_I B_O C_I C_O]} W
 
-### D10. Класс «без селекции» для N сторон (вывод, не цитата)
-MH24 дают только двусторонний случай. Там ISO = TF ∩ TB (MH-27), TF совпадает с OCB (MH-27), TB — обращение
-TF (MH-30: A_I↔A_O у обращённых операций; для класса — нормировка для обратных инструментов). Определяем
-ISO_N = {W: нормировка для всех прямых инструментов} ∩ {W: нормировка для всех обратных инструментов}.
-Калибровка: при N = 2 это должно дать ровно 19 базисных элементов Stage C.
+### D10. The class "without selection" for N parties (derivation, not a quotation)
+MH24 give only the bipartite case. There ISO = TF ∩ TB (MH-27), TF coincides with OCB (MH-27), TB is the reversal of
+TF (MH-30: A_I↔A_O for the reversed operations; for the class — normalization for the backward instruments). We define
+ISO_N = {W: normalization for all forward instruments} ∩ {W: normalization for all backward instruments}.
+Calibration: for N = 2 this must give exactly the 19 basis elements of Stage C.
 
-### D11. Игра BW16 в TS-сценарии (вывод)
-Доходы a,b,c равномерны (R-боксы, D1) и играют роль A,B,C из BW16; исходы x,y,z — роль X,Y,Z.
-Операции — TS (двойная причинность), классически — биекции (доход, вход) ↔ (исход, выход).
-Стратегия BW16 «forward inputs, use received bits as guesses» — это биекция (a, i) ↦ (x = i, o = a), она TS-допустима.
+### D11. The BW16 game in the TS scenario (derivation)
+The incomes a,b,c are uniform (R-boxes, D1) and play the role of A,B,C from BW16; the outcomes x,y,z play the role of X,Y,Z.
+The operations are TS (double causality); classically they are bijections (income, input) ↔ (outcome, output).
+The BW16 strategy "forward inputs, use received bits as guesses" is the bijection (a, i) ↦ (x = i, o = a), and it is TS-admissible.
 
 ---
 
-## T3.1: литчек новизны W* (выгрузки — `sources/litcheck_T31/<id>/`)
+## T3.1: literature check on the novelty of W* (dumps — `sources/litcheck_T31/<id>/`)
 
-**SD26 (arXiv:2502.15579, Steffinlongo, Dourdent, «Simulating Noncausality with Quantum Control of Causal Orders», PRR 8, 013127 (2026)), `main.tex` стр. 420–424 — «без глобального прошлого» как свойство функции:**
+**SD26 (arXiv:2502.15579, Steffinlongo, Dourdent, "Simulating Noncausality with Quantum Control of Causal Orders", PRR 8, 013127 (2026)), `main.tex` lines 420–424 — "without global past" as a property of the function:**
 > Let us consider the special case of process functions \textit{without global past},  where each party can receive a signal from at least one other party,
 > \forall i, \exists k, \bm{a}_{\backslash i}\in\{0,1\}^{N-1}: w_i(\bm{a}_{\backslash i})\neq w_i(\bm{a}_{\backslash i}^{(k)})
 > [...] The Lugano process Eq.~\eqref{eq:lugano} is an example of such a Boolean process function without global past.
 
-(Это свойство функции: вход ни одной стороны не константа. О состоянии системы глобального прошлого P оно ничего не говорит; в их конструкции P фиксировано в |0⟩. С нашим ISO₃ не совпадает.)
+(This is a property of the function: no party's input is constant. It says nothing about the state of the global-past system P; in their construction P is fixed to |0⟩. It does not coincide with our ISO₃.)
 
-**GB18 (arXiv:1805.12429, Guérin, Brukner, «Observer-dependent locality of quantum events»), `main_text.tex` стр. 594, 609 — обращённый Лугано, равномерная суперпозиция в P, квантовое нарушение:**
+**GB18 (arXiv:1805.12429, Guérin, Brukner, "Observer-dependent locality of quantum events"), `main_text.tex` lines 594, 609 — the reversed Lugano process, uniform superposition in P, quantum violation:**
 > A simple choice of input state is the uniform superposition $|\psi\rangle^P = \frac{1}{2\sqrt{2}}\sum_\mathbf{u} |\mathbf{u}\rangle$, which yields
 >
 > The value of the violation that we obtain is $I_1 \approx -\frac{1}{4}$.
 
-(Чистая равномерная суперпозиция, а не максимально смешанное состояние; нарушение только квантовыми инструментами. Ближайшая квантовая работа — цитировать.)
+(A pure uniform superposition, not the maximally mixed state; the violation is achieved with quantum instruments only. The closest quantum work — to be cited.)
 
-**BFW14 (arXiv:1403.7333, Baumeler, Feix, Wolf, PRA 90, 042106), `arxiv.tex` стр. 276–286 — W₃, смесь двух петель:**
+**BFW14 (arXiv:1403.7333, Baumeler, Feix, Wolf, PRA 90, 042106), `arxiv.tex` lines 276–286 — W₃, a mixture of two loops:**
 > \frac{1}{2},&\text{$i_0=o_2$,~$i_1=o_0$,~$i_2=o_1$,}\\ \frac{1}{2},&\text{$i_0=\bar o_2$,~$i_1=\bar o_0$, $i_2=\bar o_1$,}\\
 >
 > Therefore,~$W_3$ implements a uniform mixture of the loops where the input of party~\mbox{$S_{i\bmod 3}$} is sent to party~\mbox{$S_{i+1\bmod 3}$}, and where the input of party~\mbox{$S_{i\bmod 3}$} is flipped and sent to~\mbox{$S_{i+1\bmod 3}$}
 
-**BW16 (1507.01714), стр. 1269 — та же точка (E_ex1):**
+**BW16 (1507.01714), line 1269 — the same point (E_ex1):**
 > This extremal point is a {\em proper mixture\/} of logically inconsistent processes, as it cannot be written as a convex combination of deterministic points from within the polytope
 
-**AGB17 (arXiv:1706.09854, Araújo, Guérin, Baumeler, PRA 96, 052315), `complexity.tex` стр. 334 — N-стороннее обобщение Лугано:**
+**AGB17 (arXiv:1706.09854, Araújo, Guérin, Baumeler, PRA 96, 052315), `complexity.tex` line 334 — the N-partite generalization of the Lugano process:**
 > f(x)_k = x_{k\ominus1} \land \de{\bigwedge_{l=1}^{n-2} \lnot x_{k\oplus l} },
 
-**TC20 (arXiv:2001.02511, Tobar, Costa), `main.tex` стр. 338–343 — явный четырёхсторонний вид:**
+**TC20 (arXiv:2001.02511, Tobar, Costa), `main.tex` lines 338–343 — the explicit four-party form:**
 > a_1 = x_4(x_2 \oplus 1)(x_3 \oplus 1) \\ a_2 = x_1(x_4 \oplus 1)(x_3 \oplus 1) \\ a_3 = x_2(x_1 \oplus 1)(x_4 \oplus 1) \\ a_4 = x_3(x_2 \oplus 1)(x_1 \oplus 1).
 
-**BW21 (arXiv:2104.06234), `manuscript.tex` стр. 549 — вложение смесей в обратимые функции:**
+**BW21 (arXiv:2104.06234), `manuscript.tex` line 549 — embedding mixtures into reversible functions:**
 > Moreover, from Ref.~\cite{Baumeler2016fp} it is known that every process function and every mixture of process functions is embeddable into a {\em reversible\/} process function with two additional parties:
 
-**ABCFGB16 / Abbott et al. (1608.01528), `Npartite_causal_polytopes.tex` стр. 478 — внешняя сверка числа стратегий:**
+**ABCFGB16 / Abbott et al. (1608.01528), `Npartite_causal_polytopes.tex` line 478 — external check of the number of strategies:**
 > For example, the polytope for the `complete binary' tripartite case where binary outputs are allowed for both inputs, has $138\,304$ vertices and is 56-dimensional.
 
-**Abbott et al., стр. 433–470, 486–494 — неравенства I₁–I₄ и их игровые формы** (используются в T3.1.b):
+**Abbott et al., lines 433–470, 486–494 — the inequalities I₁–I₄ and their game forms** (used in T3.1.b):
 > I_1 =&\, P_{AB}(11|110) + P_{BC}(11|011) \notag \\ &+ P_{AC}(11|101) - P_{ABC}(111|111) \ \ge \ 0
 >
 > & P\big(xy(ab \oplus z) = yz(bc \oplus x) \notag \\ &\hspace{18mm} =xz(ac \oplus y)=0\big) \ \le \ 7/8
@@ -409,42 +409,42 @@ ISO_N = {W: нормировка для всех прямых инструмен
 >
 > P\big( (x\!\oplus\! y \!\oplus\! z \!\oplus\! 1)(&(b\!\oplus\! x\!\oplus\! 1)(c \!\oplus\! y\!\oplus\! 1) \notag \\ &  \times(a \!\oplus\! z\!\oplus\! 1)\!\oplus\! 1)=0\big) \le \ 3/4
 
-(Формы I₂, I₃ — там же, стр. 440–470. Условие «вход стороны не зависит от её собственного выхода» — TC20 стр. 155–157: «each component of a process function w has to be independent of the output of the same region».)
+(The forms I₂, I₃ are in the same place, lines 440–470. The condition "a party's input does not depend on its own output" — TC20 lines 155–157: "each component of a process function w has to be independent of the output of the same region".)
 
 ---
 
-## RTS stage 0: вещественная КМ (проверено 11 работ; выгрузки статей не распространяются, см. README)
+## RTS stage 0: real quantum mechanics (11 papers checked; the paper dumps are not redistributed, see README)
 
-**SMK26 (arXiv:2605.30238, Surace, Minagawa, Kunjwal, «Indefinite Causal Order Reverses the Real-Complex Hierarchy», v2) — ВКМ в процесс-матрицах (OCB), первая строка отчёта:**
+**SMK26 (arXiv:2605.30238, Surace, Minagawa, Kunjwal, "Indefinite Causal Order Reverses the Real-Complex Hierarchy", v2) — real quantum theory in process matrices (OCB), first line of the report:**
 > An \emph{RQT process matrix} is defined by applying the OCB operational characterisation to real laboratories.
 >
 > Under N2, the process matrix used in this version to separate RQT from QT is not valid, and the claimed RQT/QT separation is therefore not established.
 
-(Временно-симметричных формализмов и максимально смешанного глобального прошлого там нет: «time-symmetric», «global past», «Mrini», «Cerf» — 0 вхождений.)
+(There are no time-symmetric formalisms and no maximally mixed global past there: "time-symmetric", "global past", "Mrini", "Cerf" — 0 occurrences.)
 
-**HW26 (arXiv:2603.19208, Hoffreumon, Woods, «Quantum theory based on real numbers cannot be experimentally falsified»):**
-- Теорема 1, `content_core.tex` стр. 140–142:
+**HW26 (arXiv:2603.19208, Hoffreumon, Woods, "Quantum theory based on real numbers cannot be experimentally falsified"):**
+- Theorem 1, `content_core.tex` lines 140–142:
 > For any finite network of independent sources and locally measuring parties, if the sources are required only to be operationally independent, then every outcome distribution predicted by the QT model of the network can also be predicted by an equivalent RQT model.
-- Операциональная независимость, `content_methods.tex` стр. 67:
+- Operational independence, `content_methods.tex` line 67:
 > Alternatively, the model assumes \textbf{operationally independent states} with respect to the $n$-partition if and only if the distribution is uncorrelated for any local measurement with respect to the $n$-partition.
-- Пример Caves et al., `content_methods.tex` стр. 96–105 (цитата по отчёту субагента, строка 105 сверена):
+- The Caves et al. example, `content_methods.tex` lines 96–105 (quotation per the subagent's report, line 105 verified):
 > While this RQT state is not a product state, it is yet an operationally independent one.
-- Многочастичные единицы, `content_SI_RepresentationOfComplexUnits.tex` стр. 23–24:
+- Multipartite units, `content_SI_RepresentationOfComplexUnits.tex` lines 23–24:
 > \I{1} := I  \:, \quad \I{n}{} := \frac{1}{2}\left(\I{n-1} \ktensor I  - \J{n-1} \ktensor J\right)\:;\\ \J{1} := J  \:, \quad \J{n}{} := \frac{1}{2}\left(\J{n-1} \ktensor I + \I{n-1} \ktensor J\right)
-- `content_SI_RNQTandProofThm1.tex` стр. 520:
+- `content_SI_RNQTandProofThm1.tex` line 520:
 > Now the fact is that operationally independent states are always in $R$-product form, so they can always be used to pass the phase around for the effects.
 
 **RTW21 (arXiv:2101.10873, Renou et al., Nature 600, 625):**
-- стр. 368: «\mathscr{T}(\bar{P})=6\sqrt{2}\approx 8.4852»;
-- стр. 376: «\mathscr{T}(P)=\sum_{b\in\{0,1\}^2}\mathscr{T}_b(P)\leq 7.6605.» (вещественные состояния и измерения, источники независимы с общей случайностью λ);
-- стр. 308 (по отчёту субагента): у Алисы 3, у Чарли 6 дихотомических настроек, у Боба измерение с 4 исходами (базис Белла); оптимальная комплексная стратегия — Φ⁺ в обоих источниках, Алиса σ_Z, σ_X, σ_Y, Чарли (σ_i ± σ_j)/√2, Боб — измерение в базисе Белла (стр. 328–332).
+- line 368: "\mathscr{T}(\bar{P})=6\sqrt{2}\approx 8.4852";
+- line 376: "\mathscr{T}(P)=\sum_{b\in\{0,1\}^2}\mathscr{T}_b(P)\leq 7.6605." (real states and measurements, the sources are independent with shared randomness λ);
+- line 308 (per the subagent's report): Alice has 3 and Charlie 6 dichotomic settings, Bob has a 4-outcome measurement (the Bell basis); the optimal complex strategy is Φ⁺ in both sources, Alice σ_Z, σ_X, σ_Y, Charlie (σ_i ± σ_j)/√2, Bob a measurement in the Bell basis (lines 328–332).
 
-**Другие (по отчёту субагента, сверены выборочно):** Barrios Hita et al. 2503.17307 — вещественная КМ с флаговым кубитом на каждую частицу, состояние бинокального сценария не факторизуется по источникам; Feng–Ren–Vedral 2504.07808 — «require the inclusion of a nonlocal map»; Weilenmann–Gisin–Sekatski 2502.20102 (PRL 135, 180201, 2025; это и есть «Partial independence suffices…») — общее для m источников состояние ребитов; при m = 2 это состояние Caves с α = 1 (проверка субагента).
+**Others (per the subagent's report, spot-checked):** Barrios Hita et al. 2503.17307 — real quantum theory with a flag qubit per particle; the state of the binocal scenario does not factorize over the sources; Feng–Ren–Vedral 2504.07808 — "require the inclusion of a nonlocal map"; Weilenmann–Gisin–Sekatski 2502.20102 (PRL 135, 180201, 2025; this is precisely "Partial independence suffices…") — a state of rebits shared by m sources; for m = 2 this is the Caves state with α = 1 (subagent's check).
 
-### D12. Перевод бинокального сценария в TS без селекции (вывод, не цитата)
-По образцу D8: источник ↦ канал (выход стороны → вход Боба) при максимально смешанном входе стороны. Настройка
-Алисы (Чарли) ↦ её исход x (z), результат ↦ доход a (c). Эффективное «состояние источников» — это Choi/(d_A d_C)
-совместного канала (A_O, C_O) → (B_I1, B_I2). Условия ISO (D10): маргинал на (A, C) максимально смешан
-(сохранение следа, нет предселекции), маргинал на (B₁, B₂) максимально смешан (унитальность, нет постселекции).
-В ребитовом базисе члены J_{A'}J_{C'} (нет стороны «только вход») и J_{B₁'}J_{B₂'} (нет стороны «только
-выход») **запрещены**, а J_{A'}J_{B₂'} и J_{B₁'}J_{C'} — допустимы.
+### D12. Translating the binocal scenario into TS without selection (derivation, not a quotation)
+Following the pattern of D8: a source ↦ a channel (a party's output → Bob's input) with the party's input maximally mixed. Alice's
+(Charlie's) setting ↦ her outcome x (z), the result ↦ the income a (c). The effective "state of the sources" is Choi/(d_A d_C)
+of the joint channel (A_O, C_O) → (B_I1, B_I2). The ISO conditions (D10): the marginal on (A, C) is maximally mixed
+(trace preservation, no preselection), the marginal on (B₁, B₂) is maximally mixed (unitality, no postselection).
+In the rebit basis the terms J_{A'}J_{C'} (there is no "input-only" party) and J_{B₁'}J_{B₂'} (there is no "output-only"
+party) are **forbidden**, while J_{A'}J_{B₂'} and J_{B₁'}J_{C'} are allowed.

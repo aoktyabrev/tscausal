@@ -1,9 +1,9 @@
 """
-RTS stage 0, R.2.2 — строгая верхняя оценка max 𝒯 по всем вещественным ISO-процессам (без ОН) при операциях HW26.
-Прямая: max Tr[W G], W ≥ 0, Tr_{B1B2} W = I/16 (на A,C), Tr_{AC} W = I/16 (на B1,B2).
-Двойственная: min (Tr Y + Tr Z)/16 при  Y_{AC} ⊗ I_{B} + Z_{B} ⊗ I_{AC} − G ≥ 0 (в порядке A,B1,B2,C).
-Любые (Y, Z) после сдвига Y → Y − λ_min I дают допустимую двойственную точку ⇒ строгая оценка (пересчёт eigvalsh
-и Cholesky с запасом). Результат: results/json/rts_hw_iso_dual.json.
+RTS stage 0, R.2.2 — a rigorous upper bound on max 𝒯 over all real ISO processes (without OI) at the HW26 operations.
+Primal: max Tr[W G], W ≥ 0, Tr_{B1B2} W = I/16 (on A,C), Tr_{AC} W = I/16 (on B1,B2).
+Dual: min (Tr Y + Tr Z)/16 subject to  Y_{AC} ⊗ I_{B} + Z_{B} ⊗ I_{AC} − G ≥ 0 (in the order A,B1,B2,C).
+After the shift Y → Y − λ_min I, any (Y, Z) give a feasible dual point ⇒ a rigorous bound (eigvalsh is recomputed
+and Cholesky is run with a margin). Result: results/json/rts_hw_iso_dual.json.
 """
 import json
 import os
@@ -32,7 +32,7 @@ PM = perm_matrix()
 
 
 def lift(Y, Z):
-    """Y на (A,C), Z на (B1,B2) → Y⊗I_B + I_AC⊗Z в порядке A,B1,B2,C."""
+    """Y on (A,C), Z on (B1,B2) → Y⊗I_B + I_AC⊗Z in the order A,B1,B2,C."""
     return PM @ (np.kron(Y, np.eye(16)) + np.kron(np.eye(16), Z)) @ PM.T
 
 
@@ -43,7 +43,7 @@ def main():
     Fc = H.complete_bob(Fr)
     G = S.Model((4, 4, 4, 4)).G(Ar, Fc, Cr)
     G = (G + G.T) / 2
-    # проверка lift: Tr[W lift(Y,Z)] = Tr[mAC(W) Y] + Tr[mB(W) Z]
+    # a check on the lift: Tr[W lift(Y,Z)] = Tr[mAC(W) Y] + Tr[mB(W) Z]
     rng = np.random.default_rng(0)
     Wt = rng.normal(size=(256, 256)); Wt = Wt + Wt.T
     Yt = rng.normal(size=(16, 16)); Yt = Yt + Yt.T
@@ -52,7 +52,7 @@ def main():
     mAC = np.einsum("abcdebcf->adef", T8).reshape(16, 16)
     mB = np.einsum("abcdafgd->bcfg", T8).reshape(16, 16)
     lift_err = abs(np.trace(Wt @ lift(Yt, Zt)) - np.trace(mAC @ Yt) - np.trace(mB @ Zt))
-    # двойственная SDP: переменные 16×16, PSD 256 — SCS
+    # the dual SDP: 16×16 variables, a 256 PSD block — SCS
     Y = cp.Variable((16, 16), symmetric=True)
     Z = cp.Variable((16, 16), symmetric=True)
     Lexpr = PM @ (cp.kron(Y, np.eye(16)) + cp.kron(np.eye(16), Z)) @ PM.T
@@ -64,7 +64,7 @@ def main():
     shift = max(0.0, -lam) + 1e-9
     Yc = Yv + shift * np.eye(16)
     Mc = lift(Yc, Zv) - G
-    np.linalg.cholesky(Mc)                                        # сертификат допустимости двойственной точки
+    np.linalg.cholesky(Mc)                                        # the feasibility certificate for the dual point
     bound = float((np.trace(Yc) + np.trace(Zv)) / 16)
     out = {"stage": "RTS0 R.2.2 dual bound", "lift_check": float(lift_err), "status": prob.status,
            "dual_value_raw": prob.value, "lambda_min_raw": lam, "shift": shift,

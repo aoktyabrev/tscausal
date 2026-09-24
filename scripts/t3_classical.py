@@ -1,10 +1,10 @@
 """
-T3.0, пункты T.1 и T.2 (классика). Определения — PREREGISTRATION_T3.md; цитаты — SOURCES.md (BW16, WBO23, BCRWZ19).
+T3.0, items T.1 and T.2 (classical). Definitions — PREREGISTRATION_T3.md; citations — SOURCES.md (BW16, WBO23, BCRWZ19).
 
-Классический трёхсторонний процесс: T(i|o), i = (i_A,i_B,i_C) — входы, o = (o_A,o_B,o_C) — выходы.
-Для детерминированных локальных операций f (вход → выход) вероятность «согласованной истории»:
-P = Σ_i T(i | f(i)). Игра BW16 (пример 2) с TS-операциями: у каждой стороны биекция
-(доход, вход) ↔ (исход, выход); доходы равномерны.
+Classical tripartite process: T(i|o), i = (i_A,i_B,i_C) — inputs, o = (o_A,o_B,o_C) — outputs.
+For deterministic local operations f (input → output) the probability of a "consistent history":
+P = Σ_i T(i | f(i)). The BW16 game (example 2) with TS operations: each party has a bijection
+(income, input) ↔ (outcome, output); incomes are uniform.
 """
 import itertools
 import json
@@ -30,7 +30,7 @@ def lugano(o):
 
 
 def det_T(omega):
-    """Матрица T[i, o] детерминированного процесса."""
+    """Matrix T[i, o] of a deterministic process."""
     T = np.zeros((8, 8), dtype=object)
     for o in BITS3:
         T[IDX[omega(o)], IDX[o]] = F_(1)
@@ -41,13 +41,13 @@ def det_T(omega):
     return T
 
 
-# ------------------------------------------------------------------ допустимость и ISO_3
+# ------------------------------------------------------------------ validity and ISO_3
 
-LOCAL_F = list(itertools.product((0, 1), repeat=2))          # f(0), f(1): все функции бит → бит
+LOCAL_F = list(itertools.product((0, 1), repeat=2))          # f(0), f(1): all functions bit → bit
 
 
 def valid_det(omega):
-    """BCRWZ19: для всех наборов локальных функций w∘f имеет ровно одну неподвижную точку."""
+    """BCRWZ19: for every set of local functions w∘f has exactly one fixed point."""
     for fA, fB, fC in itertools.product(LOCAL_F, repeat=3):
         n = 0
         for i in BITS3:
@@ -60,7 +60,7 @@ def valid_det(omega):
 
 
 def walsh(T):
-    """Коэффициенты W = Σ T(i|o)|i⟩⟨i|⊗|o⟩⟨o| по Z-произведениям: c[sI, sO] = (1/64) Σ T(i|o) χ_sI(i) χ_sO(o)."""
+    """Coefficients of W = Σ T(i|o)|i⟩⟨i|⊗|o⟩⟨o| in Z-products: c[sI, sO] = (1/64) Σ T(i|o) χ_sI(i) χ_sO(o)."""
     c = {}
     for sI in BITS3:
         for sO in BITS3:
@@ -86,7 +86,7 @@ def allowed(ty, cls):
 
 
 def membership(T):
-    """Линейные условия классов TF/TB/ISO (правило, проверенное в T.0) + нормировка Σ_i T = 1 + положительность."""
+    """Linear conditions for classes TF/TB/ISO (rule verified in T.0) + normalisation Σ_i T = 1 + positivity."""
     c = walsh(T)
     res = {}
     for cls in ("TF", "TB", "ISO"):
@@ -95,9 +95,9 @@ def membership(T):
     return res
 
 
-# ------------------------------------------------------------------ игра BW16 с TS-операциями
+# ------------------------------------------------------------------ BW16 game with TS operations
 
-PERMS = list(itertools.permutations(range(4)))               # биекция (доход, вход) -> (исход, выход), индекс 2*first+second
+PERMS = list(itertools.permutations(range(4)))               # bijection (income, input) -> (outcome, output), index 2*first+second
 
 
 def win(inc, out):
@@ -109,7 +109,7 @@ def win(inc, out):
 
 
 def build_K():
-    """K[ops, i, o]: вклад T[i, o] в вероятность выигрыша при тройке TS-биекций ops (доходы равномерны)."""
+    """K[ops, i, o]: contribution of T[i, o] to the win probability for TS-bijection triple ops (uniform incomes)."""
     K = np.zeros((len(PERMS) ** 3, 8, 8))
     for n, (pA, pB, pC) in enumerate(itertools.product(PERMS, repeat=3)):
         for inc in BITS3:
@@ -132,7 +132,7 @@ def game_value(T, K):
 
 
 def exact_game_value(T, n):
-    """Точный пересчёт выигрыша (Fraction) для тройки операций с номером n."""
+    """Exact recomputation of the win value (Fraction) for the operation triple with index n."""
     pA, pB, pC = list(itertools.product(PERMS, repeat=3))[n]
     tot = F_(0)
     for inc in BITS3:
@@ -147,22 +147,22 @@ def exact_game_value(T, n):
     return tot
 
 
-# ------------------------------------------------------------------ причинная упорядоченность
+# ------------------------------------------------------------------ causal ordering
 
 def causal_functions():
-    """Детерминированные функции процесса с (динамическим) причинным порядком: первая сторона — константа,
-    вторая (выбор может зависеть от выхода первой) — функция выхода первой, третья — функция выходов первых двух."""
+    """Deterministic process functions with a (dynamic) causal order: the first party — a constant, the second
+    (which party it is may depend on the first output) — a function of it, the third — of the first two outputs."""
     out = set()
     for first in range(3):
         others = [k for k in range(3) if k != first]
         for c0 in (0, 1):
             branch_opts = []
-            for o1 in (0, 1):                                    # для каждого выхода первой стороны
+            for o1 in (0, 1):                                    # for each output of the first party
                 opts = []
                 for second in others:
                     third = [k for k in others if k != second][0]
-                    for v2 in (0, 1):                            # вход второй (при данном o1)
-                        for v3 in itertools.product((0, 1), repeat=2):   # вход третьей как функция o2
+                    for v2 in (0, 1):                            # input of the second (given o1)
+                        for v3 in itertools.product((0, 1), repeat=2):   # input of the third as a function of o2
                             opts.append((second, third, v2, v3))
                 branch_opts.append(opts)
             for b0, b1 in itertools.product(*branch_opts):
@@ -180,7 +180,7 @@ def causal_functions():
 
 
 def separable(T, causal_Ts):
-    """Точная LP (cdd.gmp): T ∈ conv{T_k}? Переменные λ_k ≥ 0, Σλ = 1, Σλ T_k = T."""
+    """Exact LP (cdd.gmp): T ∈ conv{T_k}? Variables λ_k ≥ 0, Σλ = 1, Σλ T_k = T."""
     n = len(causal_Ts)
     rows, lin = [], []
     for i in range(8):
@@ -203,29 +203,29 @@ def separable(T, causal_Ts):
 def main():
     t0 = time.time()
     out = {"stage": "T3.0/T.1-T.2 classical", "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S")}
-    print("строю K", flush=True)
+    print("building K", flush=True)
     K = build_K()
-    print("K готово", flush=True)
+    print("K ready", flush=True)
     ctab = causal_functions()
     causal_Ts = [det_T(lambda o, t=t: t[o]) for t in ctab]
     out["n_causal_functions"] = len(ctab)
     out["causal_functions_all_valid"] = all(valid_det(lambda o, t=t: t[o]) for t in ctab)
 
-    # T.1(а): Лугано
+    # T.1(a): Lugano
     TL = det_T(lugano)
     vL, nL = game_value(TL, K)
-    fwd = PERMS.index((0, 2, 1, 3))      # (доход, вход) -> (исход = вход, выход = доход): k = 2*i + a
+    fwd = PERMS.index((0, 2, 1, 3))      # (income, input) -> (outcome = input, output = income): k = 2*i + a
     out["T1a"] = {"valid": valid_det(lugano), "membership": membership(TL),
                   "game_max_TS": vL, "game_exact": str(exact_game_value(TL, nL)),
                   "forward_strategy_value": str(exact_game_value(TL, fwd * 24 * 24 + fwd * 24 + fwd)),
                   "causally_separable": separable(TL, causal_Ts),
                   "image_multiplicities": {"".join(map(str, i)): sum(1 for o in BITS3 if lugano(o) == i) for i in BITS3}}
 
-    # калибровки: причинная функция разделима; игра на причинных функциях ≤ 3/4
+    # calibration: a causal function is separable; the game on causal functions ≤ 3/4
     out["calibration"] = {"causal_example_separable": separable(causal_Ts[0], causal_Ts),
                           "max_game_over_causal_functions": max(game_value(Tk, K)[0] for Tk in causal_Ts)}
 
-    # T.1(б): каноническое XOR-расширение, P равномерно, F сброшено
+    # T.1(b): canonical XOR extension, P uniform, F discarded
     Tb = np.zeros((8, 8), dtype=object)
     for i in range(8):
         for o in range(8):
@@ -238,7 +238,7 @@ def main():
     out["T1b"] = {"W_is_trivial_uniform": all(Tb[i, o] == F_(1, 8) for i in range(8) for o in range(8)),
                   "membership": membership(Tb), "game_max_TS": vb, "game_exact": str(exact_game_value(Tb, nb)),
                   "causally_separable": separable(Tb, causal_Ts)}
-    # режим (а) внутри расширения: при фиксированном p каждый ω_p допустим? и значение игры
+    # regime (a) inside the extension: for a fixed p is each ω_p valid? and the game value
     per_p = {}
     for p in BITS3:
         om = lambda o, p=p: tuple(x ^ y for x, y in zip(lugano(o), p))  # noqa: E731
@@ -247,14 +247,14 @@ def main():
         per_p["".join(map(str, p))] = {"valid": valid_det(om), "game_max_TS": v, "separable": separable(Tp, causal_Ts)}
     out["T1b_per_fixed_p"] = per_p
 
-    # T.1(в): однобитовые обратимые расширения
+    # T.1(c): one-bit reversible extensions
     mult = {i: sum(1 for o in BITS3 if lugano(o) == i) for i in BITS3}
     need = []
     for i in BITS3:
         need += [i] * (2 - mult[i])
     assert len(need) == 8
     seen, ext = set(), []
-    print("T.1(в): перебор ω₁", flush=True)
+    print("T.1(c): enumerating ω₁", flush=True)
     for perm in itertools.permutations(range(8)):
         img = tuple(need[k] for k in perm)
         if img in seen:
@@ -275,9 +275,9 @@ def main():
                   "all_avg_in_ISO": all(e["avg_membership"]["ISO"] for e in ext),
                   "any_avg_nonseparable": any(not e["avg_separable"] for e in ext), "list": ext}
 
-    # T.2: многогранник классических ISO_3-процессов. Перечисление вершин (18 измерений, 64 неравенства)
-    # не завершилось за 9 ч (прогон 2026-09-21/22), поэтому точный максимум игры ищется иначе:
-    # для каждой тройки TS-биекций — LP max_T K_ops·T по многограннику (HiGHS), затем лучший пересчитывается точно (cdd.gmp).
+    # T.2: polytope of classical ISO_3 processes. Vertex enumeration (18 dimensions, 64 inequalities)
+    # did not finish in 9 h (run of 2026-09-21/22), so the exact game maximum is found differently:
+    # for each TS-bijection triple — LP max_T K_ops·T over the polytope (HiGHS), best one recomputed exactly (cdd.gmp).
     from scipy.optimize import linprog
     types = [(sI, sO) for sI in BITS3 for sO in BITS3 if (sI, sO) != ((0, 0, 0), (0, 0, 0))
              and allowed(type_of(sI, sO), "ISO")]
@@ -286,18 +286,18 @@ def main():
     t2 = time.time()
     best = (-1, None, None)
     for n in range(K.shape[0]):
-        c = K[n]                                    # цель Σ K[i,o] T[i,o] = Σ K/8 + (K/8)·A w
+        c = K[n]                                    # objective Σ K[i,o] T[i,o] = Σ K/8 + (K/8)·A w
         r = linprog(-(c @ A) / 8, A_ub=-A, b_ub=np.ones(64), bounds=[(None, None)] * len(types), method="highs")
         if r.status != 0:
-            raise RuntimeError(f"LP статус {r.status} для тройки {n}")
+            raise RuntimeError(f"LP status {r.status} for triple {n}")
         val = c.sum() / 8 - r.fun
         if val > best[0] + 1e-12:
             best = (val, n, r.x)
         if n % 2000 == 0:
-            print(f"  T.2 LP {n}/{K.shape[0]}, лучшее {best[0]:.6f}, {time.time() - t2:.0f} с", flush=True)
-    # точный пересчёт: LP в рациональной арифметике (cdd.gmp) для лучшей тройки
+            print(f"  T.2 LP {n}/{K.shape[0]}, best {best[0]:.6f}, {time.time() - t2:.0f} s", flush=True)
+    # exact recomputation: LP in exact arithmetic (cdd.gmp) for the best triple
     c = K[best[1]]
-    cF = [F_(round(v * 8)) / 8 for v in c]          # K кратны 1/8
+    cF = [F_(round(v * 8)) / 8 for v in c]          # K are multiples of 1/8
     rows = [[F_(1)] + [F_(int(A[r_, k])) for k in range(len(types))] for r_ in range(64)]    # 1 + A w ≥ 0
     obj = [sum(cF)] + [sum(cF[r_] * int(A[r_, k]) for r_ in range(64)) for k in range(len(types))]
     obj = [v / 8 for v in obj]

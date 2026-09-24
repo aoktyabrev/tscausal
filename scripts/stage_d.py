@@ -1,6 +1,6 @@
 """
-Stage D — квантово-классический разрыв на cl3–cl6. Определения, выводы D7/D8 и прогнозы —
-PREREGISTRATION_D.md. Результат: results/json/stage_d.json.
+Stage D — the quantum-classical gap on cl3–cl6. Definitions, the conclusions D7/D8 and the predictions are in
+PREREGISTRATION_D.md. Result: results/json/stage_d.json.
 """
 import itertools
 import json
@@ -44,7 +44,7 @@ def load_funcs():
 
 
 def oriented(w, order):
-    """Функционал на модели A≼B, эквивалентный w на порядке order (для B≼A — через обмен сторон)."""
+    """The functional on the model A≼B equivalent to w in the order order (for B≼A, by swapping the parties)."""
     return dict(w) if order == "AB" else {t: w[swap_t(t)] for t in KEYS}
 
 
@@ -67,7 +67,7 @@ def mp_ts_value(W, MA, MB, w, d):
     return val
 
 
-# ------------------------------------------------------------------ D8 и PR-ящики
+# ------------------------------------------------------------------ D8 and PR boxes
 
 def swap_parties(W, MA, MB, d):
     T = W.reshape([d] * 8)
@@ -142,10 +142,10 @@ def pr_boxes():
     return {"n_outside_closure": len(outside), "all_PR": all(r["is_PR_box"] for r in res), "boxes": res}
 
 
-# ------------------------------------------------------------------ D.0.1 CHSH-идентификация
+# ------------------------------------------------------------------ D.0.1 CHSH identification
 
 def chsh(c1, c2, c3):
-    """Выигрыш: a ⊕ y = (x⊕c1)(b⊕c2) ⊕ c3 (роли Белла порядка A≼B: входы x, b; выходы a, y)."""
+    """The win condition: a ⊕ y = (x⊕c1)(b⊕c2) ⊕ c3 (Bell roles for the order A≼B: inputs x, b; outputs a, y)."""
     return {t: F_(1) if (t[0] ^ t[3]) == (((t[2] ^ c1) & (t[1] ^ c2)) ^ c3) else F_(0) for t in KEYS}
 
 
@@ -165,7 +165,7 @@ def chsh_identify(funcs):
                 k = next((i for i in range(len(cc)) if cc[i] != 0), None)
                 alpha = cw[k] / cc[k] if cc[k] != 0 else None
                 if alpha and all(cw[i] == alpha * cc[i] for i in range(len(cc))):
-                    # смещение β: на любой вершине P_AB  w·p = α·chsh·p + β
+                    # the offset β: at any vertex of P_AB, w·p = α·chsh·p + β
                     v0 = V[0]
                     beta = P.dot([w[t] for t in SB.COORD], v0) - alpha * P.dot([ch[t] for t in SB.COORD], v0)
                     hit = {"chsh": c, "alpha": str(alpha), "beta": str(beta)}
@@ -174,7 +174,7 @@ def chsh_identify(funcs):
     return out
 
 
-# ------------------------------------------------------------------ D.0.2 аналитический свидетель
+# ------------------------------------------------------------------ D.0.2 analytic witness
 
 def analytic_witness(funcs):
     s = sp.sqrt(2)
@@ -196,7 +196,7 @@ def analytic_witness(funcs):
                 val = sp.simplify(val)
                 if best is None or float(val) > float(best["value"]):
                     best = {"order": order, "value": val, "params": (s0, s1, t0, t1, e0, e1), "S": S, "F": Fm}
-        # проверка в TS-форме
+        # a check in the TS form
         Sn = {k: np.array(v.evalf(), dtype=complex) for k, v in best["S"].items()}
         Fn = {k: np.array(v.evalf(), dtype=complex) for k, v in best["F"].items()}
         W, MA, MB = pm.to_ts(Sn, Fn, 2)
@@ -216,7 +216,7 @@ def analytic_witness(funcs):
     return out
 
 
-# ------------------------------------------------------------------ D.2 прямой сценарий
+# ------------------------------------------------------------------ D.2 forward scenario
 
 def forward(funcs, rng):
     det = []
@@ -233,7 +233,7 @@ def forward(funcs, rng):
             cl = max(det, key=lambda d_: sum(w[t] * d_[2][t] for t in KEYS))
             cmax = sum(w[t] * cl[2][t] for t in KEYS)
             fu2 = max(sum(w[t] * v[SB.SC.idx[t]] for t in KEYS) for v in S2["V"]["F_AB"])
-            # калибровка: классическая схема «передать a» реализует максимизирующую вершину
+            # calibration: the classical scheme "forward a" realises the maximising vertex
             f, g, _ = cl
             e = [np.array([1, 0], complex), np.array([0, 1], complex)]
             Pj = lambda v: np.outer(v, v.conj())  # noqa: E731

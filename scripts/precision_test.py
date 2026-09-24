@@ -1,9 +1,9 @@
 """
-Антивакуумный тест точности (PREREGISTRATION_B2.md §0).
+Anti-vacuum test of precision (PREREGISTRATION_B2.md §0).
 
-Треугольник с вершиной (1/3, 1): V -> H -> V. Точный путь (cdd.gmp, lrs) обязан вернуть
-координату ровно Fraction(1, 3). Контроль: тот же путь через float-модуль `cdd`
-(pycddlib 3.x) обязан тест провалить. Результат: results/json/precision.json.
+A triangle with vertex (1/3, 1): V -> H -> V. The exact path (cdd.gmp, lrs) must return
+the coordinate exactly as Fraction(1, 3). Control: the same path through the float module `cdd`
+(pycddlib 3.x) must fail the test. Result: results/json/precision.json.
 """
 import json
 import os
@@ -13,14 +13,14 @@ from fractions import Fraction
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import polytope as P  # noqa: E402
 
-import cdd as cddf  # float-бэкенд pycddlib 3.x
+import cdd as cddf  # float backend of pycddlib 3.x
 
 THIRD = Fraction(1, 3)
 PTS = [(Fraction(0), Fraction(0)), (Fraction(1), Fraction(0)), (THIRD, Fraction(1))]
 
 
 def check(verts):
-    """Проходит, если среди вершин есть точка с координатой ровно Fraction(1,3)."""
+    """Passes if among the vertices there is a point with coordinate exactly Fraction(1,3)."""
     return any(isinstance(v[0], Fraction) and v[0] == THIRD and v[1] == 1 for v in verts)
 
 
@@ -39,7 +39,7 @@ def roundtrip_float():
     H = cddf.copy_inequalities(cddf.polyhedron_from_matrix(mat))
     mat2 = cddf.matrix_from_array(H.array, rep_type=cddf.RepType.INEQUALITY, lin_set=H.lin_set)
     G = cddf.copy_generators(cddf.polyhedron_from_matrix(mat2))
-    # честная попытка: привести к Fraction тем же способом, каким это делал бы исполнитель
+    # an honest attempt: convert to Fraction the same way an executor would do it
     return [tuple(Fraction(x) for x in row[1:]) for row in G.array]
 
 

@@ -1,5 +1,5 @@
-"""Читаемая форма фасеты: c ~ c + α(a,b) + β(x,y) (равенства D1 и нормировки), выбираем
-неотрицательные целые веса с минимальным максимумом, затем минимальной суммой."""
+"""Readable form of a facet: c ~ c + α(a,b) + β(x,y) (the D1 equalities and normalisation); we pick
+non-negative integer weights with the smallest maximum, then the smallest sum."""
 import itertools
 from fractions import Fraction
 

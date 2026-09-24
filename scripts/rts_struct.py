@@ -1,11 +1,11 @@
 """
-RTS stage 0, R.1-калибровки и R.2 (структура): результат в results/json/rts_struct.json.
-1) калибровки: комплексная TS-модель → 6√2; ISO-маргиналы; TS-условия операций;
-2) допустимость J-членов в ISO для конфигурации A (1 кубит вход/выход), B (2 кубита вход/выход), C (1/1):
-   член допустим ⇔ Tr[T (M_A⊗M_B⊗M_C)] = 0 для случайных произведений прямых (TF) и обратных (TB) операций;
-3) модель HW26: значение, вещественность, положительность, ОН, маргиналы; проекция на ISO (удаление
-   запрещённых маргинальных частей): положительность, ОН, 𝒯;
-4) точный SDP: max 𝒯 по ω = ω₁⊗ω₂ + Δ (Δ ∈ Anti⊗Anti, ISO-маргиналы, ω ≥ 0) при операциях и маргиналах HW.
+RTS stage 0, the R.1 calibrations and R.2 (structure): the result goes to results/json/rts_struct.json.
+1) calibrations: the complex TS model → 6√2; ISO marginals; the TS conditions on the operations;
+2) feasibility of the J-terms in ISO for the configuration A (1 qubit in/out), B (2 qubits in/out), C (1/1):
+   a term is allowed ⇔ Tr[T (M_A⊗M_B⊗M_C)] = 0 for random products of forward (TF) and backward (TB) operations;
+3) the HW26 model: value, reality, positivity, OI, marginals; the projection onto ISO (removal of the
+   forbidden marginal parts): positivity, OI, 𝒯;
+4) an exact SDP: max 𝒯 over ω = ω₁⊗ω₂ + Δ (Δ ∈ Anti⊗Anti, ISO marginals, ω ≥ 0) at the HW operations and marginals.
 """
 import json
 import os
@@ -39,8 +39,8 @@ def rand_choi(din, dout, rng, direction):
 
 
 def term_allowed(parts, rng, trials=40):
-    """parts = [(T_I, T_O)] по сторонам A, B, C (локальные множители на входе и выходе).
-    Возвращает (TF-ок, TB-ок): максимум |Π_X Tr[(T_I⊗T_O) M_X]| по случайным операциям."""
+    """parts = [(T_I, T_O)] for the parties A, B, C (the local factors on the input and on the output).
+    Returns (TF ok, TB ok): the maximum of |Π_X Tr[(T_I⊗T_O) M_X]| over random operations."""
     res = {}
     for direction in ("F", "B"):
         worst = 0.0
@@ -61,7 +61,7 @@ def main():
     out = {"stage": "RTS0 struct"}
     cal, (omr, Ar, Fr, Cr) = R.main_cal()
     out["calibration_and_HW"] = cal
-    # 2) J-члены: вход B = B_I1⊗B_I2 (4), выход B_O (4)
+    # 2) the J-terms: input B = B_I1⊗B_I2 (4), output B_O (4)
     one1, one4 = I2, np.eye(4)
     JJ = np.kron(J, J)
     terms = {
@@ -79,7 +79,7 @@ def main():
         r = term_allowed(parts, rng)
         tt[name] = {"TF": r["F"], "TB": r["B"], "ISO": bool(r["F"] and r["B"])}
     out["J_terms"] = tt
-    # 3) проекция HW на ISO
+    # 3) the projection of HW onto ISO
     dims = (4, 4, 4, 4)
 
     def proj_iso(w):
@@ -97,7 +97,7 @@ def main():
     out["HW_projected_to_ISO"] = {"marginals_dev": R.marginals_ok(w2, dims), "min_eig": lam,
                                   "T": R.T_value(w2, Ar, Fr, Cr), "OI_violation": R.oi_violation(w2, dims, rng),
                                   "white_noise_needed": p_noise, "T_after_noise": R.T_value(wn, Ar, Fr, Cr)}
-    # 4) точный SDP по Δ при операциях HW
+    # 4) an exact SDP over Δ at the HW operations
     print("SDP (256×256)…", flush=True)
     m = S.Model(dims)
     T4 = omr.reshape(16, 16, 16, 16)
@@ -108,7 +108,7 @@ def main():
     D, status, sdp_val = S.solve_state(m, G, w1, wB, np.zeros((m.N, m.N)), "D", True, direct_scs=True)
     om_raw = np.kron(w1, wB) + D
     lam_raw = float(np.linalg.eigvalsh((om_raw + om_raw.T) / 2).min())
-    # восстановление допустимости: ω = (1−p) ω_raw + p I/256 (маргиналы остаются ISO, Δ-структура сохраняется)
+    # restoring feasibility: ω = (1−p) ω_raw + p I/256 (the marginals stay ISO and the Δ structure is preserved)
     p_fix = max(0.0, -lam_raw / (-lam_raw + 1 / 256))
     om_opt = (1 - p_fix) * om_raw + p_fix * np.eye(256) / 256
     out["SDP_fixed_HW_ops"] = {"solver": "SCS", "status": status, "sdp_value": sdp_val,

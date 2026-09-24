@@ -1,7 +1,7 @@
 """
-T3.1.e — дополнительные проверки N = 4 (дописываются в results/json/t31_extra.json):
-суммы по строкам (необходимое условие TB — двоякостохастичность), кратности образов,
-калибровка игры AGB17: буквальная проза против цели f(x).
+T3.1.e — additional checks for N = 4 (appended to results/json/t31_extra.json):
+row sums (a necessary condition for TB — double stochasticity), image multiplicities,
+calibration of the AGB17 game: the literal prose against the target f(x).
 """
 import itertools
 import json
@@ -35,7 +35,7 @@ def main():
     d["N4"]["image_multiplicities_agb"] = {"".join(map(str, i)): sum(1 for o in E.BITS4 if E.agb4(o) == i) for i in E.BITS4}
     d["N4"]["image_multiplicities_lugano_N3"] = {"".join(map(str, i)): sum(1 for o in TC.BITS3 if TC.lugano(o) == i) for i in TC.BITS3}
     d["N4"]["agb_prose_target_agrees_with_f_on"] = f"{sum(all(E.agb4(x)[k] == prose(x, k) for k in range(n)) for x in S)} из {len(S)}"
-    # игра с целью f(x) на S, стратегия «переслать»
+    # game with target f(x) on S, the "forward" strategy
     fwd = TC.PERMS.index((0, 2, 1, 3))
 
     def fwd_value(T):

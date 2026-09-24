@@ -1,125 +1,127 @@
-# SPEC TSCAUSAL, Stage 0 — фасеты временно-симметричного причинного многогранника
+# SPEC TSCAUSAL, Stage 0 — facets of the time-symmetric causal polytope
 
-## Вопрос ветки
+## The question of the branch
 
-Mrini и Hardy (arXiv:2406.18489, Perimeter, 2024) построили временно-симметричную
-версию формализма процесс-матриц и оставили открытыми три вопроса:
+Mrini and Hardy (arXiv:2406.18489, Perimeter, 2024) built a time-symmetric
+version of the process-matrix formalism and left three questions open:
 
-1. Исчерпывают ли четыре неравенства (GYNI, LGYNI и их обращения во времени)
-   список причинных неравенств для двух сторон, или существуют «экзотические»
-   неравенства, смешивающие прямое и обратное направления времени.
-2. Существует ли процесс, одновременно нарушающий прямую и обратную версию
-   неравенства.
-3. Нарушают ли процессы с неопределённым направлением времени хоть одно
-   неравенство, которое не может нарушить процесс с определённым направлением.
+1. Do the four inequalities (GYNI, LGYNI and their time reversals) exhaust
+   the list of causal inequalities for two parties, or do there exist "exotic"
+   inequalities mixing the forward and backward directions of time.
+2. Does there exist a process simultaneously violating the forward and the backward
+   version of an inequality.
+3. Do processes with an indefinite direction of time violate at least one
+   inequality that a process with a definite direction cannot violate.
 
-Задача Stage 0 — вопрос 1 в минимальном сценарии, точным перечислением фасет.
+The task of Stage 0 is question 1 in the minimal scenario, by exact facet enumeration.
 
-## Ловушка, которую фиксируем до начала
+## The trap we record before starting
 
-Полный класс временно-симметричных процессов (с пред- и постселекцией) совпадает
-с ICOTD-процессами Chiribella и Liu и достигает алгебраического максимума ЛЮБОГО
-причинного неравенства. Поэтому вопросы 2 и 3 имеют смысл только для
-ограниченного класса (без постселекции либо реализуемого как переворот времени).
-Без этого ограничения любой тест вакуумен и ответ «да» ничего не значит.
-Stage C и D не запускаются, пока класс не зафиксирован явно.
+The full class of time-symmetric processes (with pre- and postselection) coincides
+with the ICOTD processes of Chiribella and Liu and attains the algebraic maximum of ANY
+causal inequality. Therefore questions 2 and 3 make sense only for a
+restricted class (without postselection, or realizable as a time reversal).
+Without that restriction any test is vacuous and the answer "yes" means nothing.
+Stages C and D are not run until the class is fixed explicitly.
 
-## Stage A — калибровка (ворота, без неё дальше не идём)
+## Stage A — calibration (a gate, without it we do not go further)
 
-Скрипт `causal_polytope_calib.py` уже прогнан, результат:
+The script `causal_polytope_calib.py` has already been run, the result:
 
-| величина                        | получено | ожидание |
+| quantity                        | obtained | expected |
 |---------------------------------|----------|----------|
-| вершин причинного многогранника | 112      | —        |
-| равенств (нормировка)           | 4        | 4        |
-| GYNI, причинный максимум        | 1/2      | 1/2      |
-| LGYNI, причинный максимум       | 3/4      | 3/4      |
+| vertices of the causal polytope | 112      | —        |
+| equalities (normalization)      | 4        | 4        |
+| GYNI, causal maximum            | 1/2      | 1/2      |
+| LGYNI, causal maximum           | 3/4      | 3/4      |
 
-Что доделать в Stage A:
-- достать из Branciard et al. (NJP 18, 013008, 2015) точное число нетривиальных
-  фасет и число классов эквивалентности для этого сценария и сверить с нашими 36;
-  каждое внешнее утверждение подтверждается дословной цитатой в `SOURCES.md`;
-- если счёт не сходится — остановка, разбираемся с определением сценария, а не
-  подгоняем.
+What remains to be done in Stage A:
+- obtain from Branciard et al. (NJP 18, 013008, 2015) the exact number of nontrivial
+  facets and the number of equivalence classes for this scenario and compare with our 36;
+  every external statement is backed by a verbatim quotation in `SOURCES.md`;
+- if the count does not match — stop, we sort out the definition of the scenario rather
+  than fitting it.
 
-## Stage B — временно-симметричный многогранник
+## Stage B — the time-symmetric polytope
 
-Координаты: `p(a, b, x, y | α, β)`, где `a, b` — доходы (incomes), `x, y` —
-исходы, `α, β` — настройки. Начинаем с самого маленького нетривиального
-сценария: всё бинарное, `N_α = N_β = 1` (настроек нет), то есть 16 координат.
-Переменные `u, v` (пред- и постселекция) маргинализованы.
+Coordinates: `p(a, b, x, y | α, β)`, where `a, b` are the incomes, `x, y` are the
+outcomes, `α, β` the settings. We start from the smallest nontrivial
+scenario: everything binary, `N_α = N_β = 1` (no settings), that is, 16 coordinates.
+The variables `u, v` (pre- and postselection) are marginalized.
 
-Вершины: детерминированные стратегии, удовлетворяющие двойной причинности.
-Для порядка A ≼ B это уравнения (3) и (4) из arXiv:2406.18489, для B ≼ A —
-уравнения (5) и (6). Причинно-разделимые корреляции — выпуклая оболочка обоих
-множеств.
+Vertices: deterministic strategies satisfying double causality.
+For the order A ≼ B these are equations (3) and (4) of arXiv:2406.18489, for B ≼ A —
+equations (5) and (6). The causally separable correlations are the convex hull of both
+sets.
 
-Перечисление фасет: pycddlib 3.x в точной арифметике, при росте размерности —
-lrs. **Обязательная канонизация:** из-за равенств нормировки одно и то же
-неравенство имеет много представлений в H-форме. Каждую фасету проецируем на
-аффинную оболочку, приводим к целым коэффициентам с делением на НОД и берём
-лексикографический минимум по группе симметрии сценария:
-- обмен сторон (A ↔ B),
-- обращение направления времени (a ↔ x, b ↔ y),
-- локальные переименования значений.
+Facet enumeration: pycddlib 3.x in exact arithmetic, and lrs as the dimension grows.
+**Mandatory canonicalization:** because of the normalization equalities one and the same
+inequality has many representations in H-form. We project every facet onto the
+affine hull, reduce it to integer coefficients by dividing by the GCD and take the
+lexicographic minimum over the symmetry group of the scenario:
+- exchange of parties (A ↔ B),
+- reversal of the direction of time (a ↔ x, b ↔ y),
+- local relabelings of values.
 
-Без этого счёт «классов» — артефакт представления, а не результат. В калибровке
-он уже выглядел как 7 «классов» ровно по этой причине.
+Without this, the count of "classes" is an artifact of the representation, not a result.
+In the calibration it already looked like 7 "classes" for exactly this reason.
 
-Критерии исхода, фиксируются до прогона:
-- **Отрицательный:** все нетривиальные фасеты попадают в четыре известных класса.
-  Тогда вопрос 1 закрыт в этом сценарии, это публикуемый отрицательный результат.
-- ~~**Положительный:** есть класс, который не переходит сам в себя при обращении
-  направления времени и не сводится к известным. Это кандидат в новое причинное
-  неравенство, и он идёт в Stage C.~~
-  **ОТМЕНЕНО** поправкой архитектора (PROMPT_TSCAUSAL_stageB2.md, «Поправка архитектора
-  к спеке»): критерий сформулирован неверно. У Mrini и Hardy экзотическое неравенство —
-  это неравенство, которое нельзя приписать одному направлению времени; оно может быть
-  T-симметричным. Прежний текст оставлен зачёркнутым, а не затёрт.
-- **Положительный (действует с Stage B.2):** есть класс вне известных, который
-  **смешанный** по тесту приписываемости: нарушается и на F (выпуклая оболочка
-  корреляций, причинных только вперёд, для обоих порядков), и на B (то же, только назад),
-  но выполняется на основном многограннике. Кандидат в экзотическое неравенство: дальше
-  литчек и письмо авторам статьи до любых заявлений о новизне; Stage C запускает архитектор.
-- **Вычислительный потолок:** если lrs не тянет сценарий с настройками, фиксируем
-  достигнутый потолок числом (вершин, часов) и не выдаём частичный перебор за
-  полный.
+Outcome criteria, fixed before the run:
+- **Negative:** all nontrivial facets fall into the four known classes.
+  Then question 1 is closed in this scenario, this is a publishable negative result.
+- ~~**Positive:** there is a class that does not map to itself under reversal
+  of the direction of time and does not reduce to the known ones. This is a candidate for
+  a new causal inequality, and it goes to Stage C.~~
+  **CANCELLED** by the architect's amendment (PROMPT_TSCAUSAL_stageB2.md, "Architect's
+  amendment to the spec"): the criterion is formulated incorrectly. For Mrini and Hardy an
+  exotic inequality is an inequality that cannot be attributed to a single direction of
+  time; it may be T-symmetric. The former text is left struck through, not erased.
+- **Positive (in force from Stage B.2):** there is a class outside the known ones that is
+  **mixed** according to the attributability test: it is violated both on F (the convex
+  hull of correlations causal forward only, for both orders) and on B (the same, backward
+  only), but holds on the main polytope. A candidate for an exotic inequality: next comes
+  a literature check and a letter to the paper's authors before any claims of novelty;
+  Stage C is launched by the architect.
+- **Computational ceiling:** if lrs cannot handle the scenario with settings, we record
+  the ceiling reached as a number (vertices, hours) and do not pass off a partial search
+  as a complete one.
 
-## Stage C — что нарушает новое неравенство (только при положительном исходе B)
+## Stage C — what violates the new inequality (only if B has a positive outcome)
 
-Для каждого кандидата считаем максимум по трём множествам:
-1. причинно-разделимые процессы — по построению равен правой части;
-2. временно-прямые процесс-матрицы (Oreshkov, Costa, Brukner) — точный SDP, а не
-   релаксация: множество процесс-матриц задаётся положительностью плюс линейными
-   ограничениями;
-3. ограниченный временно-симметричный класс (переворот времени, без постселекции).
+For each candidate we compute the maximum over three sets:
+1. causally separable processes — by construction equal to the right-hand side;
+2. time-forward process matrices (Oreshkov, Costa, Brukner) — an exact SDP, not a
+   relaxation: the set of process matrices is given by positivity plus linear
+   constraints;
+3. the restricted time-symmetric class (time reversal, without postselection).
 
-Вопрос 3 получает численный ответ, если максимум по (3) строго больше максимума
-по (2).
+Question 3 gets a numerical answer if the maximum over (3) is strictly greater than the
+maximum over (2).
 
-## Stage D — вопрос 2
+## Stage D — question 2
 
-Поиск процесса, нарушающего прямое и обратное неравенство одновременно, в том же
-ограниченном классе. Целевая функция — минимум из двух превышений.
+A search for a process violating the forward and the backward inequality simultaneously,
+in the same restricted class. The objective function is the minimum of the two excesses.
 
-## Предрегистрация
+## Preregistration
 
-До первого прогона Stage B запечатать предсказания с SHA-256: число вершин, число
-фасет, число классов после канонизации, ожидаемый исход (мой прогноз — исход
-отрицательный, то есть новых классов в сценарии без настроек не будет; настройки
-вероятнее дают новое). Прогнозы исполнителя отдельно от моих.
+Before the first Stage B run, seal the predictions with SHA-256: number of vertices,
+number of facets, number of classes after canonicalization, the expected outcome (my
+prediction is a negative outcome, that is, there will be no new classes in the scenario
+without settings; settings more likely give something new). The executor's predictions
+separately from mine.
 
-## Проверка новизны перед публикацией
+## Novelty check before publication
 
-Прежде чем что-либо называть новым: проверить, не перечислил ли кто-то фасеты
-временно-симметричного причинного многогранника после июня 2024. Отдельно
-прочитать arXiv:2508.02463 (Jean, Silva, Vilasini — эквивалентность временной
-симметрии и циклической причинности; по аннотации это про многовременные
-состояния и P-CTC, фасет не касается) и arXiv:2603.12283 (Ferradini, Mazzola,
-Vilasini — эмерджентный причинный порядок и направление времени).
+Before calling anything new: check whether anyone has enumerated the facets of the
+time-symmetric causal polytope after June 2024. Separately
+read arXiv:2508.02463 (Jean, Silva, Vilasini — the equivalence of time symmetry
+and cyclic causality; by the abstract this is about multi-time states and P-CTCs and does
+not touch facets) and arXiv:2603.12283 (Ferradini, Mazzola, Vilasini — emergent causal
+order and the direction of time).
 
-## Среда
+## Environment
 
-Python 3.12, pycddlib 3.x, lrslib, точная рациональная арифметика (Fraction).
-Для SDP в Stage C — тот же инструментарий, что в SelfDual (NPA-подобные задачи),
-с обязательной калибровкой солвера на известном случае.
+Python 3.12, pycddlib 3.x, lrslib, exact rational arithmetic (Fraction).
+For the SDP in Stage C — the same toolkit as in SelfDual (NPA-like problems), with
+mandatory calibration of the solver on a known case.

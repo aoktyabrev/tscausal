@@ -1,8 +1,8 @@
 """
-T3.0, T.2 (квант): see-saw по W̄ ∈ ISO_3 (три кубитные стороны) на игре BW16 с TS-инструментами.
-Порядок подсистем: A_I, A_O, B_I, B_O, C_I, C_O. p = (1/8) Tr[W (M_A ⊗ M_B ⊗ M_C)] (D5/D11).
-Калибровки: (1) W_AF (Лугано) + TS-стратегия «переслать» даёт 1; (2) see-saw в классе TF_3 (OCB) доходит до 1;
-(3) see-saw в ISO_3 на игре, где классика с TS-операциями даёт известное значение — см. отчёт.
+T3.0, T.2 (quantum): see-saw over W̄ ∈ ISO_3 (three qubit parties) on the BW16 game with TS instruments.
+Subsystem order: A_I, A_O, B_I, B_O, C_I, C_O. p = (1/8) Tr[W (M_A ⊗ M_B ⊗ M_C)] (D5/D11).
+Calibration: (1) W_AF (Lugano) + the "forward" TS strategy gives 1; (2) see-saw in class TF_3 (OCB) reaches 1;
+(3) see-saw in ISO_3 on a game where the classical case with TS operations gives a known value — see the report.
 """
 import itertools
 import json
@@ -32,7 +32,7 @@ def kron(*ms):
 
 
 def family(cls):
-    """Базис допустимых неединичных членов класса cls ∈ {TF, TB, ISO} (правило, проверенное в T.0)."""
+    """Basis of the allowed non-identity terms of class cls ∈ {TF, TB, ISO} (rule verified in T.0)."""
     mats = []
     for idx in itertools.product(range(4), repeat=6):
         if not any(idx):
@@ -141,14 +141,14 @@ def lugano_W():
 
 
 def forward_ops():
-    """(доход a, вход i) -> (исход x = i, выход = a): M_{a,x} = |x⟩⟨x|^{I} ⊗ |a⟩⟨a|^{O}."""
+    """(income a, input i) -> (outcome x = i, output = a): M_{a,x} = |x⟩⟨x|^{I} ⊗ |a⟩⟨a|^{O}."""
     e = [np.array([1, 0], complex), np.array([0, 1], complex)]
     Pj = lambda v: np.outer(v, v.conj())  # noqa: E731
     return {(a, x): np.kron(Pj(e[x]), Pj(e[a])) for a in (0, 1) for x in (0, 1)}
 
 
 def in_class(W, cls):
-    """Коэффициенты Паули запрещённых типов = 0, Tr = 8, W ≥ 0."""
+    """Pauli coefficients of the forbidden types = 0, Tr = 8, W ≥ 0."""
     allowed = family(cls)
     rest = W - np.eye(64) / 8 - sum(np.trace(B @ W).real / 64 * B for B in allowed)
     return float(np.abs(rest).max()), float(np.linalg.eigvalsh(W).min()), float(np.trace(W).real)

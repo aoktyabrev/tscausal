@@ -1,10 +1,10 @@
 """
-T3.1 — дополнение:
-(1) [разведка] 15 орбитальных смесей ∈ ISO₃ и неразделимых, найденных в t31 (кроме W*): различны ли, совпадают ли с W*/W₃,
-    выходят ли корреляции за причинный многогранник (перебор троек TS-операций до первой внешней), значения I₁…I₄;
-(2) T3.1.e: N = 4, процесс AGB17/TC20; симметризация полной инверсией; ISO₄ (правило D10); игра AGB17 (граница 1 − 1/n);
-(3) калибровка N = 2: ни одна симметризация двусторонних детерминированных процессов не неразделима в ISO₂ (D6).
-Результат: results/json/t31_extra.json.
+T3.1 — supplement:
+(1) [exploration] 15 orbit mixtures ∈ ISO₃ and non-separable, found in t31 (apart from W*): are they distinct, equal
+    to W*/W₃, do correlations leave the causal polytope (TS-operation triples up to the first outside one), I₁…I₄;
+(2) T3.1.e: N = 4, AGB17/TC20 process; symmetrisation by full inversion; ISO₄ (rule D10); AGB17 game (bound 1 − 1/n);
+(3) calibration N = 2: no symmetrisation of bipartite deterministic processes is non-separable in ISO₂ (D6).
+Result: results/json/t31_extra.json.
 """
 import itertools
 import json
@@ -31,7 +31,7 @@ def tkey(T):
     return tuple(str(v) for v in np.asarray(T).reshape(-1))
 
 
-# ------------------------------------------------------------------ (1) орбитальные смеси
+# ------------------------------------------------------------------ (1) orbit mixtures
 
 def orbit_mixtures():
     G = t31.group()
@@ -90,7 +90,7 @@ I4 = {t: k for k, t in enumerate(BITS4)}
 
 
 def agb4(o):
-    """TC20 (стр. 338–343): a_1 = x_4(x_2⊕1)(x_3⊕1), a_2 = x_1(x_4⊕1)(x_3⊕1), a_3 = x_2(x_1⊕1)(x_4⊕1), a_4 = x_3(x_2⊕1)(x_1⊕1)."""
+    """TC20 (pp. 338–343): a_1 = x_4(x_2⊕1)(x_3⊕1), a_2 = x_1(x_4⊕1)(x_3⊕1), a_3 = x_2(x_1⊕1)(x_4⊕1), a_4 = x_3(x_2⊕1)(x_1⊕1)."""
     x1, x2, x3, x4 = o
     return (x4 * (1 - x2) * (1 - x3), x1 * (1 - x4) * (1 - x3), x2 * (1 - x1) * (1 - x4), x3 * (1 - x2) * (1 - x1))
 
@@ -138,15 +138,15 @@ def iso4(T):
 
 
 def agb_game_value(T, n=4):
-    """Игра AGB17 (стр. 336–366): входы x ∈ S (2n сдвигов 1000…, 1100…), выигрыш a_k = x_{k-1} ∧ ¬x_{k+1};
-    максимум по TS-биекциям (24⁴ четвёрок) — векторизовано. Возвращает (максимум, «переслать»)."""
+    """AGB17 game (pp. 336–366): inputs x ∈ S (2n shifts of 1000…, 1100…), win a_k = x_{k-1} ∧ ¬x_{k+1};
+    maximum over TS bijections (24⁴ quadruples) — vectorised. Returns (maximum, "forward")."""
     S = set()
     for base in ((1, 0, 0, 0), (1, 1, 0, 0)):
         for s in range(n):
             S.add(tuple(base[(k - s) % n] for k in range(n)))
     S = sorted(S)
     perms = TC.PERMS
-    P_ = np.array(perms)                                       # (24, 4): индекс 2*доход+вход -> 2*исход+выход
+    P_ = np.array(perms)                                       # (24, 4): index 2*income+input -> 2*outcome+output
     combos = np.array(list(itertools.product(range(24), repeat=4)), dtype=np.int16)   # (331776, 4)
     Tn = np.array([[float(v) for v in row] for row in T])
     succ = np.zeros(len(combos))
@@ -181,7 +181,7 @@ def bipartite_calibration():
             ok = all(sum(1 for i in BITS2 if om((gA[i[0]], gB[i[1]])) == i) == 1 for gA in funcs for gB in funcs)
             if ok:
                 valid.append(om)
-    # причинные двусторонние функции: одна сторона получает константу, другая — функцию выхода первой
+    # causal bipartite functions: one party gets a constant, the other — a function of the first party output
     causal = []
     for first in (0, 1):
         for c in (0, 1):
@@ -235,7 +235,7 @@ def main():
     ctab = TC.causal_functions()
     cT = [TC.det_T(lambda o, t=t: t[o]) for t in ctab]
     Ws = (TC.det_T(TC.lugano) + TC.det_T(TS.omega_bar)) / 2
-    print("(1) орбитальные смеси…", flush=True)
+    print("(1) orbit mixtures…", flush=True)
     rows = []
     for name, size, M, comps_are_processes in orbit_mixtures():
         a = {"generator": name, "orbit_size": size, "components_are_processes": comps_are_processes,

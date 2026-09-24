@@ -1,9 +1,10 @@
 """
-RTS stage 0 — продолжение старта из точки HW26 при (4,4,4,4): в rts_4444.py он не сошёлся за 15 шагов Δ
-(6.8805 и рост). Этап 2 see-saw (Δ + операции, ω₁, ω₂) до RTS_EXT_ITERS итераций; после каждой итерации
-точка пишется в results/rts_4444_ext.npz (возобновляемо), значение — в results/json/rts_4444_ext.json.
-В конце — очистка: точная проекция маргиналов ω₁, ω₂ и коэффициентов Δ на ограничения ISO (МНК-проекция),
-затем примесь белого шума до ω ≥ 0 с запасом; 𝒯 пересчитывается независимо (rts.T_value).
+RTS stage 0 — continuation of the start from the HW26 point at (4,4,4,4): in rts_4444.py it did not converge
+in 15 Δ steps (6.8805 and still growing). Stage 2 of the see-saw (Δ + operations, ω₁, ω₂) runs for up to
+RTS_EXT_ITERS iterations; after every iteration the point is written to results/rts_4444_ext.npz (resumable) and
+the value to results/json/rts_4444_ext.json. At the end comes the cleanup: an exact projection of the marginals
+of ω₁, ω₂ and of the Δ coefficients onto the ISO constraints (a least-squares projection), then white noise is
+mixed in until ω ≥ 0 with a margin; 𝒯 is recomputed independently (rts.T_value).
 """
 import json
 import os
@@ -24,7 +25,7 @@ OUT = os.path.join(P.ROOT, "results", "json", "rts_4444_ext.json")
 
 
 def fix_local(w, d1, d2):
-    """Точная аффинная проекция: маргиналы w на d1 и d2 → I/d1, I/d2 (след 1), симметризация."""
+    """An exact affine projection: the marginals of w on d1 and d2 → I/d1, I/d2 (trace 1), plus symmetrisation."""
     w = (w + w.T) / 2
     T = w.reshape(d1, d2, d1, d2)
     m1, m2 = np.einsum("ajbj->ab", T), np.einsum("jajb->ab", T)
@@ -34,7 +35,8 @@ def fix_local(w, d1, d2):
 
 
 def fix_delta(m, D):
-    """МНК-проекция коэффициентов Δ на ядро маргинальных ограничений (trB1ᵀ D trB2 = 0, trAᵀ D trC = 0)."""
+    """A least-squares projection of the Δ coefficients onto the kernel of the marginal constraints
+    (trB1ᵀ D trB2 = 0, trAᵀ D trC = 0)."""
     rows = []
     for L, Rm in ((m.trB1, m.trB2), (m.trA, m.trC)):
         for i in range(L.shape[1]):
@@ -48,7 +50,7 @@ def fix_delta(m, D):
 
 
 def coeffs_of(m, Dfull):
-    """Коэффициенты D_kl по Δ (N×N): D_kl = ⟨a_k⊗a_l, Δ⟩ / 4."""
+    """The coefficients D_kl of Δ (N×N): D_kl = ⟨a_k⊗a_l, Δ⟩ / 4."""
     return np.reshape(m.Ks @ Dfull.reshape(-1), (len(m.p1), len(m.p2))) / 4
 
 
@@ -61,7 +63,7 @@ def cleanup(m, w1, w2, Dfull, A, F, C, rng):
     margin = 1e-9
     p = max(0.0, (margin - lam) / (1 / m.N - lam)) if lam < margin else 0.0
     omf = (1 - p) * om + p * np.eye(m.N) / m.N
-    np.linalg.cholesky(omf)                      # сертификат ω > 0
+    np.linalg.cholesky(omf)                      # the certificate that ω > 0
     return {"T_raw": R.T_value(np.kron(w1, w2) + Dfull, A, F, C), "T_clean": R.T_value(omf, A, F, C),
             "noise": p, "min_eig_clean": float(np.linalg.eigvalsh(omf).min()),
             "iso_marginals_dev": R.marginals_ok(omf, m.dims), "oi_violation": R.oi_violation(omf, m.dims, rng, 100),
@@ -107,7 +109,7 @@ def main():
                 pass
         val = float(np.trace((np.kron(w1, w2) + Dc) @ G).real)
         hist.append({"iter": len(hist), "T": val, "seconds": round(time.time() - t1, 1)})
-        print(f"  итерация {len(hist) - 1}: 𝒯 = {val:.6f} ({hist[-1]['seconds']} с)", flush=True)
+        print(f"  iteration {len(hist) - 1}: 𝒯 = {val:.6f} ({hist[-1]['seconds']} s)", flush=True)
         np.savez(NPZ, w1=w1, w2=w2, Dc=Dc, A=np.array(A, dtype=object), F=np.array(F), C=np.array(C, dtype=object))
         with open(OUT, "w") as fh:
             json.dump({"stage": "RTS0 (4,4,4,4) HW-seed extension", "history": hist}, fh, ensure_ascii=False, indent=1)
@@ -127,9 +129,9 @@ if __name__ == "__main__":
 
 
 def cleanup_oi(m, w1, w2, Dfull, A, F, C, rng, tol=1e-12):
-    """Очистка, сохраняющая ОН точно: белый шум подмешивается в КАЖДЫЙ сомножитель (I/n1 ⊗ I/n2 — произведение),
-    Δ масштабируется. ω(q) = w1(q) ⊗ w2(q) + (1−q) Δ, w_i(q) = (1−q) w_i + q I/n_i. Минимальное q подбирается
-    делением отрезка до ω ≥ 0 (сертификат — Cholesky). ISO-маргиналы и ОН при этом точные, не приближённые."""
+    """A cleanup that preserves OI exactly: white noise is mixed into EVERY factor (I/n1 ⊗ I/n2 is a product) and
+    Δ is rescaled. ω(q) = w1(q) ⊗ w2(q) + (1−q) Δ, w_i(q) = (1−q) w_i + q I/n_i. The minimal q is found by
+    bisection until ω ≥ 0 (with Cholesky as the certificate). The ISO marginals and OI stay exact, not approximate."""
     dA, dB1, dB2, dC = m.dims
     w1c, w2c = fix_local(w1, dA, dB1), fix_local(w2, dB2, dC)
     D = m.delta(fix_delta(m, coeffs_of(m, Dfull)))

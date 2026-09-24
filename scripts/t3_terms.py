@@ -1,12 +1,12 @@
 """
-T3.0, пункт T.0 — структура членов процесс-матрицы без селекции для N сторон (кубиты).
+T3.0, item T.0 — structure of the terms of a process matrix without selection for N parties (qubits).
 
-Определение класса (вывод D10, PREREGISTRATION_T3.md): ISO_N = TF_N ∩ TB_N, где
-  TF_N — W, дающие нормированные вероятности для всех прямых инструментов (Tr_O Σ M = 1_I; класс OCB,
-         MH-27: «TF ... coincide with the known set of bipartite process matrices studied by OCB»);
-  TB_N — то же для обратных инструментов (Tr_I Σ M = 1_O), то есть обращение времени TF_N (MH-30).
-Нуль-пространство считается буквально по определению: строки — разности Tr[W ⊗_X M_X] для случайных
-произведений локальных операций; положительность W здесь не учитывается (только линейная часть).
+Definition of the class (derivation D10, PREREGISTRATION_T3.md): ISO_N = TF_N ∩ TB_N, where
+  TF_N — the W giving normalised probabilities for all forward instruments (Tr_O Σ M = 1_I; the OCB class,
+         MH-27: "TF ... coincide with the known set of bipartite process matrices studied by OCB");
+  TB_N — the same for backward instruments (Tr_I Σ M = 1_O), i.e. the time reversal of TF_N (MH-30).
+The null space is computed literally by definition: the rows are differences Tr[W ⊗_X M_X] for random
+products of local operations; positivity of W is not taken into account here (only the linear part).
 """
 import itertools
 import json
@@ -21,16 +21,16 @@ import polytope as P  # noqa: E402
 
 PAULI = [np.eye(2, dtype=complex), np.array([[0, 1], [1, 0]], complex),
          np.array([[0, -1j], [1j, 0]], complex), np.array([[1, 0], [0, -1]], complex)]
-LOCAL = [(i, o) for i in range(4) for o in range(4)]          # локальный базис σ_i^{X_I} σ_o^{X_O}
+LOCAL = [(i, o) for i in range(4) for o in range(4)]          # local basis σ_i^{X_I} σ_o^{X_O}
 
 
 def local_vec(M):
-    """v[(i,o)] = Tr[(σ_i ⊗ σ_o) M] для двухкубитного оператора M (порядок X_I ⊗ X_O)."""
+    """v[(i,o)] = Tr[(σ_i ⊗ σ_o) M] for a two-qubit operator M (order X_I ⊗ X_O)."""
     return np.array([np.trace(np.kron(PAULI[i], PAULI[o]) @ M).real for i, o in LOCAL])
 
 
 def rand_choi(rng, direction):
-    """Случайная чоевская матрица: 'F' — Tr_O M = 1_I (CPTP), 'B' — Tr_I M = 1_O."""
+    """Random Choi matrix: 'F' — Tr_O M = 1_I (CPTP), 'B' — Tr_I M = 1_O."""
     X = rng.normal(size=(4, 4)) + 1j * rng.normal(size=(4, 4))
     M = X @ X.conj().T
     T = M.reshape(2, 2, 2, 2)
@@ -42,7 +42,7 @@ def rand_choi(rng, direction):
 
 
 def constraint_rows(N, rng, direction, n_samples):
-    """Строки r_P = Π_X Tr[P_X M_X] − Π_X Tr[P_X M0_X] (M0 — «ничего не делать» = 1/2·1)."""
+    """Rows r_P = Π_X Tr[P_X M_X] − Π_X Tr[P_X M0_X] (M0 — "do nothing" = 1/2·1)."""
     v0 = local_vec(np.eye(4) / 2)
     rows = []
     for _ in range(n_samples):
@@ -65,7 +65,7 @@ def classify(N, rng, directions, n_samples):
     A = np.vstack([constraint_rows(N, rng, d, n_samples) for d in directions])
     Nsp, rank = nullspace(A)
     n = 16 ** N
-    # диагональность: каждый базисный вектор Паули либо в нуль-пространстве, либо ортогонален ему
+    # diagonality: each Pauli basis vector is either in the null space or orthogonal to it
     proj = Nsp @ Nsp.T
     diag = np.diag(proj)
     inside = [k for k in range(n) if diag[k] > 1 - 1e-8]
@@ -75,7 +75,7 @@ def classify(N, rng, directions, n_samples):
 
 
 def label(k, N):
-    """Номер базисного элемента → локальные типы по сторонам: '-', 'I', 'O', 'IO'."""
+    """Index of a basis element → local types per party: '-', 'I', 'O', 'IO'."""
     digits = []
     for _ in range(N):
         digits.append(k % 16)
@@ -89,12 +89,12 @@ def label(k, N):
 
 
 def rule_count(N):
-    """Правило (вывод): допустим неединичный член, у которого есть сторона «только I» и сторона «только O»."""
+    """Rule (derivation): a non-identity term is allowed if it has an "I-only" party and an "O-only" party."""
     return 16 ** N - 2 * 13 ** N + 10 ** N
 
 
 def commutation(inside, N):
-    """Коммутируют ли допустимые члены попарно; есть ли пересечения носителей и трёхчастичные члены."""
+    """Whether the allowed terms commute pairwise; whether supports overlap and three-party terms exist."""
     ops = []
     for k in inside:
         types, digits = label(k, N)
@@ -108,7 +108,7 @@ def commutation(inside, N):
     anti = 0
     example = None
     for (t1, p1), (t2, p2) in itertools.combinations(ops, 2):
-        # два произведения Паули антикоммутируют, если число позиций с разными нетривиальными Паули нечётно
+        # two Pauli products anticommute if the number of positions with different non-trivial Paulis is odd
         c = sum(1 for a, b in zip(p1, p2) if a and b and a != b)
         if c % 2 == 1:
             anti += 1
@@ -135,7 +135,7 @@ def main():
             res[name] = {"dim": c["dim"], "pauli_elements_inside": len(c["inside"]), "ambiguous": c["ambiguous"]}
             if name == "ISO":
                 iso_inside = c["inside"]
-        # правило «∃ I-only и ∃ O-only» против нуль-пространства
+        # the rule "∃ I-only and ∃ O-only" against the null space
         rule = [k for k in range(16 ** N)
                 if (lambda t: ("I" in t and "O" in t) or all(x == "-" for x in t))(label(k, N)[0])]
         res["rule_count_formula"] = 1 + rule_count(N)

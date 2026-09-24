@@ -1,8 +1,8 @@
 """
-RTS stage 0 — антивакуумная калибровка see-saw: тот же алгоритм с эрмитовыми (комплексными) переменными
-при (2,2,2,2) и ISO-произведении ω₁⊗ω₂ из случайных стартов должен находить комплексное значение 6√2
-(достигается стратегией RTW21, rts.renou_complex). Если находит — потолок 4+2√2 вещественных прогонов
-не является дефектом оценщика. Результат: results/json/rts_calib.json.
+RTS stage 0 — an anti-vacuum calibration of the see-saw: the same algorithm with Hermitian (complex) variables
+at (2,2,2,2) and the ISO product ω₁⊗ω₂, started from random points, must find the complex value 6√2
+(attained by the RTW21 strategy, rts.renou_complex). If it does, then the ceiling of 4+2√2 in the real runs
+is not a defect of the estimator. Result: results/json/rts_calib.json.
 """
 import json
 import os
@@ -31,7 +31,7 @@ def main():
         vals.append(r[0])
         if best is None or r[0] > best[0]:
             best = r
-        print(f"  complex (2,2,2,2) старт {s}: {r[0]:.6f}", flush=True)
+        print(f"  complex (2,2,2,2) start {s}: {r[0]:.6f}", flush=True)
     out = {"stage": "RTS0 calibration (complex see-saw)", "target_6sqrt2": 6 * np.sqrt(2),
            "values_sorted": sorted(vals, reverse=True), "failed": failed, "best": best[0] if best else None,
            "n_reaching_6sqrt2": sum(v > 6 * np.sqrt(2) - 1e-6 for v in vals),
