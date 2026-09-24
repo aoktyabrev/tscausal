@@ -38,6 +38,16 @@ license:
   - CC-BY-4.0
 version: 1.0.0
 date-released: "2026-09-24"
+doi: "10.5281/zenodo.22937438"
+repository-code: "https://github.com/aoktyabrev/tscausal"
+url: "https://doi.org/10.5281/zenodo.22937438"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22937438"
+    description: "Concept DOI — всегда ведёт на последнюю версию"
+  - type: doi
+    value: "10.5281/zenodo.22937439"
+    description: "DOI версии v1.0.0"
 references:
   - type: article
     title: "Time symmetry in operational theories"

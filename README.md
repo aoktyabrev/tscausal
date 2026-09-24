@@ -1,5 +1,9 @@
 # tscausal — временна́я симметрия без селекции: что она запрещает и что нет
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22937438.svg)](https://doi.org/10.5281/zenodo.22937438)
+[![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue.svg)](LICENSE)
+[![License: CC BY 4.0](https://img.shields.io/badge/docs-CC%20BY%204.0-lightgrey.svg)](LICENSE-docs)
+
 Вычислительное исследование временно-симметричных процессных матриц (формализм Mrini–Hardy,
 [arXiv:2406.18489](https://arxiv.org/abs/2406.18489)) в режиме **без пред- и постселекции**.
 Три сюжета: строение временно-симметричного многогранника, классический некаузальный процесс на трёх
@@ -134,8 +138,9 @@ pycddlib 3.0.2 (собран против `.env`), torch 2.11.0+cu128.
 
 - `results/json/*.json` — все числа, из которых порождается `RESULTS.md`.
 - `results/*.npz` — найденные точки (состояния и операции) для размерностей d = 2, 4, 6.
-- Точка при d = 8 (129 МБ) в репозиторий не входит из-за размера; она приложена отдельным файлом к записи
-  на Zenodo. Воспроизводится скриптом `scripts/rts_gpu_scan.py`.
+- Точка при d = 8 (`rts_gpu_8.npz`, 129 МБ) в репозиторий не входит из-за размера; она приложена отдельным
+  файлом к записи на Zenodo ([10.5281/zenodo.22937438](https://doi.org/10.5281/zenodo.22937438)).
+  Воспроизводится скриптом `scripts/rts_gpu_scan.py`.
 
 ## Сторонние материалы
 
@@ -164,7 +169,23 @@ pycddlib 3.0.2 (собран против `.env`), torch 2.11.0+cu128.
 
 ## Как цитировать
 
-См. `CITATION.cff` (GitHub покажет кнопку «Cite this repository») и запись на Zenodo.
+Запись на Zenodo: **[10.5281/zenodo.22937438](https://doi.org/10.5281/zenodo.22937438)** — это concept DOI,
+он всегда ведёт на последнюю версию. В тексте статьи указывайте версионный DOI конкретного релиза
+(v1.0.0 — [10.5281/zenodo.22937439](https://doi.org/10.5281/zenodo.22937439)).
+
+```bibtex
+@software{oktyabrev_tscausal_2026,
+  author    = {Oktyabrev, Artem},
+  title     = {tscausal: time-symmetric process matrices without selection},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {1.0.0},
+  doi       = {10.5281/zenodo.22937438},
+  url       = {https://doi.org/10.5281/zenodo.22937438}
+}
+```
+
+Машиночитаемая форма — `CITATION.cff` (GitHub показывает кнопку «Cite this repository»).
 
 ## Раскрытие об использовании ИИ
 
