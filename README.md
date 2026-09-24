@@ -49,7 +49,7 @@ and violates the published causal inequalities I₁ (15/16) and I₃ (1) of Abbo
 literature check found an implicit precedent from 2014 — the process W₃ of Baumeler–Feix–Wolf
 ([arXiv:1403.7333](https://arxiv.org/abs/1403.7333)) — and `RESULTS.md` says so explicitly.
 
-**The real-QM loophole does not transfer.** Renou et al. ([arXiv:2101.10873](https://arxiv.org/abs/2101.10873),
+**The Hoffreumon–Woods construction does not transfer as it stands.** Renou et al. ([arXiv:2101.10873](https://arxiv.org/abs/2101.10873),
 Nature 600, 625) showed that real quantum theory predicts strictly less than complex quantum theory in a
 bilocal network: a functional 𝒯 reaches 6√2 ≈ 8.4853 with complex states and at most 7.6605 with real ones.
 Hoffreumon–Woods ([arXiv:2603.19208](https://arxiv.org/abs/2603.19208)) objected that if the sources are
@@ -92,11 +92,17 @@ Details, numbers, calibrations, **failed** anti-vacuum tests and **every deviati
 
 ### Language note
 
-The preregistrations, the prompts and the generated report are in Russian: that is the language the work was
-carried out in, and the preregistration files are **sealed by SHA-256** — translating them in place would
-change those hashes and destroy the evidence they carry. English translations are supplied alongside as
-`*.en.md`, while the Russian files remain the hashed originals. This README, `CITATION.cff` and the Zenodo
-record are in English.
+The work itself was carried out in Russian. Everything a reader needs is now in English: this README,
+`RESULTS.md`, `SOURCES.md`, the stage prompts, the literature-check reports, the code comments, `CITATION.cff`
+and the Zenodo record.
+
+Two things deliberately stay in Russian. First, the eight `PREREGISTRATION*.md` files: they are **sealed by
+SHA-256**, those hashes are the evidence that the predictions were registered before the runs, and
+translating a file in place would invalidate them. English translations sit alongside as `*.en.md`, each
+marked as a translation. Second, the labels stored inside `results/json/*.json`: those files are the output
+of the computations and are never edited by hand, so `scripts/labels_en.py` maps the labels to English while
+`make_results.py` loads them — numbers are untouched, and a label with no translation is reported instead of
+slipping into the report.
 
 ### Verifying the preregistrations
 
