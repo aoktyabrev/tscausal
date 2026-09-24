@@ -8,8 +8,7 @@ authors:
   - given-names: Artem
     family-names: Oktyabrev
     email: aoktyabrev@gmail.com
-    # ORCID: раскомментируйте и подставьте свой идентификатор перед релизом
-    # orcid: "https://orcid.org/0000-0002-1825-0097"
+    orcid: "https://orcid.org/0009-0003-3626-2002"
 abstract: >-
   Вычислительное исследование временно-симметричных процессных матриц (формализм
   Mrini-Hardy, arXiv:2406.18489) в режиме без пред- и постселекции. Установлено:

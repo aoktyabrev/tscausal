@@ -18,3 +18,8 @@ results/rts_gpu_8.npz
 # выгрузки сторонних статей: в репозиторий не входят (см. README, раздел «Сторонние материалы»)
 sources/**
 !sources/*/REPORT.md
+
+# ключи и токены
+*.key
+*.token
+.env.local
