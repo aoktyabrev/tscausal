@@ -2,3 +2,4 @@
 __pycache__/
 sources/*/eprint
 sources/litcheck/**/eprint
+results/rts_gpu_8.npz

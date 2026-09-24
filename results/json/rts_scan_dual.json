@@ -1,0 +1,45 @@
+{
+ "stage": "RTS1 S.2 сертификаты при найденных операциях",
+ "d4": {
+  "T_at_point": 6.927656272139314,
+  "SCS": {
+   "solver": "SCS",
+   "status": "optimal",
+   "dual_value_raw": 6.928064483523913,
+   "lift_check": 8.526512829121202e-14,
+   "lambda_min_raw": -1.1931309489370893e-08,
+   "shift": 1.2931309489370894e-08,
+   "certified_upper_bound": 6.928064496455223,
+   "min_eig_certificate": 1.0000040841116123e-09,
+   "seconds": 2.1
+  },
+  "CLARABEL": {
+   "failed": "аварийный выход процесса (SIGABRT): запрос 4 328 718 848 байт одним блоком при лимите RLIMIT_AS = 13 ГБ. Это плотный блок гессиана PSD-конуса svec(256); отказ происходит в аллокаторе Rust и не перехватывается как MemoryError. Сверка внутренне-точного решателя с первопорядковым сделана при d = 2, где Clarabel отработал."
+  }
+ },
+ "d2": {
+  "T_at_point": 6.828427092993019,
+  "SCS": {
+   "solver": "SCS",
+   "status": "optimal",
+   "dual_value_raw": 6.828427107750973,
+   "lift_check": 0.0,
+   "lambda_min_raw": 4.1003206019246384e-12,
+   "shift": 1e-09,
+   "certified_upper_bound": 6.828427108750973,
+   "min_eig_certificate": 1.0040943765416045e-09,
+   "seconds": 0.0
+  },
+  "CLARABEL": {
+   "solver": "CLARABEL",
+   "status": "optimal",
+   "dual_value_raw": 6.828427110442535,
+   "lift_check": 0.0,
+   "lambda_min_raw": 2.695668993498682e-09,
+   "shift": 1e-09,
+   "certified_upper_bound": 6.828427111442535,
+   "min_eig_certificate": 3.6956670491702624e-09,
+   "seconds": 0.0
+  }
+ }
+}

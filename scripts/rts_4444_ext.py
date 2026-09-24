@@ -53,7 +53,8 @@ def coeffs_of(m, Dfull):
 
 
 def cleanup(m, w1, w2, Dfull, A, F, C, rng):
-    w1c, w2c = fix_local(w1, 4, 4), fix_local(w2, 4, 4)
+    dA, dB1, dB2, dC = m.dims
+    w1c, w2c = fix_local(w1, dA, dB1), fix_local(w2, dB2, dC)
     D = fix_delta(m, coeffs_of(m, Dfull))
     om = np.kron(w1c, w2c) + m.delta(D)
     lam = float(np.linalg.eigvalsh(om).min())
@@ -129,12 +130,13 @@ def cleanup_oi(m, w1, w2, Dfull, A, F, C, rng, tol=1e-12):
     """Очистка, сохраняющая ОН точно: белый шум подмешивается в КАЖДЫЙ сомножитель (I/n1 ⊗ I/n2 — произведение),
     Δ масштабируется. ω(q) = w1(q) ⊗ w2(q) + (1−q) Δ, w_i(q) = (1−q) w_i + q I/n_i. Минимальное q подбирается
     делением отрезка до ω ≥ 0 (сертификат — Cholesky). ISO-маргиналы и ОН при этом точные, не приближённые."""
-    w1c, w2c = fix_local(w1, 4, 4), fix_local(w2, 4, 4)
+    dA, dB1, dB2, dC = m.dims
+    w1c, w2c = fix_local(w1, dA, dB1), fix_local(w2, dB2, dC)
     D = m.delta(fix_delta(m, coeffs_of(m, Dfull)))
 
     def om_of(q):
-        a = (1 - q) * w1c + q * np.eye(16) / 16
-        b = (1 - q) * w2c + q * np.eye(16) / 16
+        a = (1 - q) * w1c + q * np.eye(m.n1) / m.n1
+        b = (1 - q) * w2c + q * np.eye(m.n2) / m.n2
         return np.kron(a, b) + (1 - q) * D
 
     lo, hi = 0.0, 1.0

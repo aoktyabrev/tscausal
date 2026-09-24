@@ -48,7 +48,7 @@ def ptr(M, dims, keep):
 
 
 class Model:
-    def __init__(self, dims, cplx=False):
+    def __init__(self, dims, cplx=False, delta_basis=True):
         self.dims = dims
         self.cplx = cplx          # калибровка: комплексный see-saw (эрмитовы переменные) должен находить 6√2
         dA, dB1, dB2, dC = dims
@@ -56,6 +56,8 @@ class Model:
         self.N = self.n1 * self.n2
         # Δ = Σ D_kl a_k ⊗ a_l, a_k — элементарный базис Anti. Базис хранится РАЗРЕЖЕННО (4 ненулевых на элемент):
         # плотный вариант для (4,4,4,4) занимал ~7.5 ГБ и уронил систему 2026-09-22.
+        if not delta_basis:
+            return               # GPU-путь (rts_gpu.py) базис Δ не использует: проекции безбазисные
         self.p1, self.p2 = [(i, j) for i in range(self.n1) for j in range(i + 1, self.n1)], \
                            [(i, j) for i in range(self.n2) for j in range(i + 1, self.n2)]
         rows, cols, vals = [], [], []
