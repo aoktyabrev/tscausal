@@ -1033,7 +1033,8 @@ def stage_rts(st, ss, cal, r4, hw, dual, fin):
          "Но в v2 авторы сами пишут: «Under N2, the process matrix used in this version to separate RQT from QT is "
          "not valid, and the claimed RQT/QT separation is therefore not established» (цитата в SOURCES.md). "
          "Временной симметрии, глобального прошлого и Mrini–Hardy там нет (0 вхождений). Литчек — 11 работ, "
-         "`sources/litcheck_RTS/`.", "",
+         "выгрузки самих статей в репозиторий не входят (см. README, раздел про сторонние материалы); "
+         "проверяемые цитаты с номерами строк — в SOURCES.md.", "",
          "### R.1 Перевод бинокального сценария в TS без селекции (D12)", "",
          f"- Комплексный ISO-процесс (тождественные каналы, маргиналы максимально смешаны) воспроизводит значение "
          f"Renou **точно**: 𝒯 = {hwc['complex_T']:.12f} против 6√2 = {hwc['complex_T_expected_6sqrt2']:.12f}. "

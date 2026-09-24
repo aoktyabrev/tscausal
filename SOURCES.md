@@ -413,7 +413,7 @@ ISO_N = {W: нормировка для всех прямых инструмен
 
 ---
 
-## RTS stage 0: вещественная КМ (выгрузки — `sources/litcheck_RTS/<id>/`)
+## RTS stage 0: вещественная КМ (проверено 11 работ; выгрузки статей не распространяются, см. README)
 
 **SMK26 (arXiv:2605.30238, Surace, Minagawa, Kunjwal, «Indefinite Causal Order Reverses the Real-Complex Hierarchy», v2) — ВКМ в процесс-матрицах (OCB), первая строка отчёта:**
 > An \emph{RQT process matrix} is defined by applying the OCB operational characterisation to real laboratories.

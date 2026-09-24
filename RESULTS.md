@@ -6,14 +6,14 @@ _Файл порождён `scripts/make_results.py` из `results/json/`. Ру�
 
 | стадия | файл | SHA-256 | коммит | файл совпадает | версия в коммите совпадает |
 |---|---|---|---|---|---|
-| B | `PREREGISTRATION.md` | `582087467b4e771c37a5b4a009c412afb042ef7540b8776969ed424a4737ee40` | `66a521f` | **ДА** | **ДА** |
-| B2 | `PREREGISTRATION_B2.md` | `8dc8816e9c771698ffd637c12fff463c9f0221482cf490b05124d66065f08cb0` | `5c35492` | **ДА** | **ДА** |
-| C | `PREREGISTRATION_C.md` | `9e5c6a8ec8554b5a4111a7328df7e6f651e152f33e023a71c93e95d265dbd5af` | `c9d9095` | **ДА** | **ДА** |
-| D | `PREREGISTRATION_D.md` | `c6052f4a648af321f0ba5adbef8238f74ddaa7bad89017f640e0dd8b47412ac0` | `2122bf2` | **ДА** | **ДА** |
-| T3 | `PREREGISTRATION_T3.md` | `104252146fb728ee44de697e9e8f06443064d1425e87a57ff43942e0dd68101e` | `4a89840` | **ДА** | **ДА** |
-| T3.1 | `PREREGISTRATION_T31.md` | `528b192d2d442ddf6f9c1be3af3ae972fcd78634494e77da63a6d896db636227` | `1c7853f` | **ДА** | **ДА** |
-| RTS0 | `PREREGISTRATION_RTS0.md` | `10006240768c1ce5b3ce802c0f0c648c32a4dca03a27e87c0860f6be0fc253ae` | `8c72b9a` | **ДА** | **ДА** |
-| RTS1 | `PREREGISTRATION_RTS1.md` | `b9a3e4bc404e00e2d97631e01dc762e6ad12845ba44a48a9e8bae9624811aecf` | `5a7642b` | **ДА** | **ДА** |
+| B | `PREREGISTRATION.md` | `582087467b4e771c37a5b4a009c412afb042ef7540b8776969ed424a4737ee40` | `119f933` | **ДА** | **ДА** |
+| B2 | `PREREGISTRATION_B2.md` | `8dc8816e9c771698ffd637c12fff463c9f0221482cf490b05124d66065f08cb0` | `e8f0c49` | **ДА** | **ДА** |
+| C | `PREREGISTRATION_C.md` | `9e5c6a8ec8554b5a4111a7328df7e6f651e152f33e023a71c93e95d265dbd5af` | `36a32d5` | **ДА** | **ДА** |
+| D | `PREREGISTRATION_D.md` | `c6052f4a648af321f0ba5adbef8238f74ddaa7bad89017f640e0dd8b47412ac0` | `b8f902b` | **ДА** | **ДА** |
+| T3 | `PREREGISTRATION_T3.md` | `104252146fb728ee44de697e9e8f06443064d1425e87a57ff43942e0dd68101e` | `5123513` | **ДА** | **ДА** |
+| T3.1 | `PREREGISTRATION_T31.md` | `528b192d2d442ddf6f9c1be3af3ae972fcd78634494e77da63a6d896db636227` | `67984f6` | **ДА** | **ДА** |
+| RTS0 | `PREREGISTRATION_RTS0.md` | `10006240768c1ce5b3ce802c0f0c648c32a4dca03a27e87c0860f6be0fc253ae` | `54afe46` | **ДА** | **ДА** |
+| RTS1 | `PREREGISTRATION_RTS1.md` | `b9a3e4bc404e00e2d97631e01dc762e6ad12845ba44a48a9e8bae9624811aecf` | `3cb66ee` | **ДА** | **ДА** |
 
 Каждая предрегистрация — отдельный коммит до первого прогона своей стадии.
 
@@ -859,7 +859,7 @@ NPA ограничивает сверху все квантовые Беллов
 
 ## RTS stage 0 — временная симметрия против лазейки вещественной КМ
 
-**Первая строка (по требованию промпта).** Вещественная КМ в процесс-матрицах уже рассмотрена: Surace–Minagawa–Kunjwal, arXiv:2605.30238 («Indefinite Causal Order Reverses the Real-Complex Hierarchy»), где RQT-процесс определён переносом операционной характеризации OCB на вещественные лаборатории. Но в v2 авторы сами пишут: «Under N2, the process matrix used in this version to separate RQT from QT is not valid, and the claimed RQT/QT separation is therefore not established» (цитата в SOURCES.md). Временной симметрии, глобального прошлого и Mrini–Hardy там нет (0 вхождений). Литчек — 11 работ, `sources/litcheck_RTS/`.
+**Первая строка (по требованию промпта).** Вещественная КМ в процесс-матрицах уже рассмотрена: Surace–Minagawa–Kunjwal, arXiv:2605.30238 («Indefinite Causal Order Reverses the Real-Complex Hierarchy»), где RQT-процесс определён переносом операционной характеризации OCB на вещественные лаборатории. Но в v2 авторы сами пишут: «Under N2, the process matrix used in this version to separate RQT from QT is not valid, and the claimed RQT/QT separation is therefore not established» (цитата в SOURCES.md). Временной симметрии, глобального прошлого и Mrini–Hardy там нет (0 вхождений). Литчек — 11 работ, выгрузки самих статей в репозиторий не входят (см. README, раздел про сторонние материалы); проверяемые цитаты с номерами строк — в SOURCES.md.
 
 ### R.1 Перевод бинокального сценария в TS без селекции (D12)
 

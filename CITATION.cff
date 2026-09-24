@@ -1,0 +1,64 @@
+cff-version: 1.2.0
+title: >-
+  tscausal: временна́я симметрия без селекции — что она запрещает и что нет
+  (time-symmetric process matrices without selection)
+message: "Если вы используете эти материалы, пожалуйста, цитируйте запись на Zenodo."
+type: software
+authors:
+  - given-names: Artem
+    family-names: Oktyabrev
+    email: aoktyabrev@gmail.com
+    # ORCID: раскомментируйте и подставьте свой идентификатор перед релизом
+    # orcid: "https://orcid.org/0000-0002-1825-0097"
+abstract: >-
+  Вычислительное исследование временно-симметричных процессных матриц (формализм
+  Mrini-Hardy, arXiv:2406.18489) в режиме без пред- и постселекции. Установлено:
+  без селекции двусторонние процессы сводятся к смеси односторонних каналов
+  (лемма D6), так что фасеты N1 и N2 не свидетельствуют о неопределённости
+  причинного порядка; процесс с определённым порядком без селекции эквивалентен
+  Белловскому сценарию, а квантово-классический разрыв на классах cl3-cl6 есть
+  CHSH и граница Цирельсона в переобозначенных ролях (лемма D8); построен
+  классический причинно-неразделимый трёхсторонний процесс без селекции,
+  нарушающий опубликованные причинные неравенства. Для лазейки вещественной
+  квантовой механики (Hoffreumon-Woods, arXiv:2603.19208) показано, что она не
+  переносится в класс ISO: при её собственных операциях максимум функционала
+  Renou по всем вещественным ISO-процессам сертифицирован как не превосходящий
+  3*sqrt(2), то есть ровно половины комплексного значения. Каждая стадия
+  запечатана предрегистрацией прогнозов до первого прогона; RESULTS.md
+  порождается скриптом.
+keywords:
+  - process matrices
+  - indefinite causal order
+  - time symmetry
+  - real quantum theory
+  - causal inequalities
+  - semidefinite programming
+  - preregistration
+license:
+  - Apache-2.0
+  - CC-BY-4.0
+version: 1.0.0
+date-released: "2026-09-24"
+references:
+  - type: article
+    title: "Time symmetry in operational theories"
+    authors:
+      - family-names: Mrini
+        given-names: Lucas
+      - family-names: Hardy
+        given-names: Lucien
+    url: "https://arxiv.org/abs/2406.18489"
+  - type: article
+    title: "Quantum theory based on real numbers can be experimentally falsified"
+    authors:
+      - family-names: Renou
+        given-names: Marc-Olivier
+    url: "https://arxiv.org/abs/2101.10873"
+  - type: article
+    title: "Quantum theory based on real numbers cannot be experimentally falsified"
+    authors:
+      - family-names: Hoffreumon
+        given-names: Timothée
+      - family-names: Woods
+        given-names: Mischa
+    url: "https://arxiv.org/abs/2603.19208"

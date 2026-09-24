@@ -1,5 +1,20 @@
+# окружения
 .env/
+.venv/
+venv/
+env/
+
+# кэши
 __pycache__/
-sources/*/eprint
-sources/litcheck/**/eprint
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.mypy_cache/
+.ruff_cache/
+
+# крупные артефакты счёта (воспроизводятся скриптами; точка d=8 — в записи на Zenodo)
 results/rts_gpu_8.npz
+
+# выгрузки сторонних статей: в репозиторий не входят (см. README, раздел «Сторонние материалы»)
+sources/**
+!sources/*/REPORT.md

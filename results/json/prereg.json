@@ -1,10 +1,10 @@
 [
- {"stage": "B", "file": "PREREGISTRATION.md", "sha256": "582087467b4e771c37a5b4a009c412afb042ef7540b8776969ed424a4737ee40", "commit": "66a521f"},
- {"stage": "B2", "file": "PREREGISTRATION_B2.md", "sha256": "8dc8816e9c771698ffd637c12fff463c9f0221482cf490b05124d66065f08cb0", "commit": "5c35492"},
- {"stage": "C", "file": "PREREGISTRATION_C.md", "sha256": "9e5c6a8ec8554b5a4111a7328df7e6f651e152f33e023a71c93e95d265dbd5af", "commit": "c9d9095"},
- {"stage": "D", "file": "PREREGISTRATION_D.md", "sha256": "c6052f4a648af321f0ba5adbef8238f74ddaa7bad89017f640e0dd8b47412ac0", "commit": "2122bf2"},
- {"stage": "T3", "file": "PREREGISTRATION_T3.md", "sha256": "104252146fb728ee44de697e9e8f06443064d1425e87a57ff43942e0dd68101e", "commit": "4a89840"},
- {"stage": "T3.1", "file": "PREREGISTRATION_T31.md", "sha256": "528b192d2d442ddf6f9c1be3af3ae972fcd78634494e77da63a6d896db636227", "commit": "1c7853f"},
- {"stage": "RTS0", "file": "PREREGISTRATION_RTS0.md", "sha256": "10006240768c1ce5b3ce802c0f0c648c32a4dca03a27e87c0860f6be0fc253ae", "commit": "8c72b9a"},
- {"stage": "RTS1", "file": "PREREGISTRATION_RTS1.md", "sha256": "b9a3e4bc404e00e2d97631e01dc762e6ad12845ba44a48a9e8bae9624811aecf", "commit": "5a7642b"}
+ {"stage": "B", "file": "PREREGISTRATION.md", "sha256": "582087467b4e771c37a5b4a009c412afb042ef7540b8776969ed424a4737ee40", "commit": "119f933", "commit_before_history_rewrite": "66a521f", "verified_in_commit": true},
+ {"stage": "B2", "file": "PREREGISTRATION_B2.md", "sha256": "8dc8816e9c771698ffd637c12fff463c9f0221482cf490b05124d66065f08cb0", "commit": "e8f0c49", "commit_before_history_rewrite": "5c35492", "verified_in_commit": true},
+ {"stage": "C", "file": "PREREGISTRATION_C.md", "sha256": "9e5c6a8ec8554b5a4111a7328df7e6f651e152f33e023a71c93e95d265dbd5af", "commit": "36a32d5", "commit_before_history_rewrite": "c9d9095", "verified_in_commit": true},
+ {"stage": "D", "file": "PREREGISTRATION_D.md", "sha256": "c6052f4a648af321f0ba5adbef8238f74ddaa7bad89017f640e0dd8b47412ac0", "commit": "b8f902b", "commit_before_history_rewrite": "2122bf2", "verified_in_commit": true},
+ {"stage": "T3", "file": "PREREGISTRATION_T3.md", "sha256": "104252146fb728ee44de697e9e8f06443064d1425e87a57ff43942e0dd68101e", "commit": "5123513", "commit_before_history_rewrite": "4a89840", "verified_in_commit": true},
+ {"stage": "T3.1", "file": "PREREGISTRATION_T31.md", "sha256": "528b192d2d442ddf6f9c1be3af3ae972fcd78634494e77da63a6d896db636227", "commit": "67984f6", "commit_before_history_rewrite": "1c7853f", "verified_in_commit": true},
+ {"stage": "RTS0", "file": "PREREGISTRATION_RTS0.md", "sha256": "10006240768c1ce5b3ce802c0f0c648c32a4dca03a27e87c0860f6be0fc253ae", "commit": "54afe46", "commit_before_history_rewrite": "8c72b9a", "verified_in_commit": true},
+ {"stage": "RTS1", "file": "PREREGISTRATION_RTS1.md", "sha256": "b9a3e4bc404e00e2d97631e01dc762e6ad12845ba44a48a9e8bae9624811aecf", "commit": "3cb66ee", "commit_before_history_rewrite": "5a7642b", "verified_in_commit": true}
 ]
