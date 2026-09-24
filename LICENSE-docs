@@ -2,21 +2,21 @@ Creative Commons Attribution 4.0 International (CC BY 4.0)
 
 Copyright 2026 Artem Oktyabrev
 
-Эта лицензия распространяется на ТЕКСТЫ И ДАННЫЕ репозитория:
+This licence covers the TEXTS AND DATA of this repository:
 RESULTS.md, SOURCES.md, PREREGISTRATION*.md, PROMPT*.md, SPEC*.md,
-sources/*/REPORT.md, содержимое results/ (JSON и .npz).
-Исходный код (каталог scripts/) лицензирован отдельно — см. LICENSE (Apache-2.0).
+sources/*/REPORT.md, and the contents of results/ (JSON and .npz files).
+The source code (directory scripts/) is licensed separately — see LICENSE (Apache-2.0).
 
-Вы можете свободно копировать, распространять и перерабатывать эти материалы,
-в том числе в коммерческих целях, при условии указания авторства и ссылки на
-лицензию, а также указания на внесённые изменения.
+You are free to copy, redistribute and adapt these materials, including for
+commercial purposes, provided you give appropriate credit, link to the licence,
+and indicate if changes were made.
 
-Полный текст лицензии: https://creativecommons.org/licenses/by/4.0/legalcode
-Краткое изложение: https://creativecommons.org/licenses/by/4.0/deed.ru
+Full licence text: https://creativecommons.org/licenses/by/4.0/legalcode
+Summary: https://creativecommons.org/licenses/by/4.0/
 
-Рекомендуемая форма ссылки указана в CITATION.cff.
+The recommended citation is given in CITATION.cff.
 
-ВАЖНО: цитаты из сторонних научных работ, приведённые в SOURCES.md, остаются
-под авторским правом их правообладателей и приводятся в объёме коротких
-фрагментов со ссылкой на источник (arXiv id, номер строки или уравнения).
-На них настоящая лицензия не распространяется.
+IMPORTANT: the quotations from third-party scientific works that appear in
+SOURCES.md remain under the copyright of their respective holders. They are
+reproduced as short fragments with precise references (arXiv id, line or
+equation number). This licence does not extend to them.
