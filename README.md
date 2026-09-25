@@ -84,6 +84,8 @@ Details, numbers, calibrations, **failed** anti-vacuum tests and **every deviati
    quotation in `SOURCES.md` (arXiv id, line or equation number). Otherwise it is marked "not confirmed".
 2. **Preregistration.** Predictions of the executor and of the architect, with numbers and confidences, are
    fixed in `PREREGISTRATION*.md` and committed **as a separate commit before the first run of the stage**.
+   Throughout, **architect** is the author (problem statements, acceptance criteria, the high-level forecast)
+   and **executor** is Claude Code (implementation, computation, the detailed per-stage predictions).
 3. **`RESULTS.md` is generated** by `scripts/make_results.py` from `results/json/` and never hand-edited.
 4. **Anti-vacuum tests.** Every estimator is calibrated on a problem where it must fail, or where the answer
    is known in advance (for example, the complex see-saw must find 6√2).
