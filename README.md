@@ -96,13 +96,15 @@ The work itself was carried out in Russian. Everything a reader needs is now in 
 `RESULTS.md`, `SOURCES.md`, the stage prompts, the literature-check reports, the code comments, `CITATION.cff`
 and the Zenodo record.
 
-Two things deliberately stay in Russian. First, the eight `PREREGISTRATION*.md` files: they are **sealed by
+Three things deliberately stay in Russian. First, the eight `PREREGISTRATION*.md` files: they are **sealed by
 SHA-256**, those hashes are the evidence that the predictions were registered before the runs, and
 translating a file in place would invalidate them. English translations sit alongside as `*.en.md`, each
 marked as a translation. Second, the labels stored inside `results/json/*.json`: those files are the output
 of the computations and are never edited by hand, so `scripts/labels_en.py` maps the labels to English while
 `make_results.py` loads them — numbers are untouched, and a label with no translation is reported instead of
-slipping into the report.
+slipping into the report. The Russian string literals left in the stage scripts are exactly those labels, at
+the point where they are written. Third, `causal_polytope_calib.py`: it is kept as it ran, comments and
+printed output included, because `scripts/stage_a.py` parses that output to build its gate.
 
 ### Verifying the preregistrations
 
@@ -192,7 +194,7 @@ re-attached.
 
 Zenodo record: **[10.5281/zenodo.22937438](https://doi.org/10.5281/zenodo.22937438)** — this is the concept
 DOI and always resolves to the latest version. In a paper, cite the version DOI of the specific release
-(v1.0.0 — [10.5281/zenodo.22937439](https://doi.org/10.5281/zenodo.22937439)).
+(v1.1.0 — [10.5281/zenodo.22950913](https://doi.org/10.5281/zenodo.22950913)).
 
 ```bibtex
 @software{oktyabrev_tscausal_2026,
@@ -200,7 +202,7 @@ DOI and always resolves to the latest version. In a paper, cite the version DOI 
   title     = {tscausal: time-symmetric process matrices without selection},
   year      = {2026},
   publisher = {Zenodo},
-  version   = {1.0.0},
+  version   = {1.1.0},
   doi       = {10.5281/zenodo.22937438},
   url       = {https://doi.org/10.5281/zenodo.22937438}
 }
